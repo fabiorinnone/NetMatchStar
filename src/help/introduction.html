@@ -1,0 +1,73 @@
+<html>
+<head>
+	<title>NetMatch*</title>
+</head>
+<body>
+	<table cellSpacing=0 cellPadding=0 width="100%" border=0 align="center">
+	<tbody> 
+		<tr>
+  			<td vAlign="top" colspan="2">
+				<h1>Introduction</h1>
+			</td>
+		</tr>
+   		<tr>
+   			<td vAlign="top" align="center" height="22" colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
+			<td vAlign="top" align="left" >
+    			<p>Biological networks such as protein-protein interaction, transcription regulatory, 
+    			gene regulatory, and metabolic networks  are often referred to as complex systems. 
+    			The term complex relates to the existence of non-trivial substructures contained 
+    			within them. The study of complex systems involves the analysis of the way in which 
+    			their elements interact rather than only their individual roles. Computationally, 
+    			such a study entails the ability to query networks to find specific patterns of interactions.
+				</p>
+				<p>Possible queries might include the identification of positive and negative autoregulation, 
+				coherent and incoherent feed forward loops, single-input modules and dense overlapping 
+				regulons in a given target network <i>N</i>. Sub-networks that occur surprisingly often 
+				in a network may be preferred by evolution. For that reason, NetMatch* offers the 
+				ability to compute a p-value against seven random null models and suggests the one 
+				that shares the network properties of <i>N</i> in terms of degree distribution, cluster 
+				coefficient and assortativity.</p>
+			</td>
+		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/netmatch.jpg">&nbsp;</td>
+  		</tr>
+  		<tr>
+    		<td vAlign="top" align="center" height="21">Netmatch 3.1<p>&nbsp;</td>
+  		</tr>
+		<tr>
+			<td>
+				<p align="left">NetMatch* works on Cytoscape (3.2.1) and is based on 
+				the NetMatch software. It deals with both exact queries and approximate ones, in which wildcards 
+				are used to match unspecified number of elements.</p>
+				<p>NetMatch* integrates the RI algorithm proposed for biological real networks which outperforms 
+				other existing algorithms, whose efficiency is mainly due to the choice of a search strategy, 
+				i.e. the ordering with which query nodes are mapped. For example, a variable ordering may 
+				begin with a query node having the highest degree or having the most uncommon label in the 
+				target graph. The variable ordering of RI is based only on the query graph topology. Roughly, 
+				the chosen order creates constraints as early as possible in the matching phase. The nodes 
+				having high valence and that are highly connected with nodes previously present in the ordering 
+				tend to come early in the variable-ordering. The aim of RI is to avoid costly pruning techniques 
+				by finding a static search strategy such that the number of constraints that are verifiable from 
+				a partial solution are maximized.</p>
+				<p>NetMatch* also supports approximate querying. Approximate queries are graphs with unspecified 
+				structures. They may contain nodes and edges which can match any value of node or edge labels in 
+				the network and approximate paths constrained in length to be less than or greater than <i>m</i>, 
+				where <i>m</i> is a positive integer. NetMatch* first matches all the specified subparts of the 
+				queries exactly and then joins the matches by network traversal. The network traversal phase 
+				checks that all traversed paths satisfy the query path constraints.</p>
+			</td>
+    	</tr>
+    	<tr>
+    		<td vAlign="top" align="left" height="21">
+			</td>
+    	</tr>
+  	</tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/fabior/workspace/netmatch-3.0/lib/cytoscape-swing-app-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="/windows/D/Users/fabior/workspace/netmatch-3.0/lib/giny.jar"/>
+	<classpathentry kind="lib" path="/windows/D/Users/fabior/workspace/netmatch-3.0/lib/cytoscape-task.jar"/>
+	<classpathentry kind="lib" path="/windows/D/Users/fabior/workspace/netmatch-3.0/lib/commons-io-2.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
