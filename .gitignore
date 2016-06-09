@@ -16,3 +16,13 @@ bin/
 .DS_Store
 
 .project
+
+# Generated files
+out/
+
+# Log Files
+*.log
+
+.idea/
+
+*.iml
