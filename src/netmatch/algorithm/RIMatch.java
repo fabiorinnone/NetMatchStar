@@ -1158,8 +1158,7 @@ public class RIMatch
 		}
 		return i-j;
 	}
-	
-	
+
 	private void matchInternal_simple(int nofStates, EdgeType[] parentType, int[] parentState, int[] patternNodes, int[] siForPnode, Iterator<Integer> startCandidates)
 	{
 		Set<MatchInst> matches = new TreeSet<MatchInst>();
@@ -1257,8 +1256,7 @@ public class RIMatch
 			}
 		}
 	}
-	
-	
+
 	private boolean nodeMatch_simple(int si, int tnode, int[] patternNodes)
 	{
 		try{
