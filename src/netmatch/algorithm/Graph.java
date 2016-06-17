@@ -89,7 +89,8 @@ public class Graph {
             for(j = 0; j < k; j++) {
             	outAttr[i][j] = new Object();
             	int n2 = out[i][j] = loader.getOutEdge(i, j, outAttr);
-            	this.addEdge(i, n2); 
+                Object attribute = outAttr[i][j];
+            	this.addEdge(i, n2, attribute);
             	inCount[n2]++;
             }
         }
@@ -161,8 +162,12 @@ public class Graph {
     public void addNode(int id) {
     	addNode(id, "?");
     }
+
+    public void addEdge(int idSource, int idTarget) {
+        addEdge(idSource, idTarget, null);
+    }
     
-    public void addEdge(int idSource, int idTarget) 
+    public void addEdge(int idSource, int idTarget, Object attr)
     {
         Node source = nodes.get(idSource);
         Node dest = nodes.get(idTarget);
@@ -172,14 +177,14 @@ public class Graph {
             outAdiac.add(idTarget);
             HashSet<Integer> inAdiac = dest.getInAdiacs();
             inAdiac.add(idSource);
-            edges.add(new Edge(idSource, idTarget));
+            edges.add(new Edge(idSource, idTarget, attr));
             if(!oriented)
             {
                 outAdiac=dest.getOutAdiacs();
                 outAdiac.add(idSource);
                 inAdiac=source.getInAdiacs();
                 inAdiac.add(idTarget);
-                edges.add(new Edge(idTarget, idSource));
+                edges.add(new Edge(idTarget, idSource, attr));
             }
         }
         else
@@ -250,6 +255,12 @@ public class Graph {
         else
             return false;
     }
+
+    public boolean isEdge(int idSource, int idTarget, Object attribute) throws Exception {
+        if (isEdge(idSource, idTarget) && compatibleEdge(getEdgeAttr(idSource, idTarget), attribute))
+            return true;
+        return false;
+    }
     
     public int getNodeCount() {
     	return nodes.size();
@@ -303,7 +314,7 @@ public class Graph {
         	return attr[i];
         throw new Exception();
     }
-    
+
     public boolean hasEdge(int n1, int n2) throws Exception {
         return hasEdge(n1, n2, null);
     }

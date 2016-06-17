@@ -178,6 +178,14 @@ public class MatchTask extends AbstractTask {
 			taskMonitor.setProgress(-1.0);
 			taskMonitor.setStatusMessage("Create Network Graph Data (Step 2 of 5)");
 			Graph db = new Graph(dbLoader, Common.DIRECTED);
+			if(Common.LABELED) {
+				db.setNodeComparator(new ExactNodeComparator());
+				db.setEdgeComparator(new ExactEdgeComparator());
+			}
+			else {
+				db.setNodeComparator(new ApproxNodeComparator());
+				db.setEdgeComparator(new ApproxEdgeComparator());
+			}
 			if(interrupted)
 				return;
 			
