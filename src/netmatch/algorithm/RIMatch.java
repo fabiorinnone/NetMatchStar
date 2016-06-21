@@ -500,13 +500,33 @@ public class RIMatch
 			pneigh = nIT.next();
 			if(siForPnode[pneigh] < si)
 			{
-				if(!tgraph.isEdge(matchedNodes[pneigh],tnode))
+				try {
+					Object pAttr = pgraph.getEdgeAttr(pneigh, patternNodes[si]);
+					Object tAttr = tgraph.getEdgeAttr(matchedNodes[pneigh], tnode);
+					if (tgraph.isEdge(matchedNodes[pneigh], tnode)) {
+						if (!tgraph.compatibleEdge(pAttr, tAttr))
+							return false;
+					}
+					else return false;
+				}
+				catch(Exception e) {
 					return false;
+				}
 			}
 			else if(siForPnode[pneigh] == si)
 			{
-				if(!tgraph.isEdge(tnode, tnode))
+				try {
+					Object pAttr = pgraph.getEdgeAttr(pneigh, patternNodes[si]);
+					Object tAttr = tgraph.getEdgeAttr(matchedNodes[pneigh], tnode);
+					if (!tgraph.isEdge(tnode, tnode)) {
+						if (!tgraph.compatibleEdge(pAttr, tAttr))
+							return false;
+					}
+					else return false;
+				}
+				catch (Exception e) {
 					return false;
+				}
 			}
 		}
 		nIT = pgraph.nodes().get(patternNodes[si]).getOutAdiacs().iterator();
@@ -515,13 +535,33 @@ public class RIMatch
 			pneigh = nIT.next();
 			if(siForPnode[pneigh] < si)
 			{
-				if(!tgraph.isEdge(tnode, matchedNodes[pneigh]))
+				try {
+					Object pAttr = pgraph.getEdgeAttr(patternNodes[si], pneigh);
+					Object tAttr = tgraph.getEdgeAttr(tnode, matchedNodes[pneigh]);
+					if (tgraph.isEdge(tnode, matchedNodes[pneigh])) {
+						if (!tgraph.compatibleEdge(pAttr, tAttr))
+							return false;
+					}
+					else return false;
+				}
+				catch (Exception e) {
 					return false;
+				}
 			}
 			else if(siForPnode[pneigh] == si)
 			{
-				if(!tgraph.isEdge(tnode,tnode))
+				try {
+					Object pAttr = pgraph.getEdgeAttr(patternNodes[si], pneigh);
+					Object tAttr = tgraph.getEdgeAttr(tnode, matchedNodes[pneigh]);
+					if (tgraph.isEdge(tnode, tnode)) {
+						if (!tgraph.compatibleEdge(pAttr, tAttr))
+							return false;
+					}
+					else return false;
+				}
+				catch (Exception e) {
 					return false;
+				}
 			}
 		}
 		return true;

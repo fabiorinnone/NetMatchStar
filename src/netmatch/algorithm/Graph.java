@@ -255,12 +255,6 @@ public class Graph {
         else
             return false;
     }
-
-    public boolean isEdge(int idSource, int idTarget, Object attribute) throws Exception {
-        if (isEdge(idSource, idTarget) && compatibleEdge(getEdgeAttr(idSource, idTarget), attribute))
-            return true;
-        return false;
-    }
     
     public int getNodeCount() {
     	return nodes.size();
