@@ -33,9 +33,10 @@ package netmatch.algorithm;
 //import cytoscape.CyEdge;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
-import netmatch.Common;
+import netmatch.graph.EdgePair;
+import netmatch.graph.Graph;
+import netmatch.utils.Common;
 
 public class BfsPath extends ArrayList {
 	

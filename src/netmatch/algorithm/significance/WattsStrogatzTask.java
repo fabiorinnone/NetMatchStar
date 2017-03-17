@@ -27,26 +27,24 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package netmatch.algorithm;
+package netmatch.algorithm.significance;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import netmatch.algorithm.*;
 import netmatch.graph.Graph;
 import netmatch.graph.GraphLoader;
 import netmatch.utils.Common;
-import netmatch.gui.ResultsTableModel;
+import netmatch.gui.MenuAction;
 import netmatch.gui.WestPanel;
 
 import org.cytoscape.app.swing.CySwingAppAdapter;
@@ -54,14 +52,18 @@ import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
 import org.cytoscape.model.CyRow;
-import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.work.AbstractTask;
-import org.cytoscape.work.TaskIterator;
 import org.cytoscape.work.TaskMonitor;
-import org.cytoscape.work.swing.PanelTaskManager;
 
-@SuppressWarnings("rawtypes")
-public class MatchTask extends AbstractTask {
+/**
+ * 
+ * @author Fabio Rinnone
+ *
+ */
+public class WattsStrogatzTask extends AbstractTask {
+	private int m_netNum;
+	private double m_rewProb;
+	private boolean m_direct;
 	
 	private JPanel frame;
 	
@@ -69,30 +71,50 @@ public class MatchTask extends AbstractTask {
 	private CyNetwork query;
 	private String qea, qna;
 	private ArrayList tea, tna;
+	private String teaS, tnaS;
 	
 	private GraphLoader qLoader;
 	private boolean isApproximate;
 	private boolean isUnlabeled;
 	private Vector approxPaths;
 	
+	private GraphLoader loader;
+	
 	private ArrayList<int[]> array;
 	private ArrayList allPaths;
+	private Hashtable table1;
+	private Hashtable table2;
 	
 	private long totalMatches;
-	private long distinctMatches;
+	private int distinctMatches;
+	private long elapsedTime;
 	
 	private TaskMonitor taskMonitor;
 	private boolean interrupted;
+	private double evalue;
+	private CySwingAppAdapter adapter;
+	private int N;
 	private JTextArea log;
 	
-	private CySwingAppAdapter adapter;
-	protected int howToShow;
-	private Hashtable<String,Long> table;
+	private long seedValue;
+	private boolean customSeed;
 	
 	private static boolean completedSuccessfully;
 	
-	public MatchTask(CyNetwork t, CyNetwork q, ArrayList tel, ArrayList tnl, 
-			String qeaa, String qnaa, JPanel frame2, CySwingAppAdapter adapt) {
+	private double m_numMatchesNet;
+	private double m_averageNumMatches;
+	private double m_sigmaNumMatches;
+	private double m_eValue;
+	private double m_zScore;
+	private double m_numSignificativeNets;
+	
+	public WattsStrogatzTask(int n, double p, boolean direct, CyNetwork t, 
+			CyNetwork q, ArrayList tel, ArrayList tnl, String qeaa, String qnaa, 
+			JPanel frame2, CySwingAppAdapter adapt) {
+		m_netNum = n;
+		m_rewProb = p;
+		m_direct = direct;
+		
 		target = t;
 		query = q;
 		tea = tel;
@@ -106,10 +128,26 @@ public class MatchTask extends AbstractTask {
 		approxPaths = null;
 		
 		adapter = adapt;
+		
+		customSeed = false;
 	}
 	
-	public MatchTask(CyNetwork t, CyNetwork q, ArrayList tel, ArrayList tnl, 
-			String qeaa, String qnaa, boolean iqa, boolean iqu, JPanel frame2, CySwingAppAdapter adapt) {
+	public WattsStrogatzTask(int n, double p, boolean direct, CyNetwork t, 
+			CyNetwork q, ArrayList tel, ArrayList tnl, String qeaa, String qnaa, 
+			long seedValue, JPanel frame2, CySwingAppAdapter adapt) {
+		this(n, p, direct, t, q, tel, tnl, qeaa, qnaa, frame2, adapt);
+		this.seedValue = seedValue;
+		
+		customSeed = true;
+	}
+	
+	public WattsStrogatzTask(int n, double p, boolean direct, CyNetwork t, 
+			CyNetwork q, ArrayList tel, ArrayList tnl, String qeaa, String qnaa, 
+			boolean iqa, boolean iqu, JPanel frame2, CySwingAppAdapter adapt) {
+		m_netNum = n;
+		m_rewProb = p;
+		m_direct = direct;
+		
 		target = t;
 		query = q;
 		tea = tel;
@@ -125,8 +163,20 @@ public class MatchTask extends AbstractTask {
 		approxPaths = new Vector<String>();
 		
 		adapter = adapt;
+		
+		customSeed = false;
 	}
-
+	
+	public WattsStrogatzTask(int n, double p, boolean direct, CyNetwork t, 
+			CyNetwork q, ArrayList tel, ArrayList tnl, String qeaa, String qnaa, 
+			boolean iqa, boolean iqu, long seedValue, JPanel frame2, CySwingAppAdapter adapt) {
+		this(n, p, direct, t, q, tel, tnl, qeaa, qnaa, iqa, iqu, frame2, adapt);
+		this.seedValue = seedValue;
+		
+		customSeed = true;
+	}
+	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void run(TaskMonitor tm) throws Exception {
 		taskMonitor = tm;
@@ -163,42 +213,28 @@ public class MatchTask extends AbstractTask {
 				}
 			};*/
 			
-			long t_start = System.currentTimeMillis();
-			
-			System.out.println("Create Network Loader (Step 1 of 5)");
+			System.out.println("Create Network Loader (Step 1 of 6)");
 			taskMonitor.setProgress(-1.0);
-			taskMonitor.setStatusMessage("Create Network Loader (Step 1 of 5)");
+			taskMonitor.setStatusMessage("Create Network Loader (Step 1 of 6)");
 			GraphLoader dbLoader = loadGraphFromNetwork(target, tea, tna);
 			if(interrupted)
 				return;
-			System.out.println("Create Network Graph Data (Step 2 of 5)");
+			System.out.println("Create Network Graph Data (Step 2 of 6)");
 			taskMonitor.setProgress(-1.0);
-			taskMonitor.setStatusMessage("Create Network Graph Data (Step 2 of 5)");
+			taskMonitor.setStatusMessage("Create Network Graph Data (Step 2 of 6)");
 			Graph db = new Graph(dbLoader, Common.DIRECTED);
-			if(Common.LABELED) {
-				db.setNodeComparator(new ExactNodeComparator());
-				db.setEdgeComparator(new ExactEdgeComparator());
-			}
-			else {
-				db.setNodeComparator(new ApproxNodeComparator());
-				db.setEdgeComparator(new ApproxEdgeComparator());
-			}
 			if(interrupted)
 				return;
-			
-			System.out.println("Loading network time: "+(((double)(System.currentTimeMillis()-t_start))/(1000.0)));
-			t_start = System.currentTimeMillis();
-			
-			System.out.println("Create Query Loader (Step 3 of 5)");
+			System.out.println("Create Query Loader (Step 3 of 6)");
 			taskMonitor.setProgress(-1.0);
-			taskMonitor.setStatusMessage("Create Query Loader (Step 3 of 5)");
+			taskMonitor.setStatusMessage("Create Query Loader (Step 3 of 6)");
 			//if (!isApproximate) 
 				qLoader = loadGraphFromNetwork(query, qea, qna);
 			if(interrupted)
 				return;
-			System.out.println("Create Query Graph Data (Step 4 of 5)");
-			taskMonitor.setProgress(0.0);
-			taskMonitor.setStatusMessage("Create Query Graph Data (Step 4 of 5)");
+			System.out.println("Create Query Graph Data (Step 4 of 6)");
+			taskMonitor.setProgress(-1.0);
+			taskMonitor.setStatusMessage("Create Query Graph Data (Step 4 of 6)");
 			Graph q = new Graph(qLoader, Common.DIRECTED);
 			if(Common.LABELED) {
 				q.setNodeComparator(new ExactNodeComparator());
@@ -211,71 +247,148 @@ public class MatchTask extends AbstractTask {
 			if(interrupted)
 				return;
 			
-			System.out.println("Loading query time: "+(((double)(System.currentTimeMillis()-t_start))/(1000.0)));
-			
 			RIMatch m;
 			if (!isUnlabeled) 
 				m = new RIMatch(q, db);
 			else
 				m = new RIMatch(q, db, isApproximate, approxPaths);
       	
-			System.out.println("Matching... (Step 3 of 5)");
+			System.out.println("Matching... (Step 5 of 6)");
 			taskMonitor.setProgress(-1.0);
-			taskMonitor.setStatusMessage("Matching... (Step 3 of 5)");
-		
+			taskMonitor.setStatusMessage("Matching... (Step 5 of 6)");
+			
 			Set<Integer> nodiTarget = db.nodes().keySet();
 			m.match_simple(nodiTarget.iterator());
 			
 			array = m.getMatchesList();
 			totalMatches = m.getNofMatches();
-			
-			//printMatches(db, array);
-			
+      	
 	      	allPaths = m.getApproximatePaths();
 	      	
 	      	completedSuccessfully = true;
+
+	      	int numMatchesNet = array.size();
+
+	      	int total = 0;
+	      	int totalSquare = 0;
+	      	int numGreater = 0;
+
+	      	if(interrupted)
+	      		return;
 	      	
-	      	log = WestPanel.getLog();
+	      	System.out.println("Verification... (Step 6 of 6)");
+	      	taskMonitor.setProgress(-1.0);
+	      	taskMonitor.setStatusMessage("Verification... (Step 6 of 6)");
+	      	
+	      	for(int i = 0; i < m_netNum; i++) {
+    	        taskMonitor.setProgress((((double)i / m_netNum)));
+    	    
+    	        int numNodes = target.getNodeCount();
+    	        int numEdges = target.getEdgeCount();
+    	        
+    	        RandomGenerator randomGenerator;
+    	        
+    	        if (!customSeed)
+    	        	randomGenerator = new RandomGenerator(db.nodes(), numNodes, numEdges, m_direct);
+    	        else 
+    	        	randomGenerator = new RandomGenerator(db.nodes(), numNodes, numEdges, m_direct, seedValue);
+    	        
+    	        db = randomGenerator.createWattsStrogatz(m_rewProb);
+    	        
+    	        System.out.println("Matching random graph " + i + "...");
+    	        
+    	        if (!isUnlabeled) 
+    				m = new RIMatch(q, db);
+    			else
+    				m = new RIMatch(q, db, isApproximate, approxPaths);
+    	        
+    	        nodiTarget = db.nodes().keySet();
+    			m.match_simple(nodiTarget.iterator());
+    			
+    	        ArrayList l2 = m.getMatchesList();
+    	        int numMatches = l2.size();
+
+    	        System.out.println("Number of matches: " + numMatches);
+
+    	        total += numMatches;
+    	        totalSquare += Math.pow(numMatches, 2);
+    	        if(numMatches >= numMatchesNet)
+    	        	numGreater++; 
+    	        if(interrupted)
+    	        	return;
+	      	}
+    	      
+	      	m_numMatchesNet = numMatchesNet;
+	      	m_averageNumMatches = (double)total / m_netNum;
+	      	m_sigmaNumMatches = Math.sqrt(((double)totalSquare) / m_netNum - Math.pow(m_averageNumMatches, 2));
+	      	m_numSignificativeNets = numGreater;
+	      	m_eValue = m_numSignificativeNets / m_netNum;
+	      	m_zScore = (m_numMatchesNet - m_averageNumMatches) / m_sigmaNumMatches;
+
+	      	completedSuccessfully = true;
+    	      
+	        adapter = MenuAction.getAdapter();
+	        N = WestPanel.getRandomNets().getValue();
+	        
+	        log = WestPanel.getLog();
 		    
-	      	if(isCompletedSuccessfully())  {
-	      		table = m.getMatchesOccurrences();
-	      		distinctMatches = table.size();
-	      		
-	      		System.out.println("Found " + totalMatches + " total matches!");
-	      		System.out.println("Found " + distinctMatches + " distinct matches!");
-	      		
-	      		SwingUtilities.invokeLater(new Runnable() {
-	          		public void run() {
-	          			log.append("Found " + totalMatches + " total matches!\r\n"); 
-	    	      		log.append("Found " + distinctMatches + " distinct matches!\r\n"); 
-	    	      		
-	    	      		if (distinctMatches > 250)
-	    	      			howToShow = chooseHowToShow(distinctMatches);
-	    	      		else
-	    	      			howToShow = 0;
-	    	      		if (howToShow != 2 && totalMatches > 0) {
-	    	      			CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
-	    					PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
-	    					TaskIterator taskIterator = new TaskIterator();
-	    					ResultsTableModel resultsTask = null;
-	    					if (isApproximate)
-	    						resultsTask = new ResultsTableModel(target, array, table, 
-	    								howToShow, isApproximate, allPaths, adapter);
-	    					else 
-	    						resultsTask = new ResultsTableModel(target, array, table, 
-	    								howToShow, isApproximate, adapter);
-	    					taskIterator.append(resultsTask);
-	    					dialogTaskManager.execute(taskIterator);
-	    	      		}
-             		}
-	          	});
-	      		
-	      		if(interrupted)
-	      			return;
-	      	}
-	      	else {
-	      		//log.setText("");
-	      	}
+	        if(isCompletedSuccessfully()) {
+	        	if (m_numMatchesNet == 0) {
+	        		System.out.println("The network has not any occurrences of the query");
+	        		SwingUtilities.invokeLater(new Runnable() {
+  		          		public void run() {
+  		          			log.append("The network has not any occurrences of the query\n");
+  		          			JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
+	          						"The network has not any occurrences of the query\n", 
+	          						"NetMatch*", JOptionPane.INFORMATION_MESSAGE);
+  		          		}
+	        		});
+	        	}
+	        	else {
+	        		SwingUtilities.invokeLater(new Runnable() {
+  		          		public void run() {
+  		          			log.append("Occurrences in real network: " + m_numMatchesNet + "\n");
+  		          			System.out.println("Occurrences in real network: " + m_numMatchesNet);
+  		          			log.append("Avg. occurrences in randomized networks: " + m_averageNumMatches + "\n");
+  		          			System.out.println("Avg. occurrences in randomized networks: " + m_averageNumMatches);
+  		          			log.append("s.d. occurrences in randomized networks: " + m_sigmaNumMatches + "\n");
+  		          			System.out.println("s.d. occurrences in randomized networks: " + m_sigmaNumMatches);
+  		          			evalue = m_eValue;
+  		          			if (evalue == 0) {
+  		          				log.append("E-value < " + (1.0/N) + "\n");
+  		          				System.out.println("E-value < " + (1.0/N));
+  		          			}
+  		          			else {
+  		          				log.append("E-value: " + evalue + "\n");
+  		          				System.out.println("E-value: " + evalue);
+  		          			}
+  		          			log.append("Z-score: " + m_zScore + "\n");
+  		          			System.out.println("Z-score: " + m_zScore);
+  		          			if (evalue == 0)
+  		          				JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), "Number of "
+  		          						+ "occurrences in the real network: " + m_numMatchesNet + "\n" +
+  	  		          				"Average occurrences in the randomized networks: " + m_averageNumMatches + "\n" +
+  	  		          				"Standard deviation occurrences in the randomized networks: " + m_sigmaNumMatches + "\n" +
+  	  		          				"E-value < " + (1.0/N) + "\n" +
+  	  		          				"Z-score: " + m_zScore + "\n", 
+  	  		          				"NetMatch*", JOptionPane.INFORMATION_MESSAGE);
+  		          			else
+  	  		          			JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), "Number of "
+  	  		          					+ "occurrences in the real network: " + m_numMatchesNet + "\n" +
+  	  		          				"Average occurrences in the randomized networks: " + m_averageNumMatches + "\n" +
+  	  		          				"Standard deviation of occurrences in the randomized networks: " + m_sigmaNumMatches + "\n" +
+  	  		          				"E-value: " + evalue + "\n" +
+  	  		          				"Z-score: " + m_zScore + "\n",
+  	  		          				"NetMatch*", JOptionPane.INFORMATION_MESSAGE);
+  		          		}
+  		          	});
+  		          	
+	        	}
+  		        if(interrupted)
+	        		return;
+	        }
+	        
+	      	System.out.println("Task completato");
 	      	
 	      	if(interrupted) 
 	      		return;
@@ -295,43 +408,6 @@ public class MatchTask extends AbstractTask {
 		}
 	}
 	
-	public void printMatches(ArrayList array) {
-		Iterator iterator = array.iterator();
-		System.out.print("{");
-		while(iterator.hasNext()) {
-			int[] match = (int[]) iterator.next();
-			System.out.print("[");
-			for (int i = 0; i < match.length; i++) {
-				System.out.print(match[i]);
-				if (i != match.length - 1)
-					System.out.print(",");
-			}
-			System.out.print("]");
-			if (iterator.hasNext())
-				System.out.print(",");
-		}
-		System.out.println("}");
-	}
-	
-	public void printMatches(Graph target, ArrayList array) {
-		Iterator iterator = array.iterator();
-		System.out.print("{");
-		while(iterator.hasNext()) {
-			int[] match = (int[]) iterator.next();
-			System.out.print("[");
-			for (int i = 0; i < match.length; i++) {
-				//System.out.print(match[i]);
-				System.out.print(target.nodes().get(match[i]).getAttribute().toString());
-				if (i != match.length - 1)
-					System.out.print(",");
-			}
-			System.out.print("]");
-			if (iterator.hasNext())
-				System.out.print(",");
-		}
-		System.out.println("}");
-	}
-	
 	public GraphLoader loadGraphFromNetwork(CyNetwork network, ArrayList edgeAttr, ArrayList nodeAttr) throws Exception {   	
     	GraphLoader loader;
         Hashtable names = new Hashtable();
@@ -340,10 +416,7 @@ public class MatchTask extends AbstractTask {
         i = k = 0;
         loader = new GraphLoader(frame);
         int size = network.getNodeCount() + network.getEdgeCount();
-        //int count = 0;
-        //int nodeCount = network.getNodeCount();
         for (CyNode node : network.getNodeList()) {
-        	//taskMonitor.setProgress(2 * (double)count++ / nodeCount);
 			CyRow nodeRow = network.getRow(node);
 			Class<?> rowType;
 			ArrayList name1Attr = new ArrayList();
@@ -374,10 +447,7 @@ public class MatchTask extends AbstractTask {
         }
 		//ArrayList name2Attr = new ArrayList();
     	//ArrayList edge2Attr = new ArrayList();
-        //count = 0;
-        //int edgeCount = network.getEdgeCount();
         for (CyEdge edge : network.getEdgeList()) {
-        	//taskMonitor.setProgress(2 * (double)count++ / edgeCount);
         	CyRow edgeRow = network.getRow(edge);
         	ArrayList edge2Attr = new ArrayList();
         	CyNode source = edge.getSource();
@@ -526,7 +596,7 @@ public class MatchTask extends AbstractTask {
 		}
 		return loader;
   	}
-    
+
     public static boolean isCompletedSuccessfully() {
 		return completedSuccessfully;
 	}
@@ -550,36 +620,27 @@ public class MatchTask extends AbstractTask {
 		//this.interrupted = true;
 	}
     
-	private int chooseHowToShow(long matches) {
-	    Object[] message = new Object[4];
-	    message[0] = "The number of matches is " + matches + ". Choose one of the following options:";
-	    ButtonGroup g = new ButtonGroup();
-	    JRadioButton c1 = new JRadioButton("Show results in text and graphic mode.", false);
-	    JRadioButton c2 = new JRadioButton("Show results in text mode.", true);
-	    JRadioButton c3 = new JRadioButton("Don't show results.", false);
-	    g.add(c1);
-	    g.add(c2);
-	    g.add(c3);
-	    message[1] = c1;
-	    message[2] = c2;
-	    message[3] = c3;
-	    String[] options = {"OK"};
-
-	    JOptionPane.showOptionDialog(adapter.getCySwingApplication().getJFrame(), // the parent that the dialog blocks
-	    		message, // the dialog message array
-	    		"NetMatch*", // the title of the dialog window
-	    		JOptionPane.DEFAULT_OPTION, // option type
-	    		JOptionPane.INFORMATION_MESSAGE, // message type
-	    		null, // optional icon, use null to use the default icon
-	    		options, // options string array, will be made into buttons
-	    		options[0] // option that should be made into a default button
-	    );
-	    
-	    if (c1.isSelected())
-	    	return 0;
-	    else if (c2.isSelected())
-	    	return 1;
-	    else
-	    	return 2;
-	}
+    /*public double getNumMatchesNet() {
+	    return m_numMatchesNet;
+    }
+    
+    public double getAverageNumMatches() {
+	    return m_averageNumMatches;
+    }
+    
+    public double getSigmaNumMatches() {
+    	return m_sigmaNumMatches;
+  	}
+    
+    public double getNumSignificativeNets() {
+	    return m_numSignificativeNets;
+    }
+	
+    public double getEValue() {
+	    return m_eValue;
+    }
+	
+    public double getZScore() {
+    	return m_zScore;
+    }*/
 }

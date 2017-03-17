@@ -42,7 +42,9 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import netmatch.Common;
+import netmatch.graph.EdgePair;
+import netmatch.graph.Graph;
+import netmatch.utils.Common;
 
 /**
  * 

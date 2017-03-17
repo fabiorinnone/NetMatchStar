@@ -32,7 +32,8 @@ package netmatch.algorithm;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import netmatch.Common;
+import netmatch.utils.Common;
+import netmatch.utils.MyInteger;
 
 public class ExactEdgeComparator implements AttrComparator {
   public boolean compatible(Object o1, Object o2) {// o1 = query - o2 = graph

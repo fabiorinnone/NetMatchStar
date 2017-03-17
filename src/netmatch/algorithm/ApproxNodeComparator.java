@@ -31,7 +31,7 @@ package netmatch.algorithm;
 
 import java.util.ArrayList;
 
-import netmatch.Common;
+import netmatch.utils.Common;
 
 public class ApproxNodeComparator implements AttrComparator {
   public ApproxNodeComparator() {

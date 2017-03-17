@@ -42,14 +42,12 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-import netmatch.Common;
-import netmatch.MenuAction;
-import netmatch.WestPanel;
-import netmatch.algorithm.ApproxEdgeComparator;
-import netmatch.algorithm.ApproxNodeComparator;
-import netmatch.algorithm.ExactEdgeComparator;
-import netmatch.algorithm.ExactNodeComparator;
-import netmatch.algorithm.Graph;
+import netmatch.algorithm.significance.RandomGenerator;
+import netmatch.graph.Graph;
+import netmatch.graph.GraphLoader;
+import netmatch.utils.Common;
+import netmatch.gui.MenuAction;
+import netmatch.gui.WestPanel;
 
 import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.model.CyEdge;

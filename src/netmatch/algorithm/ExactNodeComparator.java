@@ -30,9 +30,8 @@
 package netmatch.algorithm;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import netmatch.Common;
+import netmatch.utils.Common;
 
 public class ExactNodeComparator implements AttrComparator {
   public ExactNodeComparator() {

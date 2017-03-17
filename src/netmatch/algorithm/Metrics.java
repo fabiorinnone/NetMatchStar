@@ -32,9 +32,9 @@ package netmatch.algorithm;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Vector;
 
-import netmatch.algorithm.Graph.Node;
+import netmatch.graph.Graph;
+import netmatch.graph.Graph.Node;
 
 /**
  * 
