@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2015, Rosalba Giugno.
  * All rights reserved.
