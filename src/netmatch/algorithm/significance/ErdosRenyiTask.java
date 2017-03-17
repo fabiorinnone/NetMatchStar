@@ -352,7 +352,7 @@ public class ErdosRenyiTask extends AbstractTask {
 	        		return;
 	        }
 	        
-	      	System.out.println("Task completato");
+	      	System.out.println("Task completted");
 	      	
 	      	if(interrupted) 
 	      		return;

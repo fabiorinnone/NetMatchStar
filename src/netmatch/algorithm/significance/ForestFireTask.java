@@ -352,7 +352,7 @@ public class ForestFireTask extends AbstractTask {
 	        		return;
 	        }
 	        
-	      	System.out.println("Task completato");
+	      	System.out.println("Task completed");
 	      	
 	      	if(interrupted) 
 	      		return;

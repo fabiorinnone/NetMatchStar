@@ -331,7 +331,7 @@ public class ShufflingTask extends AbstractTask {
 	        		return;
 	        }
 	        
-	      	System.out.println("Task completato");
+	      	System.out.println("Task completed");
 	      	
 	      	if(interrupted) 
 	      		return;
