@@ -2324,7 +2324,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 
 	/**
 	 * Check if the query network contains paths (is approximate)
-	 * @param qnetwork
+	 * @param qNetwork
+	 * @param queryEdgeAttribute
 	 * @return 
 	 */
 	private boolean isQueryApproximate(CyNetwork qNetwork, String queryEdgeAttribute) {
