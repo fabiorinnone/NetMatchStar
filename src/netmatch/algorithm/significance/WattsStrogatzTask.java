@@ -77,8 +77,6 @@ public class WattsStrogatzTask extends AbstractTask {
 	private boolean isUnlabeled;
 	private Vector approxPaths;
 	
-	private GraphLoader loader;
-	
 	private ArrayList<int[]> array;
 
 	private TaskMonitor taskMonitor;
