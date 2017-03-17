@@ -71,24 +71,14 @@ public class BarabasiAlbertTask extends AbstractTask {
 	private CyNetwork query;
 	private String qea, qna;
 	private ArrayList tea, tna;
-	private String teaS, tnaS;
-	
+
 	private GraphLoader qLoader;
 	private boolean isApproximate;
 	private boolean isUnlabeled;
 	private Vector approxPaths;
 	
-	private GraphLoader loader;
-	
 	private ArrayList<int[]> array;
-	private ArrayList allPaths;
-	private Hashtable table1;
-	private Hashtable table2;
-	
-	private long totalMatches;
-	private int distinctMatches;
-	private long elapsedTime;
-	
+
 	private TaskMonitor taskMonitor;
 	private boolean interrupted;
 	private double evalue;
@@ -186,33 +176,6 @@ public class BarabasiAlbertTask extends AbstractTask {
 		}
 		
 		try {
-			/*NetMatch.Watcher watcher = new NetMatch.Watcher() {
-				
-				@Override
-				public void setPercentageComplete(int val) {
-					taskMonitor.setProgress(val);
-				}
-				
-				@Override
-				public void notifyPathFound(Graph g, int s, int t) {
-					try {
-						long source = g.getCyNetworkID(s);
-						long dest = g.getCyNetworkID(t);
-						System.out.println("ApproximatePath found: Source:" + 
-						(target.getNode(source)).getSUID() + " Dest:" + 
-						(target.getNode(dest)).getSUID() + " Directed: " + Common.DIRECTED);
-					}
-					catch(Exception e) {
-						//System.out.println("Errore nel casting");
-					}
-				}
-			
-				@Override
-				public boolean checkTask() {
-					return interrupted;
-				}
-			};*/
-			
 			System.out.println("Create Network Loader (Step 1 of 6)");
 			taskMonitor.setProgress(-1.0);
 			taskMonitor.setStatusMessage("Create Network Loader (Step 1 of 6)");
@@ -261,10 +224,7 @@ public class BarabasiAlbertTask extends AbstractTask {
 			m.match_simple(nodiTarget.iterator());
 			
 			array = m.getMatchesList();
-			totalMatches = m.getNofMatches();
-			
-	      	allPaths = m.getApproximatePaths();
-	      	
+
 	      	completedSuccessfully = true;
 	      	    
 	      	int numMatchesNet = array.size();
@@ -622,28 +582,4 @@ public class BarabasiAlbertTask extends AbstractTask {
 	public void cancel() {
 		//this.interrupted = true;
 	}
-    
-    /*public double getNumMatchesNet() {
-	    return m_numMatchesNet;
-    }
-    
-    public double getAverageNumMatches() {
-	    return m_averageNumMatches;
-    }
-    
-    public double getSigmaNumMatches() {
-    	return m_sigmaNumMatches;
-  	}
-    
-    public double getNumSignificativeNets() {
-	    return m_numSignificativeNets;
-    }
-	
-    public double getEValue() {
-	    return m_eValue;
-    }
-	
-    public double getZScore() {
-    	return m_zScore;
-    }*/
 }
