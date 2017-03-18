@@ -672,28 +672,4 @@ public class MetricsTask extends AbstractTask {
 	public void cancel() {
 		//this.interrupted = true;
 	}
-    
-    /*public double getNumMatchesNet() {
-	    return m_numMatchesNet;
-    }
-    
-    public double getAverageNumMatches() {
-	    return m_averageNumMatches;
-    }
-    
-    public double getSigmaNumMatches() {
-    	return m_sigmaNumMatches;
-  	}
-    
-    public double getNumSignificativeNets() {
-	    return m_numSignificativeNets;
-    }
-	
-    public double getEValue() {
-	    return m_eValue;
-    }
-	
-    public double getZScore() {
-    	return m_zScore;
-    }*/
 }
