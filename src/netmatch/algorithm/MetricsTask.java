@@ -357,79 +357,7 @@ public class MetricsTask extends AbstractTask {
 	        if(isCompletedSuccessfully()) {
         		SwingUtilities.invokeLater(new Runnable() {
 	          		public void run() {
-	          			log.append("Average degree in input network: " + dbAverageDegree + "\n");
-	          			System.out.println("Average degree in input network: " + dbAverageDegree);
-	          			log.append("Average clustering coefficient in input network: " + dbAverageClusteringCoefficient + "\n");
-	          			System.out.println("Average clustering coefficient in input network: " + dbAverageClusteringCoefficient);
-	          			log.append("Assortativity in input network: " + dbAssortativity + "\n");
-	          			System.out.println("Assortativity in input network: " + dbAssortativity);
-	          			
-	          			log.append("Average degree in shuffled network: " + smAverageDegree + "\n");
-	          			System.out.println("Average degree in shuffled network: " + smAverageDegree);
-	          			log.append("Average clustering coefficient in shuffled network: " + smAverageClusteringCoefficient + "\n");
-	          			System.out.println("Average clustering coefficient in shuffled network: " + smAverageClusteringCoefficient);
-	          			log.append("Assortativity in shuffled network: " + smAssortativity + "\n");
-	          			System.out.println("Assortativity in shuffled network: " + smAssortativity);
-	          			
-	          			log.append("Average degree in Erdos-Renyi network: " + erAverageDegree + "\n");
-	          			System.out.println("Average degree in Erdos-Renyi network: " + erAverageDegree);
-	          			log.append("Average clustering coefficient in Erdos-Renyi network: " + erAverageClusteringCoefficient + "\n");
-	          			System.out.println("Average clustering coefficient in Erdos-Renyi network: " + erAverageClusteringCoefficient);
-	          			log.append("Assortativity in Erdos-Renyi network: " + erAssortativity + "\n");
-	          			System.out.println("Assortativity in Erdos-Renyi network: " + erAssortativity);
-	          			
-	          			log.append("Average degree in Watts-Stogatz network: " + wsAverageDegree + "\n");
-	          			System.out.println("Average degree in Watts-Stogatz network: " + wsAverageDegree);
-	          			log.append("Average clustering coefficient in Watts-Stogatz network: " + wsAverageClusteringCoefficient + "\n");
-	          			System.out.println("Average clustering coefficient in Watts-Stogatz network: " + wsAverageClusteringCoefficient);
-	          			log.append("Assortativity in Watts-Stogatz network: " + wsAssortativity + "\n");
-	          			System.out.println("Assortativity in Watts-Stogatz network: " + wsAssortativity);
-	          			
-	          			log.append("Average degree in Barabasi-Albert network: " + baAverageDegree + "\n");
-	          			System.out.println("Average degree in Barabasi-Albert network: " + baAverageDegree);
-	          			log.append("Average clustering coefficient in Barabasi-Albert network: " + baAverageClusteringCoefficient + "\n");
-	          			System.out.println("Average clustering coefficient in Barabasi-Albert network: " + baAverageClusteringCoefficient);
-	          			log.append("Assortativity in Barabasi-Albert network: " + baAssortativity + "\n");
-	          			System.out.println("Assortativity in Barabasi-Albert network: " + baAssortativity);
-	          			
-	          			log.append("Average degree in geometric network: " + gmAverageDegree + "\n");
-	          			System.out.println("Average degree in geometric network: " + gmAverageDegree);
-	          			log.append("Average clustering coefficient in geometric network: " + gmAverageClusteringCoefficient + "\n");
-	          			System.out.println("Average clustering coefficient in geometric network: " + gmAverageClusteringCoefficient);
-	          			log.append("Assortativity in geometric network: " + gmAssortativity + "\n");
-	          			System.out.println("Assortativity in geometric network: " + gmAssortativity);
-	          			
-	          			log.append("Average degree in duplication network: " + dmAverageDegree + "\n");
-	          			System.out.println("Average degree in duplication network: " + dmAverageDegree);
-	          			log.append("Average clustering coefficient in duplication network: " + dmAverageClusteringCoefficient + "\n");
-	          			System.out.println("Average clustering coefficient in duplication network: " + dmAverageClusteringCoefficient);
-	          			log.append("Assortativity in duplication network: " + dmAssortativity + "\n");
-	          			System.out.println("Assortativity in duplication network: " + dmAssortativity);
-	          			
-	          			log.append("Average degree in Forest-fire network: " + ffmAverageDegree + "\n");
-	          			System.out.println("Average degree in Forest-fire network: " + ffmAverageDegree);
-	          			log.append("Average clustering coefficient in Forest-fire network: " + ffmAverageClusteringCoefficient + "\n");
-	          			System.out.println("Average clustering coefficient in Forest-fire network: " + ffmAverageClusteringCoefficient);
-	          			log.append("Assortativity in Forest-fire network: " + ffmAssortativity + "\n");
-	          			System.out.println("Assortativity in Forest-fire network: " + ffmAssortativity);
-						
-	          			Object[][] rows = {
-	          					{"Target Network", dbAverageDegree, dbAverageClusteringCoefficient, dbAssortativity},
-	          					{"Shuffling", smAverageDegree, smAverageClusteringCoefficient, smAssortativity},
-	          					{"Erdos-Renyii", erAverageDegree, erAverageClusteringCoefficient, erAssortativity},
-	          					{"Watts-Strogaz", wsAverageDegree, wsAverageClusteringCoefficient, wsAssortativity},
-	          					{"Barabasi-Albert", baAverageDegree, baAverageClusteringCoefficient, baAssortativity},
-	          					{"Geometric", gmAverageDegree, gmAverageClusteringCoefficient, gmAssortativity},
-	          					{"Duplication", dmAverageDegree, dmAverageClusteringCoefficient, dmAssortativity},
-	          					{"Forest-fire", ffmAverageDegree, ffmAverageClusteringCoefficient, ffmAssortativity}
-	          			};
-	          			Object[] cols = {"Network", "Average degree", "Average clustering coefficient", "Assortativity"};
-	          			
-	          			JTable table = new JTable(rows, cols);
-	          			table.setPreferredScrollableViewportSize(new Dimension(600, 130));
-	          			
-						JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(),
-	          					new JScrollPane(table), "NetMatch*", JOptionPane.INFORMATION_MESSAGE);
+	          			showMetricsResult();
 	          		}
 	          	});
 	          	
@@ -663,6 +591,82 @@ public class MetricsTask extends AbstractTask {
 			throw new IllegalStateException("Task Monitor is already set.");
     	taskMonitor = tm;
     }
+
+	private void showMetricsResult() {
+		log.append("Average degree in input network: " + dbAverageDegree + "\n");
+		System.out.println("Average degree in input network: " + dbAverageDegree);
+		log.append("Average clustering coefficient in input network: " + dbAverageClusteringCoefficient + "\n");
+		System.out.println("Average clustering coefficient in input network: " + dbAverageClusteringCoefficient);
+		log.append("Assortativity in input network: " + dbAssortativity + "\n");
+		System.out.println("Assortativity in input network: " + dbAssortativity);
+
+		log.append("Average degree in shuffled network: " + smAverageDegree + "\n");
+		System.out.println("Average degree in shuffled network: " + smAverageDegree);
+		log.append("Average clustering coefficient in shuffled network: " + smAverageClusteringCoefficient + "\n");
+		System.out.println("Average clustering coefficient in shuffled network: " + smAverageClusteringCoefficient);
+		log.append("Assortativity in shuffled network: " + smAssortativity + "\n");
+		System.out.println("Assortativity in shuffled network: " + smAssortativity);
+
+		log.append("Average degree in Erdos-Renyi network: " + erAverageDegree + "\n");
+		System.out.println("Average degree in Erdos-Renyi network: " + erAverageDegree);
+		log.append("Average clustering coefficient in Erdos-Renyi network: " + erAverageClusteringCoefficient + "\n");
+		System.out.println("Average clustering coefficient in Erdos-Renyi network: " + erAverageClusteringCoefficient);
+		log.append("Assortativity in Erdos-Renyi network: " + erAssortativity + "\n");
+		System.out.println("Assortativity in Erdos-Renyi network: " + erAssortativity);
+
+		log.append("Average degree in Watts-Stogatz network: " + wsAverageDegree + "\n");
+		System.out.println("Average degree in Watts-Stogatz network: " + wsAverageDegree);
+		log.append("Average clustering coefficient in Watts-Stogatz network: " + wsAverageClusteringCoefficient + "\n");
+		System.out.println("Average clustering coefficient in Watts-Stogatz network: " + wsAverageClusteringCoefficient);
+		log.append("Assortativity in Watts-Stogatz network: " + wsAssortativity + "\n");
+		System.out.println("Assortativity in Watts-Stogatz network: " + wsAssortativity);
+
+		log.append("Average degree in Barabasi-Albert network: " + baAverageDegree + "\n");
+		System.out.println("Average degree in Barabasi-Albert network: " + baAverageDegree);
+		log.append("Average clustering coefficient in Barabasi-Albert network: " + baAverageClusteringCoefficient + "\n");
+		System.out.println("Average clustering coefficient in Barabasi-Albert network: " + baAverageClusteringCoefficient);
+		log.append("Assortativity in Barabasi-Albert network: " + baAssortativity + "\n");
+		System.out.println("Assortativity in Barabasi-Albert network: " + baAssortativity);
+
+		log.append("Average degree in geometric network: " + gmAverageDegree + "\n");
+		System.out.println("Average degree in geometric network: " + gmAverageDegree);
+		log.append("Average clustering coefficient in geometric network: " + gmAverageClusteringCoefficient + "\n");
+		System.out.println("Average clustering coefficient in geometric network: " + gmAverageClusteringCoefficient);
+		log.append("Assortativity in geometric network: " + gmAssortativity + "\n");
+		System.out.println("Assortativity in geometric network: " + gmAssortativity);
+
+		log.append("Average degree in duplication network: " + dmAverageDegree + "\n");
+		System.out.println("Average degree in duplication network: " + dmAverageDegree);
+		log.append("Average clustering coefficient in duplication network: " + dmAverageClusteringCoefficient + "\n");
+		System.out.println("Average clustering coefficient in duplication network: " + dmAverageClusteringCoefficient);
+		log.append("Assortativity in duplication network: " + dmAssortativity + "\n");
+		System.out.println("Assortativity in duplication network: " + dmAssortativity);
+
+		log.append("Average degree in Forest-fire network: " + ffmAverageDegree + "\n");
+		System.out.println("Average degree in Forest-fire network: " + ffmAverageDegree);
+		log.append("Average clustering coefficient in Forest-fire network: " + ffmAverageClusteringCoefficient + "\n");
+		System.out.println("Average clustering coefficient in Forest-fire network: " + ffmAverageClusteringCoefficient);
+		log.append("Assortativity in Forest-fire network: " + ffmAssortativity + "\n");
+		System.out.println("Assortativity in Forest-fire network: " + ffmAssortativity);
+
+		Object[][] rows = {
+				{"Target Network", dbAverageDegree, dbAverageClusteringCoefficient, dbAssortativity},
+				{"Shuffling", smAverageDegree, smAverageClusteringCoefficient, smAssortativity},
+				{"Erdos-Renyii", erAverageDegree, erAverageClusteringCoefficient, erAssortativity},
+				{"Watts-Strogaz", wsAverageDegree, wsAverageClusteringCoefficient, wsAssortativity},
+				{"Barabasi-Albert", baAverageDegree, baAverageClusteringCoefficient, baAssortativity},
+				{"Geometric", gmAverageDegree, gmAverageClusteringCoefficient, gmAssortativity},
+				{"Duplication", dmAverageDegree, dmAverageClusteringCoefficient, dmAssortativity},
+				{"Forest-fire", ffmAverageDegree, ffmAverageClusteringCoefficient, ffmAssortativity}
+		};
+		Object[] cols = {"Network", "Average degree", "Average clustering coefficient", "Assortativity"};
+
+		JTable table = new JTable(rows, cols);
+		table.setPreferredScrollableViewportSize(new Dimension(600, 130));
+
+		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(),
+				new JScrollPane(table), "NetMatch*", JOptionPane.INFORMATION_MESSAGE);
+	}
     
     @Override
 	public void cancel() {
