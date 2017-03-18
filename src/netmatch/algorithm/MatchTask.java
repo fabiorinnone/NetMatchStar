@@ -136,33 +136,6 @@ public class MatchTask extends AbstractTask {
 		}
 		
 		try {
-			/*NetMatch.Watcher watcher = new NetMatch.Watcher() {
-				
-				@Override
-				public void setPercentageComplete(int val) {
-					taskMonitor.setProgress(val);
-				}
-				
-				@Override
-				public void notifyPathFound(Graph g, int s, int t) {
-					try {
-						long source = g.getCyNetworkID(s);
-						long dest = g.getCyNetworkID(t);
-						System.out.println("ApproximatePath found: Source:" + 
-						(target.getNode(source)).getSUID() + " Dest:" + 
-						(target.getNode(dest)).getSUID() + " Directed: " + Common.DIRECTED);
-					}
-					catch(Exception e) {
-						//System.out.println("Errore nel casting");
-					}
-				}
-			
-				@Override
-				public boolean checkTask() {
-					return interrupted;
-				}
-			};*/
-			
 			long t_start = System.currentTimeMillis();
 			
 			System.out.println("Create Network Loader (Step 1 of 5)");
