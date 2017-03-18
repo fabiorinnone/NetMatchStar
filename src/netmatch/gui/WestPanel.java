@@ -86,7 +86,7 @@ import netmatch.algorithm.significance.ErdosRenyiTask;
 import netmatch.algorithm.significance.ForestFireTask;
 import netmatch.algorithm.significance.GeometricTask;
 import netmatch.algorithm.MatchTask;
-import netmatch.algorithm.MetricsTask;
+import netmatch.algorithm.metrics.MetricsTask;
 import netmatch.algorithm.significance.ShufflingTask;
 import netmatch.algorithm.significance.WattsStrogatzTask;
 

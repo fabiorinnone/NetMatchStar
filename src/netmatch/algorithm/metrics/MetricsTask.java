@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package netmatch.algorithm;
+package netmatch.algorithm.metrics;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -42,6 +42,10 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import netmatch.algorithm.ApproxEdgeComparator;
+import netmatch.algorithm.ApproxNodeComparator;
+import netmatch.algorithm.ExactEdgeComparator;
+import netmatch.algorithm.ExactNodeComparator;
 import netmatch.algorithm.significance.RandomGenerator;
 import netmatch.graph.Graph;
 import netmatch.graph.GraphLoader;
