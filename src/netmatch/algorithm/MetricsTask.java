@@ -412,34 +412,7 @@ public class MetricsTask extends AbstractTask {
 	          			System.out.println("Average clustering coefficient in Forest-fire network: " + ffmAverageClusteringCoefficient);
 	          			log.append("Assortativity in Forest-fire network: " + ffmAssortativity + "\n");
 	          			System.out.println("Assortativity in Forest-fire network: " + ffmAssortativity);
-	          			
-	          			/*JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
-	          					"Average degree in input network: "+ dbAverageDegree + "\n" +
-      							"Average clustering coefficient in input network: "+ dbAverageClusteringCoefficient + "\n" +
-      							"Assortativity in input network: "+ dbAssortativity + "\n\n" +
-      							"Average degree in shuffled network: "+ smAverageDegree + "\n" + 
-	          					"Average clustering coefficient in shuffled network: "+ smAverageClusteringCoefficient + "\n" +
-	          					"Assortativity in shuffled network: "+ smAssortativity + "\n\n" +
-	          					"Average degree in Erdor-Renyi network: "+ erAverageDegree + "\n" + 
-	          					"Average clustering coefficient in Erdos-Renyi network: "+ erAverageClusteringCoefficient + "\n" +
-	          					"Assortativity in Erdos-Renyi network: "+ erAssortativity + "\n\n" +
-	          					"Average degree in Watts-Stogatz network: "+ wsAverageDegree + "\n" + 
-	          					"Average clustering coefficient in Watts-Stogatz network: "+ wsAverageClusteringCoefficient + "\n" +
-	          					"Assortativity in Watts-Stogatz network: "+ wsAssortativity + "\n\n" +
-	          					"Average degree in Barabasi-Albert network: "+ baAverageDegree + "\n" + 
-	          					"Average clustering coefficient in Barabasi-Albert network: "+ baAverageClusteringCoefficient + "\n" +
-	          					"Assortativity in Barabasi-Albert network: "+ baAssortativity + "\n\n" +
-	          					"Average degree in geometric network: "+ gmAverageDegree + "\n" + 
-	          					"Average clustering coefficient in geometric network: "+ gmAverageClusteringCoefficient + "\n" +
-	          					"Assortativity in geometric network: "+ gmAssortativity + "\n\n" +
-	          					"Average degree in duplication network: "+ dmAverageDegree + "\n" + 
-	          					"Average clustering coefficient in duplication network: "+ dmAverageClusteringCoefficient + "\n" +
-	          					"Assortativity in duplication network: "+ dmAssortativity + "\n\n" +
-	          					"Average degree in Forest-fire network: "+ ffmAverageDegree + "\n" + 
-	          					"Average clustering coefficient in Forest-fire network: "+ ffmAverageClusteringCoefficient + "\n" +
-	          					"Assortativity in Forest-fire network: "+ ffmAssortativity + "\n\n",
-	          					"NetMatch*", JOptionPane.INFORMATION_MESSAGE);*/
-	          			
+						
 	          			Object[][] rows = {
 	          					{"Target Network", dbAverageDegree, dbAverageClusteringCoefficient, dbAssortativity},
 	          					{"Shuffling", smAverageDegree, smAverageClusteringCoefficient, smAssortativity},
