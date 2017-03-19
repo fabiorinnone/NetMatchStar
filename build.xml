@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project name="NetMatchStar" basedir="." default="install">
+    
+    <property environment="env"/>
+    
+    <property name="build.dir" value="target"/>
+    <property name="cytoscape.app.dir" value="${user.home}/CytoscapeConfiguration/3/apps/installed"/>
+
+    <target name="install">
+        <copy todir="${cytoscape.app.dir}" overwrite="true">
+            <fileset dir="${build.dir}" includes="*.jar"/>
+        </copy>
+    </target>
+    
+    <target name="info">
+        <echo>*******************************************************************</echo>
+        <echo>********* This script installs NetMatchStar Cytoscape app *********</echo>
+        <echo>*******************************************************************</echo>
+    </target>
+    
+</project>

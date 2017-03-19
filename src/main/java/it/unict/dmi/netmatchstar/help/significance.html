@@ -1,0 +1,89 @@
+<html>
+<head>
+	<title>NetMatch*</title>
+</head>
+<body>
+	<table cellSpacing=0 cellPadding=0 width="100%" border=0 align="center">
+	<tbody> 
+		<tr>
+  			<td vAlign="top" colspan="2">
+				<h1>Significance</h1>
+			</td>
+		</tr>
+   		<tr>
+   			<td vAlign="top" align="center" height="22" colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
+			<td vAlign="top" align="left" >
+				<p>The "Significance" panel contains all the parameters for the evaluation of the statistical 
+				significance of a motif subnetwork. It consists of eight subpanels, one for each random model 
+				and one for the general settings of all models. In the top subpanel the user can choose the 
+				number of random graphs to generate for the statistical test (between 0 and 100) and compute 
+				a set of metrics for the input graph and sample random graphs, one for each model. Metrics 
+				include the average degree, the average clustering coefficient and the assortativity index. 
+				At the end of the computation, the resulting values are shown in a separate window. Values 
+				of these metrics can suggest to the user which random model best describes the features of 
+				the input network should be used. 
+				</p>
+				<p>The other subpanels let the user choose the parameters of each random model. In the 
+				"Shuffling model" panel, "sw/edg" denotes the number of successful swaps per edges. 
+				The "Erdos-Renyi" panel has no parameters. In the "Watts-Strogatz" panel, "Rew prob" 
+				is the probability of rewiring <i>beta</i>. The "Barabasi-Albert" panel defines "Init nodes", 
+				the number of initial nodes in the complete seed network. The "Duplication Model" panel has 
+				two parameters: "Init nodes", the number of nodes in the initial seed network, and "Edg prob", 
+				the edge duplication probability. In the "Geometric Model" panel, parameter "dim" denotes 
+				the dimension of the space where points are placed. Finally, the "Forest-Fire model" panel 
+				contains parameter "Ambass num", that is the number of ambassadors nodes. For each model, 
+				all the remaining parameters are estimated based on the number of nodes and edges of the target network. 
+				</p>
+				<p>To check if a query is a motif, the user must click on one of the "Start" buttons of the 
+				"Significance" panel, depending on the random model that has been chosen to perform the 
+				significance test. When the simulation ends, a window will appear with the following measures: 
+				the number of query occurrences in the real network, the mean and the standard deviation of 
+				the number of query occurrences in the random networks, the P-value and the Z-score.
+				</p>
+			</td>
+		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/significance1.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">"Significance" panel options<p>&nbsp;</p>
+		</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/significance2.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">Compute metrics<p>&nbsp;</p>
+		</td>
+  		</tr>
+  		<tr>
+    		<td vAlign="top" align="center"><img src="images/seed.jpg"><p>&nbsp;</p></td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">Set a random seed<p>&nbsp;</p>
+			</td>
+  		</tr>
+  		<tr>
+    		<td vAlign="top" align="center"><img src="images/verification.jpg"><p>&nbsp;</p></td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">"Verification<p>&nbsp;</p>
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/significance3.jpg"><p>&nbsp;</p></td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">"Significance" results<p>&nbsp;</p>
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+	</tbody>
+   </table>
+</body>
+</html>

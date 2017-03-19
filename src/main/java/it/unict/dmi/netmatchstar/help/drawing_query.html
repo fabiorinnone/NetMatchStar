@@ -1,0 +1,139 @@
+<html>
+<head>
+	<title>NetMatch*</title>
+</head>
+<body>
+	<table cellSpacing=0 cellPadding=0 width="100%" border=0 align="center">
+	<tbody> 
+		<tr>
+  			<td vAlign="top" colspan="2">
+				<h1>Drawing query</h1>
+			</td>
+		</tr>
+   		<tr>
+   			<td vAlign="top" align="center" height="22" colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
+			<td vAlign="top" align="left" >
+				<p>To create a new query, the user must click on the "plus" icon of "Matching panel". 
+				A new panel for the creation of a new network will be opened. A right click on the panel will 
+				open the standard Cytoscape menu to add, edit or remove elements of the graph. Such a menu also 
+				includes the "NetMatch*" menu item, which let the user change the label of a node or edge 
+				and set a path between two nodes.  By default, newly added nodes and edges will be labeled with 
+				the wildcard "?", meaning that the label of the element is unspecified. Any other character will 
+				be associated to a specific label. Paths between two nodes <i>i</i> and <i>j</i> are defined as 
+				special attributes for the edge <i>(i,j)</i>. The length of a path is specified by an expression 
+				of the form <i>a op b</i>, where <i>a</i> and <i>b</i> are two integers (or the wildcard "?") 
+				and <i>op</i> is one of <i><,<=,>=,>,=</i>. The "?" character is used to leave the minimum or 
+				maximum length of the path unspecified. For instance, the expression <i>"? <= 2 "</i> means that 
+				the corresponding path must have at most length 2, while <i>"? > 3"</i> corresponds to a path of 
+				length greater than 3. A query with a "?" character in at least a node and/or edge is an 
+				approximate query for NetMatch*.
+				</p>
+				<p>By clicking on "Save" button on panel, the user can store the query graph created from 
+				scratch on disk as text files in a customized .SIF format with nodes and edges attribute 
+				files with extensions respectively .NA and .EA.</p>
+			</td>
+		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/drawing1.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">
+			Create new query from scratch<p>&nbsp;<p>
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/drawing2.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">
+			Add new node to query<p>&nbsp;</p>
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/drawing3.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">
+			Add new edge to query<p>&nbsp;
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/drawing4.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">
+			Edit node label attribute<p>&nbsp;
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/drawing5.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">
+			Query node unlabeled<p>&nbsp;
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/drawing6.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">
+			Query node labeled<p>&nbsp;
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/drawing7.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">
+			Query edge context menu<p>&nbsp;
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center"><img src="images/drawing8.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">
+			Edit edge label attribute<p>&nbsp;
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		<tr>
+    		<td vAlign="top" align="center"><img src="images/drawing9.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">
+			Set approximate path<p>&nbsp;
+			</td>
+  		</tr>
+		<tr>
+    		<td vAlign="top" align="center" height="21" >&nbsp;</td>
+  		<tr>
+    		<td vAlign="top" align="center"><img src="images/drawing10.jpg">&nbsp;</td>
+  		</tr>
+    		<td vAlign="top" align="center" height="21">
+			An approximate query<p>&nbsp;
+			</td>
+  		</tr>
+	</tbody>
+   </table>
+</body>
+</html>

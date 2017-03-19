@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Cytoscape-App: netmatch.NetMatchApp
-Cytoscape-App-Name: NetMatchStar
-Cytoscape-App-Version: 3.2-SNAPSHOT
-Cytoscape-API-Compatibility: 3.1
