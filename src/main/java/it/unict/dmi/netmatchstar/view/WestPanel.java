@@ -952,8 +952,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 	    Object o = e.getSource();
-	    if(o == tna) {
-	        if(((JComboBox)o).getSelectedItem().toString().equals(Strings.LIST_ATTRIBUTES) ||
+	    if (o == tna) {
+	        if (((JComboBox)o).getSelectedItem().toString().equals(Strings.LIST_ATTRIBUTES) ||
 	        		((JComboBox)o).getSelectedItem().toString().equals(Strings.LIST_ATTRIBUTES_CHANGED)) {
 	        	MultipleAttrChoice m = new MultipleAttrChoice(this,"Multiple Node Attributes",((JComboBox)o),true);
 	        	m.setVisible(true);
@@ -963,8 +963,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	        	listOfNodeAttributes.add(tna.getSelectedItem());
 	        }
 	    }
-	    else if(o == tea) {
-	    	if(((JComboBox)o).getSelectedItem().toString().equals(Strings.LIST_ATTRIBUTES) ||
+	    else if (o == tea) {
+	    	if (((JComboBox)o).getSelectedItem().toString().equals(Strings.LIST_ATTRIBUTES) ||
 	    			((JComboBox)o).getSelectedItem().toString().equals(Strings.LIST_ATTRIBUTES_CHANGED)) {
 	    		MultipleAttrChoice m = new MultipleAttrChoice(this,"Multiple Edge Attributes",((JComboBox)o),false);
 	    		m.setVisible(true);
@@ -984,7 +984,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    		seedField.setEnabled(false);
 	    	}
 	    }
-	    else if(command.equals("Select shuffling")) {
+	    else if (command.equals("Select shuffling")) {
 	    	this.labelShufflingCheckBox.setEnabled(true);
 	    	this.shufflingQ.setEditable(true);
 	    	this.shufflingQ.setEnabled(true);
@@ -1006,7 +1006,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	this.ffmNumAmbass.setEditable(false);
 	    	this.ffmNumAmbass.setEnabled(false);
 	    }
-	    else if(command.equals("Select Erdos-Renyi")) {
+	    else if (command.equals("Select Erdos-Renyi")) {
 	    	this.labelShufflingCheckBox.setEnabled(false);
 	    	this.shufflingQ.setEditable(false);
 	    	this.shufflingQ.setEnabled(false);
@@ -1029,7 +1029,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	this.ffmNumAmbass.setEnabled(false);
 	    	
 	    }
-	    else if(command.equals("Select Watts-Strogatz")) {
+	    else if (command.equals("Select Watts-Strogatz")) {
 	    	this.labelShufflingCheckBox.setEnabled(true);
 	    	this.shufflingQ.setEditable(false);
 	    	this.shufflingQ.setEnabled(false);
@@ -1052,7 +1052,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	this.ffmNumAmbass.setEnabled(false);
 	    	
 	    }
-	    else if(command.equals("Select Barabasi-Albert")) {
+	    else if (command.equals("Select Barabasi-Albert")) {
 	    	this.labelShufflingCheckBox.setEnabled(false);
 	    	this.shufflingQ.setEditable(false);
 	    	this.shufflingQ.setEnabled(false);
@@ -1075,7 +1075,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	this.ffmNumAmbass.setEnabled(false);
 	    	
 	    }
-	    else if(command.equals("Select duplication")) {
+	    else if (command.equals("Select duplication")) {
 	    	this.labelShufflingCheckBox.setEnabled(false);
 	    	this.shufflingQ.setEditable(false);
 	    	this.shufflingQ.setEnabled(false);
@@ -1098,7 +1098,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	this.ffmNumAmbass.setEnabled(false);
 	    	
 	    }
-	    else if(command.equals("Select geometric")) {
+	    else if (command.equals("Select geometric")) {
 	    	this.labelShufflingCheckBox.setEnabled(false);
 	    	this.shufflingQ.setEditable(false);
 	    	this.shufflingQ.setEnabled(false);
@@ -1121,7 +1121,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	this.ffmNumAmbass.setEnabled(false);
 	    	
 	    }
-	    else if(command.equals("Select Forest-fire")) {
+	    else if (command.equals("Select Forest-fire")) {
 	    	this.labelShufflingCheckBox.setEnabled(false);
 	    	this.shufflingQ.setEditable(false);
 	    	this.shufflingQ.setEnabled(false);
@@ -1144,15 +1144,15 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	this.ffmNumAmbass.setEnabled(true);
 	    	
 	    }
-	    else if(command.equals("About...")) {
+	    else if (command.equals("About...")) {
 			aboutbox = new JAboutDialog(this, icons[0]);
 		    aboutbox.setVisible(true);
 		}
-		else if(command.equals("Documentation")) {
+		else if (command.equals("Documentation")) {
 			help = new NetMatchHelp(Common.APP_NAME + " Help", menu[20]);
 			help.setVisible(true);
 		}
-		else if(command.equals("Exit"))
+		else if (command.equals("Exit"))
 			try {
 				close();
 			} catch (Exception e1) {
@@ -1222,13 +1222,13 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    		adapter.getTaskManager().execute(iterator);
 	    	}
 		}
-		else if(command.equals("Save Query Network")) {
+		else if (command.equals("Save Query Network")) {
 			FileUtil fileUtil = adapter.getCyServiceRegistrar().getService(FileUtil.class);
 			ArrayList filters = new ArrayList<FileChooserFilter>();
 	    	filters.add(new FileChooserFilter("sif", "sif"));
 	    	saveQueryNetwork();
 		}
-		else if(command.equals("Reset")) {
+		else if (command.equals("Reset")) {
 			log.setText("");
 			query.removeActionListener(this);
 			target.removeActionListener(this);
@@ -1257,11 +1257,11 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			listOfNodeAttributes = null;
 			listOfEdgeAttributes = null;
 			System.gc();
-			if(!s.isEmpty())
+			if (!s.isEmpty())
 				acquireData("");
 		    }
 		else if (command.equals("Metrics")) {
-			if(!query.isEnabled() || !target.isEnabled()) {
+			if (!query.isEnabled() || !target.isEnabled()) {
 				JOptionPane.showMessageDialog(
 						adapter.getCySwingApplication().getJFrame(), 
 						"Please Select a Network and a Query First!", 
@@ -1281,7 +1281,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        CyNetwork tnetwork = cnm.getNetwork(Integer.parseInt(targetId));
 		        String nn = queryId;
 		        CyNetwork qnetwork = cnm.getNetwork(Integer.parseInt(nn));
-		        if(tnetwork == null || tnetwork.getNodeCount() < 1 || 
+		        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 		        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 		        	JOptionPane.showMessageDialog(
 		        			adapter.getCySwingApplication().getJFrame(), 
@@ -1336,12 +1336,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
         		}
 			}
 		}
-		else if(command.equals("Motif")) {
+		else if (command.equals("Motif")) {
 			if (seedField.isEnabled()) {
 				seedValue = Integer.parseInt(seedField.getText());
 			}
-			if(this.shufflingCheckBox.isSelected()) {
-				if(!query.isEnabled() || !target.isEnabled()) {
+			if (this.shufflingCheckBox.isSelected()) {
+				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
@@ -1364,12 +1364,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        //tnetwork.getAdjacentEdgeIndicesArray();
 			        //String nn = q.substring(0, q.indexOf('-')); 
 			        String nn = queryId;
-			        if(nn.equals("QE"))
+			        if (nn.equals("QE"))
 			        	isUsingQE = true;
 			        CyNetwork qnetwork = null;
-			        if(!isUsingQE)
+			        if (!isUsingQE)
 	  		          	qnetwork = cnm.getNetwork(Integer.parseInt(nn));
-			        if(tnetwork == null || tnetwork.getNodeCount() < 1 || 
+			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
@@ -1416,9 +1416,9 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	        		}
 				}
 			}
-			if(this.erCheckBox.isSelected()) {
+			if (this.erCheckBox.isSelected()) {
 				//System.out.println("Starting Erdos-Renyi");
-				if(!query.isEnabled() || !target.isEnabled()) {
+				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
@@ -1438,7 +1438,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        CyNetwork tnetwork = cnm.getNetwork(Integer.parseInt(targetId));
 			        String nn = queryId;
 			        CyNetwork qnetwork = cnm.getNetwork(Integer.parseInt(nn));
-			        if(tnetwork == null || tnetwork.getNodeCount() < 1 || 
+			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
@@ -1498,9 +1498,9 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	        		}
 				}
 			}
-			if(this.wsCheckBox.isSelected()) {
+			if (this.wsCheckBox.isSelected()) {
 				//System.out.println("Starting Watts-Strogatz");
-				if(!query.isEnabled() || !target.isEnabled()) {
+				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
@@ -1520,7 +1520,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        CyNetwork tnetwork = cnm.getNetwork(Integer.parseInt(targetId));
 			        String nn = queryId;
 			        CyNetwork qnetwork = cnm.getNetwork(Integer.parseInt(nn));
-			        if(tnetwork == null || tnetwork.getNodeCount() < 1 || 
+			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
@@ -1581,9 +1581,9 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	        		}
 				}
 			}
-			if(this.baCheckBox.isSelected()) {
+			if (this.baCheckBox.isSelected()) {
 				//System.out.println("Starting Barabasi-Albert");
-				if(!query.isEnabled() || !target.isEnabled()) {
+				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
@@ -1603,7 +1603,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        CyNetwork tnetwork = cnm.getNetwork(Integer.parseInt(targetId));
 			        String nn = queryId;
 			        CyNetwork qnetwork = cnm.getNetwork(Integer.parseInt(nn));
-			        if(tnetwork == null || tnetwork.getNodeCount() < 1 || 
+			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
@@ -1663,8 +1663,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	        		}
 				}
 			}
-			if(this.gmCheckBox.isSelected()) {
-				if(!query.isEnabled() || !target.isEnabled()) {
+			if (this.gmCheckBox.isSelected()) {
+				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
@@ -1684,7 +1684,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        CyNetwork tnetwork = cnm.getNetwork(Integer.parseInt(targetId));
 			        String nn = queryId;
 			        CyNetwork qnetwork = cnm.getNetwork(Integer.parseInt(nn));
-			        if(tnetwork == null || tnetwork.getNodeCount() < 1 || 
+			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
@@ -1745,8 +1745,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	        		}
 				}
 			}
-			if(this.ffmCheckBox.isSelected()) {
-				if(!query.isEnabled() || !target.isEnabled()) {
+			if (this.ffmCheckBox.isSelected()) {
+				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
@@ -1766,7 +1766,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        CyNetwork tnetwork = cnm.getNetwork(Integer.parseInt(targetId));
 			        String nn = queryId;
 			        CyNetwork qnetwork = cnm.getNetwork(Integer.parseInt(nn));
-			        if(tnetwork == null || tnetwork.getNodeCount() < 1 || 
+			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
@@ -1827,8 +1827,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	        		}
 				}
 			}
-			if(this.dmCheckBox.isSelected()) {
-				if(!query.isEnabled() || !target.isEnabled()) {
+			if (this.dmCheckBox.isSelected()) {
+				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
@@ -1848,7 +1848,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        CyNetwork tnetwork = cnm.getNetwork(Integer.parseInt(targetId));
 			        String nn = queryId;
 			        CyNetwork qnetwork = cnm.getNetwork(Integer.parseInt(nn));
-			        if(tnetwork == null || tnetwork.getNodeCount() < 1 || 
+			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
@@ -1911,8 +1911,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 				}
 			}
 		}
-		else if(command.equals("Match")) {
-			if(!query.isEnabled() || !target.isEnabled()) {
+		else if (command.equals("Match")) {
+			if (!query.isEnabled() || !target.isEnabled()) {
 				JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
 						"Please Select a Network and a Query First!", 
 						Common.APP_NAME,
@@ -1933,12 +1933,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        //tnetwork.getAdjacentEdgeIndicesArray();
 		        //String nn = q.substring(0, q.indexOf('-')); 
 		        String nn = queryId;
-		        if(nn.equals("QE"))
+		        if (nn.equals("QE"))
 		        	isUsingQE = true;
 		        CyNetwork qnetwork = null;
-		        if(!isUsingQE)
+		        if (!isUsingQE)
   		          	qnetwork = cnm.getNetwork(Integer.parseInt(nn));
-		        if(tnetwork == null || tnetwork.getNodeCount() < 1 || 
+		        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 		        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 		        	JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
 		        			"Please Select a Network and Query (not empty) First!", 
@@ -1978,7 +1978,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
         		}
 			}
     	}
-		else if(o == query) {
+		else if (o == query) {
 			Object oldQea = qea.getSelectedItem();
 			Object oldQna = qna.getSelectedItem();
 		        
@@ -1992,7 +1992,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 				nn = qu;
 	        else
 	        	nn = qu.substring(0, qu.indexOf('-'));
-	        if(nn.equals("QE")) {
+	        if (nn.equals("QE")) {
 	        	qea.setEnabled(true);
 	        	qna.setEnabled(true);
 	        	qna.addItem(qu + " - Nodes Attributes");
@@ -2071,19 +2071,19 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	    for(int i = 0;i < edgeAttrNames.length;i++)
 	    	    		qea.addItem(edgeAttrNames[i]);
 	            }*/
-	          	if(oldQea != null) {
+	          	if (oldQea != null) {
 	          		for(int i = 0;i < qea.getItemCount();i++) {
 	          			Object o1 = qea.getItemAt(i);
-	          			if(o1.equals(oldQea)) {
+	          			if (o1.equals(oldQea)) {
 	          				qea.setSelectedItem(oldQea);
 	          				break;
 	          			}
 	          		}
 	          	}
-	          	if(oldQna != null) {
+	          	if (oldQna != null) {
 	          		for(int i = 0;i < qna.getItemCount();i++) {
 	          			Object o1 = qna.getItemAt(i);
-	          			if(o1.equals(oldQna)) {
+	          			if (o1.equals(oldQna)) {
 	          				qna.setSelectedItem(oldQna);
 	          				break;
 	          			}   
@@ -2157,19 +2157,19 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			}
 			tea.addItem(Strings.LIST_ATTRIBUTES);
 			
-          	if(oldTea != null) {
+          	if (oldTea != null) {
           		for(int i = 0;i < tea.getItemCount();i++) {
           			Object o1 = tea.getItemAt(i);
-          			if(o1.equals(oldTea)) {
+          			if (o1.equals(oldTea)) {
           				tea.setSelectedItem(oldTea);
           				break;
           			}
           		}
           	}
-          	if(oldTna != null) {
+          	if (oldTna != null) {
           		for(int i = 0;i < tna.getItemCount();i++) {
           			Object o1 = tna.getItemAt(i);
-          			if(o1.equals(oldTna)) {
+          			if (o1.equals(oldTna)) {
           				tna.setSelectedItem(oldTna);
           				break;
           			}   
@@ -2242,11 +2242,11 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		          		    file = new File(file.getParentFile(), FilenameUtils.getBaseName(file.getName())+".sif");
 		          		}
 		          		int opt = 0;
-		          		if(file.exists()) {
+		          		if (file.exists()) {
 		          			opt = JOptionPane.showConfirmDialog(null,"The file alredy exists. Overwrite?",
 									Common.APP_NAME, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
 		          		}
-		          		if(opt == 0) {
+		          		if (opt == 0) {
 		          			//FileFilter selectedFilter = (FileFilter)fc.getFileFilter();
 		          			
 		          			CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
@@ -2385,15 +2385,15 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	}
 
 	public void close() throws Exception {
-        if(help != null) {
+        if (help != null) {
         	help.setVisible(false);
         	help.dispose();
         }
-        if(aboutbox != null) {
+        if (aboutbox != null) {
         	aboutbox.setVisible(false);
         	aboutbox.dispose();
         }
-        if(matchingPanel != null) {
+        if (matchingPanel != null) {
 			matchingPanel.setVisible(false);
         	MenuAction.setOpened(false);
         	WestPanel panel = this;
@@ -2408,12 +2408,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	public void setAttrList(ArrayList attrs, boolean isNodeAttr) {
 	    JComboBox c = isNodeAttr ? tna : tea;
 	    c.removeActionListener(this);
-	    if(attrs == null) {
+	    if (attrs == null) {
 	    	c.removeItem(Strings.LIST_ATTRIBUTES);
 	    	c.removeItem(Strings.LIST_ATTRIBUTES_CHANGED);
 	    	c.addItem(Strings.LIST_ATTRIBUTES);
 	    	c.setSelectedIndex(0);
-	    	if(isNodeAttr)
+	    	if (isNodeAttr)
 	    		listOfNodeAttributes = null;
 	    	else
 	    		listOfEdgeAttributes = null;
@@ -2423,7 +2423,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	c.removeItem(Strings.LIST_ATTRIBUTES_CHANGED);
 	    	c.addItem(Strings.LIST_ATTRIBUTES_CHANGED);
 	    	c.setSelectedItem(Strings.LIST_ATTRIBUTES_CHANGED);
-	    	if(isNodeAttr)
+	    	if (isNodeAttr)
 	    		listOfNodeAttributes = attrs;
 	    	else
 	    		listOfEdgeAttributes = attrs;
@@ -2461,7 +2461,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    
 	    for(Object value : s) {
 	    	CyNetwork n = (CyNetwork) value;
-	    	if(!n.getSUID().equals(networkDestroyed)) {
+	    	if (!n.getSUID().equals(networkDestroyed)) {
 	    		//query.addItem(n.getSUID() + "-" + n.getRow(n).get(CyNetwork.NAME, String.class));
 	    		/*query.addItem(n.getSUID().toString()+"-"+ n.getRow(n).get(CyNetwork.NAME, String.class));
 	    	  	query.setEnabled(true);
@@ -2500,12 +2500,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
         ArrayList<String> qNodeAttrNames = new ArrayList<String>();
         ArrayList<String> qEdgeAttrNames = new ArrayList<String>();
         
-	    if(query.getItemCount() > 0) {
+	    if (query.getItemCount() > 0) {
 	    	query.setEnabled(true);
-	    	if(oldQuery != null) {
+	    	if (oldQuery != null) {
 	    		for(int i = 0;i < query.getItemCount();i++) {
 	    			Object o = query.getItemAt(i);
-	    			if(o.equals(oldQuery)) {
+	    			if (o.equals(oldQuery)) {
 	    				query.setSelectedItem(oldQuery);
 	    				break;
 	    			}
@@ -2581,7 +2581,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	if (oldQea != null) {
 	    		for(int i = 0;i < qea.getItemCount();i++) {
 	    			Object o = qea.getItemAt(i);
-	    			if(o.equals(oldQea)) {
+	    			if (o.equals(oldQea)) {
 	    				qea.setSelectedItem(oldQea);
 	    				break;
 	    			}
@@ -2590,7 +2590,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	if (oldQna != null) {
 	        for(int i = 0;i < qna.getItemCount();i++) {
 	        	Object o = qna.getItemAt(i);
-	        	if(o.equals(oldQna)) {
+	        	if (o.equals(oldQna)) {
 	        		qna.setSelectedItem(oldQna);
 	        		break;
 	        	}
@@ -2611,12 +2611,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	        ArrayList<String> tNodeAttrNames = new ArrayList<String>();
 	        ArrayList<String> tEdgeAttrNames = new ArrayList<String>();
 	        
-	        if(target.getItemCount() > 0) {
+	        if (target.getItemCount() > 0) {
 	        	target.setEnabled(true);
-	        	if(oldTarget != null) {
+	        	if (oldTarget != null) {
 	        		for(int i = 0;i < target.getItemCount();i++) {
 	        			Object o = target.getItemAt(i);
-	        			if(o.equals(oldTarget)) {
+	        			if (o.equals(oldTarget)) {
 	        				target.setSelectedItem(oldTarget);
 	        				break;
 	        			}
@@ -2673,19 +2673,19 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        tna.addItem(nodeAttrNames[i]);
 		      tna.addItem(Strings.LIST_ATTRIBUTES);*/
 
-	          if(oldTea != null) {
+	          if (oldTea != null) {
 	        	  for(int i = 0;i < tea.getItemCount();i++) {
 	        		  Object o = tea.getItemAt(i);
-	        		  if(o.equals(oldTea)) {
+	        		  if (o.equals(oldTea)) {
 	        			  tea.setSelectedItem(oldTea);
 	        			  break;
 	        		  }
 	        	  }
 	          }
-	          if(oldTna != null) {
+	          if (oldTna != null) {
 	        	  for(int i = 0;i < tna.getItemCount();i++) {
 	        		  Object o = tna.getItemAt(i);
-	        		  if(o.equals(oldTna)) {
+	        		  if (o.equals(oldTna)) {
 	        			  tna.setSelectedItem(oldTna);
 	        			  break;
 	        		  }
@@ -2733,7 +2733,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	        
 	        HashMap<String, String> nodeAttributes = null;
 	        HashMap<String, String> edgeAttributes = null;
-	        if(areThereAttributeFiles(nodeAttrFile, edgeAttrFile)) { 
+	        if (areThereAttributeFiles(nodeAttrFile, edgeAttrFile)) { 
 	        	//loadNetworkAttributes(nodeAttrFileName, edgeAttrFileName);
 	        	try {
 					nodeAttributes = loadNodeAttributes(nodeAttrFileName);
@@ -2846,7 +2846,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 					vs = vsf.createVisualStyle(Common.NETMATCH_STYLE);
 				//NetworkUtils.configureQueryVisualStyle(vs, adapter);
 				
-				if (!NetworkUtils.isAMotif(suid)) {
+				if (!NetworkUtils.isAMotif (suid)) {
 					TaskIterator taskIterator = new TaskIterator();	  
 			    	QueryLayoutTask task = new QueryLayoutTask(adapter, vs, netView);
 			    	taskIterator.append(task);
@@ -2863,7 +2863,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			vs.apply(netView);
 			
 			if (netName.startsWith("QueryNetwork")) {
-				if (NetworkUtils.isAMotif(suid)) {
+				if (NetworkUtils.isAMotif (suid)) {
 					motifType = Common.motifsMap.get(suid);
 					TaskIterator taskIterator = new TaskIterator();
 			    	MotifLayoutTask task = new MotifLayoutTask(adapter, vs, netView, motifType);
@@ -2949,7 +2949,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	JButton bt = (JButton) e.getSource();
     	
 	    	for(int i = 0; i < sButtons.length; i++) {
-	    		if(sButtons[i] == bt) {
+	    		if (sButtons[i] == bt) {
 		        	if (i == 0) //Three Chain
 		        		loadThreeChain();
 		        	else if (i == 1) //Feed Forward Loop
