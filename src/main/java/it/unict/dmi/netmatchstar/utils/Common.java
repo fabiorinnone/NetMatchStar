@@ -35,6 +35,8 @@ import java.util.HashMap;
 import org.cytoscape.model.CyNode;
 
 public class Common {
+	public static final String APP_NAME = "NetMatch*";
+
 	public static int indexN = 0;
 	
 	//key is suid of network, value is motif type

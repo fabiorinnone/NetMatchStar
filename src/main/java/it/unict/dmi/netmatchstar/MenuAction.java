@@ -34,6 +34,7 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
+import it.unict.dmi.netmatchstar.utils.Common;
 import it.unict.dmi.netmatchstar.view.WestPanel;
 import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.application.swing.AbstractCyAction;
@@ -42,7 +43,7 @@ import org.cytoscape.service.util.CyServiceRegistrar;
 
 @SuppressWarnings("serial")
 public class MenuAction extends AbstractCyAction {
-	private static final String APP_NAME = "NetMatch*";
+	//private final CyActivator cyActivator;
 
 	private static CySwingAppAdapter adapter;
     private static boolean opened = false;
@@ -51,9 +52,10 @@ public class MenuAction extends AbstractCyAction {
 		opened = open;
 	}
 
-	public MenuAction(CySwingAppAdapter adapt) {
-        super(APP_NAME);
-        adapter = adapt;
+	public MenuAction(final String menuTitle, CyActivator activator, CySwingAppAdapter adapt) {
+        super(menuTitle, activator.getcyApplicationManager(), null, null);
+		//cyActivator = activator;
+		adapter = adapt;
         setPreferredMenu("Apps");
     }
  
@@ -65,12 +67,13 @@ public class MenuAction extends AbstractCyAction {
 			opened = true;
     	}
     	else {
-    		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), APP_NAME + " is already open!");
+    		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(),
+					Common.APP_NAME + " is already open!");
     	}
     }
 
 	public static CySwingAppAdapter getAdapter() {
 		return adapter;
 	}
-	
+
 }

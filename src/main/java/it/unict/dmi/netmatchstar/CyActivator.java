@@ -37,11 +37,11 @@ import static org.cytoscape.work.ServiceProperties.TITLE;
 
 import java.util.Properties;
 
+import it.unict.dmi.netmatchstar.utils.Common;
 import it.unict.dmi.netmatchstar.view.*;
 import org.cytoscape.app.swing.CySwingAppAdapter;
-import org.cytoscape.application.swing.CyAction;
+import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CySwingApplication;
-import org.cytoscape.application.swing.CytoPanelComponent;
 import org.cytoscape.service.util.AbstractCyActivator;
 import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.task.EdgeViewTaskFactory;
@@ -52,9 +52,10 @@ public class CyActivator extends AbstractCyActivator {
 
     private static final String APP_NAME = "NetMatch*";
 
-    private CyServiceRegistrar registrar;
-    private CySwingAppAdapter adapter;
-    private CySwingApplication application;
+    private CyApplicationManager cyApplicationManager;
+    private CyServiceRegistrar cyServiceRegistrar;
+    private CySwingAppAdapter cySwingAppAdapter;
+    private CySwingApplication cySwingApplication;
 
     public CyActivator() {
         super();
@@ -62,15 +63,20 @@ public class CyActivator extends AbstractCyActivator {
 
 	@Override
 	public void start(BundleContext bc) {
-        registrar = getService(bc, CyServiceRegistrar.class);
-        adapter = getService(bc,CySwingAppAdapter.class);
-        application = getService(bc, CySwingApplication.class);
+        cyApplicationManager = getService(bc, CyApplicationManager.class);
+        cyServiceRegistrar = getService(bc, CyServiceRegistrar.class);
+        cySwingAppAdapter = getService(bc, CySwingAppAdapter.class);
+        cySwingApplication = getService(bc, CySwingApplication.class);
 
-        WestPanel westPanel = new WestPanel(adapter);
-        WestPanelAction controlPanelAction = new WestPanelAction(application, westPanel);
+        MenuAction menuAction = new MenuAction(Common.APP_NAME, this, cySwingAppAdapter);
+        registerAllServices(bc, menuAction, new Properties());
+        //cySwingAppAdapter.getCySwingApplication().addAction(menuAction);
 
-        registerService(bc, westPanel, CytoPanelComponent.class, new Properties());
-        registerService(bc, controlPanelAction, CyAction.class, new Properties());
+        //WestPanel westPanel = new WestPanel(cySwingAppAdapter);
+        //WestPanelAction controlPanelAction = new WestPanelAction(cySwingApplication, westPanel);
+
+        //registerService(bc, westPanel, CytoPanelComponent.class, new Properties());
+        //registerService(bc, controlPanelAction, CyAction.class, new Properties());
 
         Properties editNodeLabelProps = new Properties();
         editNodeLabelProps.setProperty(PREFERRED_ACTION, "NEW");
@@ -79,7 +85,7 @@ public class CyActivator extends AbstractCyActivator {
         editNodeLabelProps.setProperty(IN_MENU_BAR, "false");
         editNodeLabelProps.setProperty(TITLE, "Edit Node Label Attribute");
 
-        registrar.registerService(new EditNodeLabelTaskFactory(adapter),
+        cyServiceRegistrar.registerService(new EditNodeLabelTaskFactory(cySwingAppAdapter),
                 NodeViewTaskFactory.class, editNodeLabelProps);
 
         Properties editEdgeLabelProps = new Properties();
@@ -89,7 +95,7 @@ public class CyActivator extends AbstractCyActivator {
         editEdgeLabelProps.setProperty(IN_MENU_BAR, "false");
         editEdgeLabelProps.setProperty(TITLE, "Edit Edge Label Attribute");
 
-        registrar.registerService(new EditEdgeLabelTaskFactory(adapter),
+        cyServiceRegistrar.registerService(new EditEdgeLabelTaskFactory(cySwingAppAdapter),
                 EdgeViewTaskFactory.class, editEdgeLabelProps);
 
         Properties editSetApproxPathProps = new Properties();
@@ -99,38 +105,54 @@ public class CyActivator extends AbstractCyActivator {
         editSetApproxPathProps.setProperty(IN_MENU_BAR, "false");
         editSetApproxPathProps.setProperty(TITLE, "Set Approximate Path");
 
-        registrar.registerService(new SetApproxPathTaskFactory(adapter),
+        cyServiceRegistrar.registerService(new SetApproxPathTaskFactory(cySwingAppAdapter),
                 EdgeViewTaskFactory.class, editSetApproxPathProps);
-	}
+    }
+
+    public CyServiceRegistrar getcyServiceRegistrar() {
+        return cyServiceRegistrar;
+    }
+
+    public CySwingAppAdapter getCySwingAppAdapter() {
+        return cySwingAppAdapter;
+    }
+
+    public CySwingApplication getCySwingApplication() {
+        return cySwingApplication;
+    }
+
+    public CyApplicationManager getcyApplicationManager() {
+        return cyApplicationManager;
+    }
 
 	/*public NetMatchApp(CySwingAppAdapter adapter)
 	{
 		super(adapter);
 		adapter.getCySwingApplication()
         		.addAction(new MenuAction(adapter));
-		
+
 		final CyServiceRegistrar registrar = adapter.getCyServiceRegistrar();
-		
+
 		Properties editNodeLabelProps = new Properties();
 		editNodeLabelProps.setProperty(PREFERRED_ACTION, "NEW");
 		editNodeLabelProps.setProperty(PREFERRED_MENU, "NetMatch*[100]");
 		editNodeLabelProps.setProperty(MENU_GRAVITY, "6.0f");
 		editNodeLabelProps.setProperty(IN_MENU_BAR, "false");
 		editNodeLabelProps.setProperty(TITLE, "Edit Node Label Attribute");
-	  	
+
 	  	registrar.registerService(new EditNodeLabelTaskFactory(adapter),
 	  			NodeViewTaskFactory.class, editNodeLabelProps);
-	  	
+
 	  	Properties editEdgeLabelProps = new Properties();
 	  	editEdgeLabelProps.setProperty(PREFERRED_ACTION, "NEW");
 		editEdgeLabelProps.setProperty(PREFERRED_MENU, "NetMatch*[100]");
 		editEdgeLabelProps.setProperty(MENU_GRAVITY, "6.0f");
 		editEdgeLabelProps.setProperty(IN_MENU_BAR, "false");
 		editEdgeLabelProps.setProperty(TITLE, "Edit Edge Label Attribute");
-	  	
+
 	  	registrar.registerService(new EditEdgeLabelTaskFactory(adapter),
 	  			EdgeViewTaskFactory.class, editEdgeLabelProps);
-	  	
+
 	  	Properties editSetApproxPathProps = new Properties();
 	  	editSetApproxPathProps.setProperty(PREFERRED_ACTION, "NEW");
 	  	editSetApproxPathProps.setProperty(PREFERRED_MENU, "NetMatch*[100]");
