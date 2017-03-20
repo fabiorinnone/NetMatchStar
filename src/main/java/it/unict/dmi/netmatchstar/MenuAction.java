@@ -75,5 +75,4 @@ public class MenuAction extends AbstractCyAction {
 	public static CySwingAppAdapter getAdapter() {
 		return adapter;
 	}
-
 }
