@@ -50,8 +50,6 @@ import org.osgi.framework.BundleContext;
 
 public class CyActivator extends AbstractCyActivator {
 
-    private static final String APP_NAME = "NetMatch*";
-
     private CyApplicationManager cyApplicationManager;
     private CyServiceRegistrar cyServiceRegistrar;
     private CySwingAppAdapter cySwingAppAdapter;
