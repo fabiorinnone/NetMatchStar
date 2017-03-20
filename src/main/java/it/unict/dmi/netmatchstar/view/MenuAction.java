@@ -42,15 +42,17 @@ import org.cytoscape.service.util.CyServiceRegistrar;
 
 @SuppressWarnings("serial")
 public class MenuAction extends AbstractCyAction {
+	private static final String APP_NAME = "NetMatch*";
+
     private static CySwingAppAdapter adapter;
-    private static boolean opened=false;
+    private static boolean opened = false;
 
 	public static void setOpened(boolean open) {
 		opened = open;
 	}
 
 	public MenuAction(CySwingAppAdapter adapt) {
-        super("NetMatch*");
+        super(APP_NAME);
         adapter = adapt;
         setPreferredMenu("Apps");
     }
@@ -63,7 +65,7 @@ public class MenuAction extends AbstractCyAction {
 			opened=true;
     	}
     	else{
-    		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), "NetMatch* is already open!");
+    		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), APP_NAME + " is already open!");
     	}
     }
 
