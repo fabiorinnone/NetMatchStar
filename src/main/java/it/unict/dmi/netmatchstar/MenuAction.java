@@ -43,8 +43,6 @@ import org.cytoscape.service.util.CyServiceRegistrar;
 
 @SuppressWarnings("serial")
 public class MenuAction extends AbstractCyAction {
-	//private final CyActivator cyActivator;
-
 	private static CySwingAppAdapter adapter;
     private static boolean opened = false;
 
@@ -54,7 +52,6 @@ public class MenuAction extends AbstractCyAction {
 
 	public MenuAction(final String menuTitle, CyActivator activator, CySwingAppAdapter adapt) {
         super(menuTitle, activator.getcyApplicationManager(), null, null);
-		//cyActivator = activator;
 		adapter = adapt;
         setPreferredMenu("Apps");
     }
