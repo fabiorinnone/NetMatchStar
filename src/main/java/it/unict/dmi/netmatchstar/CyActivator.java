@@ -69,14 +69,8 @@ public class CyActivator extends AbstractCyActivator {
         cySwingApplication = getService(bc, CySwingApplication.class);
 
         MenuAction menuAction = new MenuAction(Common.APP_NAME, this, cySwingAppAdapter);
+        cySwingAppAdapter.getCySwingApplication().addAction(menuAction);
         registerAllServices(bc, menuAction, new Properties());
-        //cySwingAppAdapter.getCySwingApplication().addAction(menuAction);
-
-        //WestPanel westPanel = new WestPanel(cySwingAppAdapter);
-        //WestPanelAction controlPanelAction = new WestPanelAction(cySwingApplication, westPanel);
-
-        //registerService(bc, westPanel, CytoPanelComponent.class, new Properties());
-        //registerService(bc, controlPanelAction, CyAction.class, new Properties());
 
         Properties editNodeLabelProps = new Properties();
         editNodeLabelProps.setProperty(PREFERRED_ACTION, "NEW");
