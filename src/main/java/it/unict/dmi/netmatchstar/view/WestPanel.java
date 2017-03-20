@@ -251,7 +251,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	private static String currentPath;
 	
 	@SuppressWarnings("rawtypes")
-	public WestPanel(CySwingAppAdapter adapter){
+	public WestPanel(CySwingAppAdapter adapter) {
 		MyNetworkAddedListener netListen = new MyNetworkAddedListener(adapter);
 		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
 		csr.registerService(netListen, NetworkAddedListener.class, new Properties());
@@ -877,7 +877,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		return randomNetsSlider;
 	}
 
-	private JToolBar createMenuBar(){
+	private JToolBar createMenuBar() {
 		JToolBar toolBar = new JToolBar();
 		JButton i;
 	    i = new JButton(menu[12]);
