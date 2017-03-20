@@ -44,7 +44,7 @@ import org.cytoscape.service.util.CyServiceRegistrar;
 public class MenuAction extends AbstractCyAction {
 	private static final String APP_NAME = "NetMatch*";
 
-    private static CySwingAppAdapter adapter;
+	private static CySwingAppAdapter adapter;
     private static boolean opened = false;
 
 	public static void setOpened(boolean open) {
@@ -58,13 +58,13 @@ public class MenuAction extends AbstractCyAction {
     }
  
     public void actionPerformed(ActionEvent e) {
-    	if(!opened){
+    	if(!opened) {
     		WestPanel panel = new WestPanel(adapter);
     		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
 			csr.registerService(panel,CytoPanelComponent.class, new Properties());
 			opened = true;
     	}
-    	else{
+    	else {
     		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), APP_NAME + " is already open!");
     	}
     }
