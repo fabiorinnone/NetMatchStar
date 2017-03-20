@@ -40,7 +40,6 @@ import org.cytoscape.application.swing.AbstractCyAction;
 import org.cytoscape.application.swing.CytoPanelComponent;
 import org.cytoscape.service.util.CyServiceRegistrar;
 
-
 @SuppressWarnings("serial")
 public class MenuAction extends AbstractCyAction {
 	private static final String APP_NAME = "NetMatch*";
