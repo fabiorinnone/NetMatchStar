@@ -63,7 +63,7 @@ public class MenuAction extends AbstractCyAction {
     	if(!opened) {
     		WestPanel panel = new WestPanel(adapter);
     		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
-			csr.registerService(panel,CytoPanelComponent.class, new Properties());
+			csr.registerService(panel, CytoPanelComponent.class, new Properties());
 			opened = true;
     	}
     	else {
