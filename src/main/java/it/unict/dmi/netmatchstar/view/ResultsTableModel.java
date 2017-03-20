@@ -227,7 +227,7 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 		catch (Error e) {
 			completedSuccessfully = false;
 			System.out.println(e);
-			throw new Exception("NetMatch cancelled", e);
+			throw new Exception(Common.APP_NAME + " cancelled", e);
 		}
 		finally {
 			//No op
@@ -437,7 +437,7 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 	}
     
     public String getTitle() {
-        return "NetMatch";
+        return Common.APP_NAME;
     }
 
     public void halt() {

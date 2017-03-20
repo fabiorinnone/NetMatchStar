@@ -172,7 +172,7 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent {
 	    saveButton.setEnabled(false);
 	    bottomPanel.add(saveButton);
 	    closeButton = new JButton("Close");
-	    closeButton.setToolTipText("Close NetMatch Results Panel.");
+	    closeButton.setToolTipText("Close " + Common.APP_NAME + " Results Panel.");
 	    bottomPanel.add(closeButton);
 	    panel.add(bottomPanel, BorderLayout.SOUTH);
 	    add(panel, BorderLayout.CENTER);
@@ -648,7 +648,7 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent {
 	    	try {
 	    		File file = new File(fileName);
 	    		FileWriter fout = new FileWriter(file);
-	    		fout.write("NetMatch Plugin Results" + lineSep);
+	    		fout.write(Common.APP_NAME + " Plugin Results" + lineSep);
 	    		fout.write("Date: " + DateFormat.getDateTimeInstance().format(new Date()) + lineSep + lineSep);
 	    		fout.write("Match Number\tOccurrences\tNames" + lineSep); //TODO node and edge count?
 	    		ArrayList<ArrayList<String>> matches = getMatchesListFromComplexesList(complexes, network);

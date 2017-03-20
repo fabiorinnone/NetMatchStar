@@ -881,7 +881,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		JToolBar toolBar = new JToolBar();
 		JButton i;
 	    i = new JButton(menu[12]);
-		i.setToolTipText("Close NetMatch*");
+		i.setToolTipText("Close " + Common.APP_NAME);
 		i.addActionListener(this);
 		i.setActionCommand("Exit");
 		toolBar.add(i);
@@ -940,7 +940,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 
 	@Override
 	public String getTitle() {
-		return "NetMatch*";
+		return Common.APP_NAME;
 	}
 	
 	public static JTextArea getLog() {
@@ -1149,7 +1149,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		    aboutbox.setVisible(true);
 		}
 		else if(command.equals("Documentation")) {
-			help = new NetMatchHelp("NetMatch* Help", menu[20]);
+			help = new NetMatchHelp(Common.APP_NAME + " Help", menu[20]);
 			help.setVisible(true);
 		}
 		else if(command.equals("Exit"))
@@ -1265,7 +1265,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 				JOptionPane.showMessageDialog(
 						adapter.getCySwingApplication().getJFrame(), 
 						"Please Select a Network and a Query First!", 
-						"NetMatch*", 
+						Common.APP_NAME,
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
@@ -1286,7 +1286,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        	JOptionPane.showMessageDialog(
 		        			adapter.getCySwingApplication().getJFrame(), 
 		        			"Please Select a Network and Query (not empty) First!", 
-		        			"NetMatch* Error", 
+		        			Common.APP_NAME + " Error",
 		        			JOptionPane.ERROR_MESSAGE);
 		        else {
 		        	Common.LABELED = labeled.isSelected();
@@ -1345,7 +1345,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
-							"NetMatch*", 
+							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
@@ -1374,7 +1374,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
 			        			"Please Select a Network and Query (not empty) First!", 
-			        			"NetMatch* Error", 
+			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
 			        else {
 			        	Common.LABELED = labeled.isSelected();
@@ -1422,7 +1422,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
-							"NetMatch*", 
+							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
@@ -1443,7 +1443,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
 			        			"Please Select a Network and Query (not empty) First!", 
-			        			"NetMatch* Error", 
+			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
 			        else {
 			        	Common.LABELED = labeled.isSelected();
@@ -1504,7 +1504,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
-							"NetMatch*", 
+							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
@@ -1525,7 +1525,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
 			        			"Please Select a Network and Query (not empty) First!", 
-			        			"NetMatch* Error", 
+			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
 			        else {
 			        	Common.LABELED = labeled.isSelected();
@@ -1587,7 +1587,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
-							"NetMatch*", 
+							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
@@ -1608,7 +1608,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
 			        			"Please Select a Network and Query (not empty) First!", 
-			        			"NetMatch* Error", 
+			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
 			        else {
 			        	Common.LABELED = labeled.isSelected();
@@ -1668,7 +1668,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
-							"NetMatch*", 
+							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
@@ -1689,7 +1689,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
 			        			"Please Select a Network and Query (not empty) First!", 
-			        			"NetMatch* Error", 
+			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
 			        else {
 			        	Common.LABELED = labeled.isSelected();
@@ -1750,7 +1750,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
-							"NetMatch*", 
+							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
@@ -1771,7 +1771,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
 			        			"Please Select a Network and Query (not empty) First!", 
-			        			"NetMatch* Error", 
+			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
 			        else {
 			        	Common.LABELED = labeled.isSelected();
@@ -1832,7 +1832,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 					JOptionPane.showMessageDialog(
 							adapter.getCySwingApplication().getJFrame(), 
 							"Please Select a Network and a Query First!", 
-							"NetMatch*", 
+							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
@@ -1853,7 +1853,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        	JOptionPane.showMessageDialog(
 			        			adapter.getCySwingApplication().getJFrame(), 
 			        			"Please Select a Network and Query (not empty) First!", 
-			        			"NetMatch* Error", 
+			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
 			        else {
 			        	Common.LABELED = labeled.isSelected();
@@ -1915,7 +1915,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			if(!query.isEnabled() || !target.isEnabled()) {
 				JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
 						"Please Select a Network and a Query First!", 
-						"NetMatch*", 
+						Common.APP_NAME,
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 			else {
@@ -1942,7 +1942,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 		        	JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
 		        			"Please Select a Network and Query (not empty) First!", 
-		        			"NetMatch* Error", 
+		        			Common.APP_NAME + " Error",
 		        			JOptionPane.ERROR_MESSAGE);
 		        else {
 		        	Common.LABELED = labeled.isSelected();
@@ -2210,7 +2210,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	      		
 				if (!currentNetworkName.startsWith("QueryNetwork")) {
 	      			JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(),
-	      		    		"You can save only a Query Network!", "NetMatch*", JOptionPane.WARNING_MESSAGE);
+	      		    		"You can save only a Query Network!", Common.APP_NAME, JOptionPane.WARNING_MESSAGE);
 	      		}
 				else {
 					int result = fc.showSaveDialog(new Component() {});
@@ -2243,7 +2243,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		          		}
 		          		int opt = 0;
 		          		if(file.exists()) {
-		          			opt = JOptionPane.showConfirmDialog(null,"The file alredy exists. Overwrite?", "NetMatch*",
+		          			opt = JOptionPane.showConfirmDialog(null,"The file alredy exists. Overwrite?", Common.APP_NAME,
 		          					JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
 		          		}
 		          		if(opt == 0) {

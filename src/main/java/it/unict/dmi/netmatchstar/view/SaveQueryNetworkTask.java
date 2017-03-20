@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import it.unict.dmi.netmatchstar.utils.Common;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.TaskMonitor;
 
@@ -181,7 +182,7 @@ public class SaveQueryNetworkTask extends AbstractTask {
 	}
     
     public String getTitle() {
-        return "NetMatch";
+        return Common.APP_NAME;
     }
 
     public void halt() {

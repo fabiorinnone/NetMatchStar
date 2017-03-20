@@ -176,7 +176,7 @@ public class LoadGFFFileTask extends AbstractTask {
 	}
     
     public String getTitle() {
-        return "NetMatch*";
+        return Common.APP_NAME;
     }
 
     public void halt() {

@@ -29,6 +29,7 @@
  */
 package it.unict.dmi.netmatchstar.view;
 
+import it.unict.dmi.netmatchstar.utils.Common;
 import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.view.layout.CyLayoutAlgorithm;
 import org.cytoscape.view.layout.CyLayoutAlgorithmManager;
@@ -105,7 +106,7 @@ public class NetworkLayoutTask extends AbstractTask {
 	}
     
     public String getTitle() {
-        return "NetMatch*";
+        return Common.APP_NAME;
     }
 
     public void halt() {
