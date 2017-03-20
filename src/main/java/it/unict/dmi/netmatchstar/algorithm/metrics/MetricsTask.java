@@ -50,7 +50,7 @@ import it.unict.dmi.netmatchstar.algorithm.significance.RandomGenerator;
 import it.unict.dmi.netmatchstar.graph.Graph;
 import it.unict.dmi.netmatchstar.graph.GraphLoader;
 import it.unict.dmi.netmatchstar.utils.Common;
-import it.unict.dmi.netmatchstar.view.MenuAction;
+import it.unict.dmi.netmatchstar.MenuAction;
 import it.unict.dmi.netmatchstar.view.WestPanel;
 
 import org.cytoscape.app.swing.CySwingAppAdapter;

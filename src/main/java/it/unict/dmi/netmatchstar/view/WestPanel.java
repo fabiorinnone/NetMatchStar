@@ -77,6 +77,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unict.dmi.netmatchstar.MenuAction;
 import it.unict.dmi.netmatchstar.exceptions.InvalidSIFException;
 import it.unict.dmi.netmatchstar.NetMatchHelp;
 import it.unict.dmi.netmatchstar.utils.*;

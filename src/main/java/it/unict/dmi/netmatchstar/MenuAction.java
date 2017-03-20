@@ -27,13 +27,14 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package it.unict.dmi.netmatchstar.view;
+package it.unict.dmi.netmatchstar;
 
 import java.awt.event.ActionEvent;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
+import it.unict.dmi.netmatchstar.view.WestPanel;
 import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.application.swing.AbstractCyAction;
 import org.cytoscape.application.swing.CytoPanelComponent;

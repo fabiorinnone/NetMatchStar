@@ -32,7 +32,7 @@ package it.unict.dmi.netmatchstar.graph;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import it.unict.dmi.netmatchstar.view.MenuAction;
+import it.unict.dmi.netmatchstar.MenuAction;
 
 public class GraphLoader {
   private int count;
