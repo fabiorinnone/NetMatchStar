@@ -2243,8 +2243,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		          		}
 		          		int opt = 0;
 		          		if(file.exists()) {
-		          			opt = JOptionPane.showConfirmDialog(null,"The file alredy exists. Overwrite?", Common.APP_NAME,
-		          					JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+		          			opt = JOptionPane.showConfirmDialog(null,"The file alredy exists. Overwrite?",
+									Common.APP_NAME, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
 		          		}
 		          		if(opt == 0) {
 		          			//FileFilter selectedFilter = (FileFilter)fc.getFileFilter();
