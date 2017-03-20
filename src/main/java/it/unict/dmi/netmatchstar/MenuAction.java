@@ -61,9 +61,9 @@ public class MenuAction extends AbstractCyAction {
     public void actionPerformed(ActionEvent e) {
     	if(!opened){
     		WestPanel panel = new WestPanel(adapter);
-    		CyServiceRegistrar csr=adapter.getCyServiceRegistrar();
+    		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
 			csr.registerService(panel,CytoPanelComponent.class, new Properties());
-			opened=true;
+			opened = true;
     	}
     	else{
     		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), APP_NAME + " is already open!");
