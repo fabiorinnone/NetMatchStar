@@ -36,241 +36,229 @@ import it.unict.dmi.netmatchstar.MenuAction;
 import it.unict.dmi.netmatchstar.utils.Common;
 
 public class GraphLoader {
-  private int count;
-  private Node nodes;
-  private Node lastNode;
-  private Edge lastEdge;
-  private JPanel frame;
+    private int count;
+    private Node nodes;
+    private Node lastNode;
+    private Edge lastEdge;
+    private JPanel frame;
 
-  public GraphLoader(JPanel frame) {
-    count = 0;
-    nodes = null;
-    lastNode = null;
-    lastEdge = null;
-    this.frame = frame;
-  }
+    public GraphLoader(JPanel frame) {
+        count = 0;
+        nodes = null;
+        lastNode = null;
+        lastEdge = null;
+        this.frame = frame;
+    }
 
-  /*-----------------------------------------------------
-   * Returns the number of nodes
-   ----------------------------------------------------*/
-  public int nodeCount() {
-    return count;
-  }
+    //Returns the number of nodes
+    public int nodeCount() {
+        return count;
+    }
 
-  /*-----------------------------------------------------
-   * Returns the attr of a node.
-   ----------------------------------------------------*/
-  public Object getNodeAttr(int id) {
-    Node n = nodes;
-    if(lastNode != null && lastNode.id <= id)
-      n = lastNode;
-    while(n != null && n.id != id)
-      n = n.next;
-    if(n == null) {
-      if(frame != null)
-        JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(), Common.APP_NAME + " Error. Inconsistent data!", Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
-      else
-        System.err.println(Common.APP_NAME + " Error. Inconsistent data!");
-      return null;
+    //Returns the attr of a node
+    public Object getNodeAttr(int id) {
+        Node n = nodes;
+        if(lastNode != null && lastNode.id <= id)
+            n = lastNode;
+        while(n != null && n.id != id)
+            n = n.next;
+        if(n == null) {
+                if(frame != null)
+                JOptionPane.showMessageDialog(
+                        MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+                        Common.APP_NAME + " Error. Inconsistent data!",
+                        Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
+            else
+                System.err.println(Common.APP_NAME + " Error. Inconsistent data!");
+            return null;
+        }
+        return n.attr;
     }
-    return n.attr;
-  }
 
+    public int getCyNetworkID(int id) {
+        Node n = nodes;
+        if(lastNode != null && lastNode.id <= id)
+            n = lastNode;
+        while(n != null && n.id != id)
+        n = n.next;
+        if(n == null) {
+            if(frame != null)
+                JOptionPane.showMessageDialog(
+                        MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+                        Common.APP_NAME + " Error. Inconsistent data!",
+                        Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
+            else
+                System.err.println(Common.APP_NAME + " Error. Inconsistent data!");
+            return -1;
+        }
+        return n.networkIndex;
+    }
 
-  public int getCyNetworkID(int id) {
-    Node n = nodes;
-    if(lastNode != null && lastNode.id <= id)
-      n = lastNode;
-    while(n != null && n.id != id)
-      n = n.next;
-    if(n == null) {
-      if(frame != null)
-        JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(), Common.APP_NAME + " Error. Inconsistent data!", Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
-      else
-        System.err.println(Common.APP_NAME + " Error. Inconsistent data!");
-      return -1;
+    //Returns the number of edges coming out of a node.
+    public int outEdgeCount(int id) {
+        Node n = nodes;
+        if(lastNode != null && lastNode.id <= id)
+             n = lastNode;
+        while(n != null && n.id != id)
+            n = n.next;
+        if(n == null) {
+            if(frame != null)
+                JOptionPane.showMessageDialog(
+        		        MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+        		        Common.APP_NAME + "Error. Inconsistent data!", Common.APP_NAME + "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            else
+                System.err.println(Common.APP_NAME + "Error. Inconsistent data!");
+            return -1;
+        }
+        return n.count;
     }
-    return n.networkIndex;
-  }
 
-  /*-----------------------------------------------------
-   * Returns the number of edges coming out of a node.
-   ----------------------------------------------------*/
-  public int outEdgeCount(int id) {
-    Node n = nodes;
-    if(lastNode != null && lastNode.id <= id)
-      n = lastNode;
-    while(n != null && n.id != id)
-      n = n.next;
-    if(n == null) {
-      if(frame != null)
-        JOptionPane.showMessageDialog(
-        		MenuAction.getAdapter().getCySwingApplication().getJFrame(), 
-        		Common.APP_NAME + "Error. Inconsistent data!", Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
-      else
-        System.err.println(Common.APP_NAME + "Error. Inconsistent data!");
-      return -1;
+  //Returns an edge
+    public int getOutEdge(int id, int i, Object[][] pattr) {
+        Node n = nodes;
+        if(lastNode != null && lastNode.id <= id)
+            n = lastNode;
+        while(n != null && n.id != id)
+            n = n.next;
+        if(n == null) {
+            if(frame != null)
+                JOptionPane.showMessageDialog(
+        		        MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+        		        Common.APP_NAME + "Error. Inconsistent data!", Common.APP_NAME + "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            else
+                System.err.println(Common.APP_NAME + "Error. Inconsistent data!");
+            return -1;
+        }
+        Edge e = n.edges;
+        int pos = 0;
+        if(lastEdge != null && lastEdge.from == id && lastEdge.pos >= 0 && lastEdge.pos <= i) {
+            e = lastEdge;
+            pos = e.pos;
+        }
+        while(e != null && pos < i) {
+            e.pos = pos;
+            e = e.next;
+            pos++;
+        }
+        if(e == null) {
+            if(frame != null)
+                JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+                        Common.APP_NAME + "Error. Inconsistent data!",
+                        Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
+            else
+                System.err.println(Common.APP_NAME + "Error. Inconsistent data!");
+            return -1;
+        }
+        if(pattr != null)
+            pattr[id][i] = e.attr;
+        lastNode = n;
+        lastEdge = e;
+        return e.to;
     }
-    return n.count;
-  }
 
-  /*-----------------------------------------------------
-   * Returns an edge
-   ----------------------------------------------------*/
-  public int getOutEdge(int id, int i, Object[][] pattr) {
-    Node n = nodes;
-    if(lastNode != null && lastNode.id <= id)
-      n = lastNode;
-    while(n != null && n.id != id)
-      n = n.next;
-    if(n == null) {
-      if(frame != null)
-        JOptionPane.showMessageDialog(
-        		MenuAction.getAdapter().getCySwingApplication().getJFrame(), 
-        		Common.APP_NAME + "Error. Inconsistent data!", Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
-      else
-        System.err.println(Common.APP_NAME + "Error. Inconsistent data!");
-      return -1;
-    }
-    Edge e = n.edges;
-    int pos = 0;
-    if(lastEdge != null && lastEdge.from == id && lastEdge.pos >= 0 && lastEdge.pos <= i) {
-      e = lastEdge;
-      pos = e.pos;
-    }
-    while(e != null && pos < i) {
-      e.pos = pos;
-      e = e.next;
-      pos++;
-    }
-    if(e == null) {
-      if(frame != null)
-        JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(), Common.APP_NAME + "Error. Inconsistent data!", Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
-      else
-        System.err.println(Common.APP_NAME + "Error. Inconsistent data!");
-      return -1;
-    }
-    if(pattr != null)
-      pattr[id][i] = e.attr;
-    lastNode = n;
-    lastEdge = e;
-    return e.to;
-  }
-
-  /*public void toBiDirected() {
-    int nc = this.NodeCount();
-    Object[][] ea = new Object[nc][nc];
-    for(int from = 0;from < nc;from++)
-      for(int count = 0;count < this.OutEdgeCount(from);count++) {
-        int to = this.GetOutEdge(from, count, ea);
-        this.InsertEdge(to, from, ea[from][count]);
-      }
-  }*/
-
-  /*------------------------------------------
-  * Creates a new node
-  ------------------------------------------*/
-  public int insertNode(Object attr, boolean isSelfEdge) {
-    Node n = new Node();
-    int id = n.id = count++;
-    n.attr = attr;
-    n.edges = null;
-    n.count = 0;
-    n.isSelfEdge = isSelfEdge;
-    Node p = nodes, p0 = null;
-    if(lastNode != null && lastNode.id < id) {
-      p0 = lastNode;
-      p = lastNode.next;
-    }
-    while(p != null && p.id < id) {
-      p0 = p;
-      p = p.next;
-    }
-    if(p0 == null) {
-      n.next = nodes;
-      nodes = n;
-    }
-    else {
-      n.next = p0.next;
-      p0.next = n;
-    }
-    lastNode = n;
-    return n.id;
-  }
-
-  public int insertNode(Object attr, int networkIndex, boolean isSelfEdge) {
-    Node n = new Node();
-    int id = n.id = count++;
-    n.attr = attr;
-    n.edges = null;
-    n.count = 0;
-    n.networkIndex = networkIndex;
-    n.isSelfEdge = isSelfEdge;
-    Node p = nodes, p0 = null;
-    if(lastNode != null && lastNode.id < id) {
-      p0 = lastNode;
-      p = lastNode.next;
-    }
-    while(p != null && p.id < id) {
-      p0 = p;
-      p = p.next;
-    }
-    if(p0 == null) {
-      n.next = nodes;
-      nodes = n;
-    }
-    else {
-      n.next = p0.next;
-      p0.next = n;
-    }
-    lastNode = n;
-    return n.id;
-  }
-
-  /*-------------------------------------------
-   * Creates a new edge
-   ------------------------------------------*/
-  public void insertEdge(int id1, int id2, Object attr, boolean isSelfEdge) {
-	//System.out.println("DENTRO INSERT EDGE");
-    Node pn = nodes;
-    if(lastNode != null && lastNode.id <= id1)
-      pn = lastNode;
-    while(pn != null && pn.id < id1)
-      pn = pn.next;
-    if(pn == null || pn.id != id1)
-      if(frame != null)
-        JOptionPane.showMessageDialog(
-        		MenuAction.getAdapter().getCySwingApplication().getJFrame(), 
-        		Common.APP_NAME + "Warning. Bad param 1 in GraphLoader - InsertEdge: " + id1 + " " + id2, 
-        		Common.APP_NAME + "Warning", JOptionPane.WARNING_MESSAGE);
-      else
-        System.err.println(Common.APP_NAME + "Warning. Bad param 1 in GraphLoader - InsertEdge: " + id1 + " " + id2);
-    else {
-      Edge p = pn.edges, p0 = null;
-      if(lastEdge != null && lastEdge.from == id1 && lastEdge.to < id2) {
-        p0 = lastEdge;
-        p = lastEdge.next;
-      }
-      while(p != null && p.to < id2) {
-        p0 = p;
-        p = p.next;
-      }
-      if(p != null && p.to == id2)
-        p.update(attr);
-      else {
-        Edge e = new Edge(id1, id2, attr, isSelfEdge);
+    //Creates a new node
+    public int insertNode(Object attr, boolean isSelfEdge) {
+        Node n = new Node();
+        int id = n.id = count++;
+        n.attr = attr;
+        n.edges = null;
+        n.count = 0;
+        n.isSelfEdge = isSelfEdge;
+        Node p = nodes, p0 = null;
+        if(lastNode != null && lastNode.id < id) {
+            p0 = lastNode;
+            p = lastNode.next;
+        }
+        while(p != null && p.id < id) {
+            p0 = p;
+            p = p.next;
+        }
         if(p0 == null) {
-          e.next = pn.edges;
-          pn.edges = e;
+            n.next = nodes;
+            nodes = n;
         }
         else {
-          e.next = p0.next;
-          p0.next = e;
+            n.next = p0.next;
+            p0.next = n;
         }
-        pn.count++;
-        lastNode = pn;
-        lastEdge = e;
-      }
+        lastNode = n;
+        return n.id;
     }
-  }
- }
+
+    public int insertNode(Object attr, int networkIndex, boolean isSelfEdge) {
+        Node n = new Node();
+        int id = n.id = count++;
+        n.attr = attr;
+        n.edges = null;
+        n.count = 0;
+        n.networkIndex = networkIndex;
+        n.isSelfEdge = isSelfEdge;
+        Node p = nodes, p0 = null;
+        if(lastNode != null && lastNode.id < id) {
+            p0 = lastNode;
+            p = lastNode.next;
+        }
+        while(p != null && p.id < id) {
+            p0 = p;
+            p = p.next;
+        }
+        if(p0 == null) {
+            n.next = nodes;
+            nodes = n;
+        }
+        else {
+            n.next = p0.next;
+           p0.next = n;
+        }
+        lastNode = n;
+        return n.id;
+    }
+
+    //Creates a new edge
+    public void insertEdge(int id1, int id2, Object attr, boolean isSelfEdge) {
+        //System.out.println("DENTRO INSERT EDGE");
+        Node pn = nodes;
+        if(lastNode != null && lastNode.id <= id1)
+            pn = lastNode;
+        while(pn != null && pn.id < id1)
+            pn = pn.next;
+        if(pn == null || pn.id != id1)
+            if(frame != null)
+                JOptionPane.showMessageDialog(
+        		        MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+        		        Common.APP_NAME + "Warning. Bad param 1 in GraphLoader - InsertEdge: " + id1 + " " + id2,
+        		        Common.APP_NAME + "Warning", JOptionPane.WARNING_MESSAGE);
+            else
+                System.err.println(Common.APP_NAME +
+                        "Warning. Bad param 1 in GraphLoader - InsertEdge: " + id1 + " " + id2);
+        else {
+            Edge p = pn.edges, p0 = null;
+            if(lastEdge != null && lastEdge.from == id1 && lastEdge.to < id2) {
+                p0 = lastEdge;
+                p = lastEdge.next;
+            }
+            while(p != null && p.to < id2) {
+                p0 = p;
+                p = p.next;
+            }
+            if(p != null && p.to == id2)
+                p.update(attr);
+            else {
+                Edge e = new Edge(id1, id2, attr, isSelfEdge);
+                if(p0 == null) {
+                    e.next = pn.edges;
+                   pn.edges = e;
+                }
+                else {
+                    e.next = p0.next;
+                    p0.next = e;
+                }
+                pn.count++;
+                lastNode = pn;
+                lastEdge = e;
+            }
+        }
+    }
+}
