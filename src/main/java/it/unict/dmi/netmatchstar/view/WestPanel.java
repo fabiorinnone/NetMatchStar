@@ -221,9 +221,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	
 	//private CySwingAppAdapter adapter = MenuAction.getAdapter();
 	private CyNetworkManager cnm;
+	private Set<CyNetwork> networkSet;
 
-	private Set networksSet;
-	
     JAboutDialog aboutbox;
 	NetMatchHelp help;
 	JPanel matchingPanel;
@@ -257,7 +256,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		this.activator = activator;
 
 		cnm = activator.getCyNetworkManager();
-		networksSet = cnm.getNetworkSet();
+		networkSet = cnm.getNetworkSet();
 
 		MyNetworkAddedListener netListen = new MyNetworkAddedListener(activator);
 		CyServiceRegistrar csr = activator.getCyServiceRegistrar();
@@ -339,7 +338,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
         Common.motifsMap = new HashMap<Long, Integer>();
         Common.mtonFanMap = new HashMap<Long, Pair<ArrayList<CyNode>>>();
         
-        if (!networksSet.isEmpty())
+        if (!networkSet.isEmpty())
         	acquireData("");
 	}
 	
@@ -1264,7 +1263,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			listOfNodeAttributes = null;
 			listOfEdgeAttributes = null;
 			System.gc();
-			if (!networksSet.isEmpty())
+			if (!networkSet.isEmpty())
 				acquireData("");
 		    }
 		else if (command.equals("Metrics")) {
@@ -2464,7 +2463,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    qea.setEnabled(false);
 	    qna.setEnabled(false);
 	    
-	    for(Object value : networksSet) {
+	    for(Object value : networkSet) {
 	    	CyNetwork n = (CyNetwork) value;
 	    	if (!n.getSUID().equals(networkDestroyed)) {
 	    		//query.addItem(n.getSUID() + "-" + n.getRow(n).get(CyNetwork.NAME, String.class));
@@ -2717,7 +2716,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		
 		public void handleEvent(NetworkAddedEvent e) {
 			CyNetwork network = e.getNetwork();
-			networksSet.add(network);
+			networkSet.add(network);
 			
 			CyRow networkRow = network.getRow(network);
 			CyTable networkTable = network.getDefaultNetworkTable();
@@ -2791,7 +2790,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		
 		public void handleEvent(NetworkAboutToBeDestroyedEvent e) {
 			CyNetwork network = e.getNetwork();
-			networksSet.remove(network);
+			networkSet.remove(network);
 			acquireData("");
 		}
 		
