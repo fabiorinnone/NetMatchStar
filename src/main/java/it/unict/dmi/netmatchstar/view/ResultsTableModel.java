@@ -556,8 +556,8 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 	
 	private CyNetwork getSubNetworkFromMatches(int[] complex, int matchNumber) {
 		CyNetwork subNetwork;
-		CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-		CyNetworkFactory netFact = csr.getService(CyNetworkFactory.class);
+		//CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+		CyNetworkFactory netFact = activator.getCyNetworkFactory();
 		//subNetwork = netFact.createNetwork();
 		subNetwork = NetworkUtils.createNetwork(activator, "Match", Common.NODE_LABEL_ATTR, Common.EDGE_LABEL_ATTR);
 		

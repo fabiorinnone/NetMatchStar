@@ -662,8 +662,8 @@ public class NetworkUtils {
 	 */
 	public static CyNetwork createNetwork(CyActivator activator, String name,
 			String nodeAttr, String edgeAttr) {
-		CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-		CyNetworkFactory netFact = csr.getService(CyNetworkFactory.class);
+		//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+		CyNetworkFactory netFact = activator.getCyNetworkFactory();
 		CyNetwork cyNetwork = netFact.createNetwork();
 		cyNetwork.getRow(cyNetwork).set(CyNetwork.NAME, name);
 		
@@ -684,10 +684,10 @@ public class NetworkUtils {
 	 * @param edgeAttrList attributes list for edges
 	 * @return
 	 */
-	public static CyNetwork createNetwork(CySwingAppAdapter adapter, String name, 
+	public static CyNetwork createNetwork(CyActivator activator, String name,
 			ArrayList<String> nodeAttrList, ArrayList<String> edgeAttrList) {
-		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
-		CyNetworkFactory netFact = csr.getService(CyNetworkFactory.class);
+		//CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+		CyNetworkFactory netFact = activator.getCyNetworkFactory();
 		CyNetwork cyNetwork = netFact.createNetwork();
 		cyNetwork.getRow(cyNetwork).set(CyNetwork.NAME, name);
 		

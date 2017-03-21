@@ -43,14 +43,17 @@ import org.cytoscape.app.CyAppAdapter;
 import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CySwingApplication;
+import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.service.util.AbstractCyActivator;
 import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.task.EdgeViewTaskFactory;
 import org.cytoscape.task.NodeViewTaskFactory;
+import org.cytoscape.util.swing.FileUtil;
 import org.cytoscape.view.model.CyNetworkViewFactory;
 import org.cytoscape.view.model.CyNetworkViewManager;
 import org.cytoscape.work.TaskManager;
+import org.cytoscape.work.swing.PanelTaskManager;
 import org.osgi.framework.BundleContext;
 
 public class CyActivator extends AbstractCyActivator {
@@ -63,7 +66,10 @@ public class CyActivator extends AbstractCyActivator {
     private CyNetworkManager cyNetworkManager;
     private CyNetworkViewManager cyNetworkViewManager;
     private CyNetworkViewFactory cyNetworkViewFactory;
+    private CyNetworkFactory cyNetworkFactory;
     private TaskManager taskManager;
+    private FileUtil fileUtil;
+    private PanelTaskManager panelTaskManager;
 
     public CyActivator() {
         super();
@@ -79,7 +85,10 @@ public class CyActivator extends AbstractCyActivator {
         cyNetworkManager = getService(bc, CyNetworkManager.class);
         cyNetworkViewManager = getService(bc, CyNetworkViewManager.class);
         cyNetworkViewFactory = getService(bc, CyNetworkViewFactory.class);
+        cyNetworkFactory = getService(bc, CyNetworkFactory.class);
         taskManager = getService(bc, TaskManager.class);
+        fileUtil = getService(bc, FileUtil.class);
+        panelTaskManager = getService(bc, PanelTaskManager.class);
 
         MenuAction menuAction = new MenuAction(Common.APP_NAME, this);
         cySwingAppAdapter.getCySwingApplication().addAction(menuAction);
@@ -148,7 +157,19 @@ public class CyActivator extends AbstractCyActivator {
         return cyNetworkViewFactory;
     }
 
+    public CyNetworkFactory getCyNetworkFactory() {
+        return cyNetworkFactory;
+    }
+
     public TaskManager getTaskManager() {
         return taskManager;
+    }
+
+    public FileUtil getFileUtil() {
+        return fileUtil;
+    }
+
+    public PanelTaskManager getPanelTaskManager() {
+        return panelTaskManager;
     }
 }

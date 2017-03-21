@@ -1166,8 +1166,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 				e1.printStackTrace();
 			}
 		else if (command.equals("Create New Query Network")) {
-			CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-			CyNetworkFactory netFact = csr.getService(CyNetworkFactory.class);
+			//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+			CyNetworkFactory netFact = activator.getCyNetworkFactory();
 			CyNetwork cyNetwork = netFact.createNetwork();
 			cyNetwork.getRow(cyNetwork).set(CyNetwork.NAME,"QueryNetwork"+"-unamed-"+Common.indexN);
 			
@@ -1190,7 +1190,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			Common.indexN++;
 		}
 		else if (command.equals("Load New Network")) {
-			FileUtil fileUtil = activator.getCyServiceRegistrar().getService(FileUtil.class);
+			FileUtil fileUtil = activator.getFileUtil();
 			ArrayList filters = new ArrayList<FileChooserFilter>();
 	    	filters.add(new FileChooserFilter("SIF File", "sif"));
 	    	filters.add(new FileChooserFilter("OWL File", "owl"));
@@ -1229,7 +1229,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	}
 		}
 		else if (command.equals("Save Query Network")) {
-			FileUtil fileUtil = activator.getCyServiceRegistrar().getService(FileUtil.class);
+			FileUtil fileUtil = activator.getFileUtil();
 			ArrayList filters = new ArrayList<FileChooserFilter>();
 	    	filters.add(new FileChooserFilter("sif", "sif"));
 	    	saveQueryNetwork();
@@ -1310,8 +1310,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 					
 		        	log.setText("Computing metrics...\n");
 		          
-		        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-		        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
+		        	//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+		        	PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
 		        	
 		        	String queryEdgeAttribute = (String)qea.getSelectedItem();
 		        	String queryNodeAttribute = (String)qna.getSelectedItem();
@@ -1392,8 +1392,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
+			        	//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+			        	PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
 			        	String queryNodeAttribute = (String)qna.getSelectedItem();
@@ -1459,8 +1459,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
+			        	//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+			        	PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
 			        	String queryNodeAttribute = (String)qna.getSelectedItem();
@@ -1541,8 +1541,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
+			        	//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+			        	PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
 			        	String queryNodeAttribute = (String)qna.getSelectedItem();
@@ -1624,8 +1624,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
+			        	//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+			        	PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
 			        	String queryNodeAttribute = (String)qna.getSelectedItem();
@@ -1704,11 +1704,11 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						boolean direct = Common.DIRECTED;
 						
 			        	log.setText("Start motif verification...\n");
-			          
-			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
-					  
-			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
+
+						//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+						PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
+
+						String queryEdgeAttribute = (String)qea.getSelectedItem();
 			        	String queryNodeAttribute = (String)qna.getSelectedItem();
 					  
 			        	isQueryApproximate = isQueryApproximate(qnetwork, queryEdgeAttribute);
@@ -1786,11 +1786,11 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        	boolean direct = Common.DIRECTED;
 						
 			        	log.setText("Start motif verification...\n");
-			          
-			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
-					  
-			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
+
+						//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+						PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
+
+						String queryEdgeAttribute = (String)qea.getSelectedItem();
 			        	String queryNodeAttribute = (String)qna.getSelectedItem();
 					  
 			        	isQueryApproximate = isQueryApproximate(qnetwork, queryEdgeAttribute);
@@ -1869,11 +1869,11 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						boolean direct = Common.DIRECTED;
 						
 			        	log.setText("Start motif verification...\n");
-			          
-			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
-					  
-			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
+
+						//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+						PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
+
+						String queryEdgeAttribute = (String)qea.getSelectedItem();
 			        	String queryNodeAttribute = (String)qna.getSelectedItem();
 					  
 			        	isQueryApproximate = isQueryApproximate(qnetwork, queryEdgeAttribute);
@@ -1953,11 +1953,11 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        	Common.LABELED = labeled.isSelected();
 		        	Common.DIRECTED = directed.isSelected();
 		        	log.setText("Start Matching...\n");
-		          
-		        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-		        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
-				  
-		        	String queryEdgeAttribute = (String)qea.getSelectedItem();
+
+					//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+					PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
+
+					String queryEdgeAttribute = (String)qea.getSelectedItem();
 		        	String queryNodeAttribute = (String)qna.getSelectedItem();
 				  
 		        	isQueryApproximate = isQueryApproximate(qnetwork, queryEdgeAttribute);
@@ -2188,10 +2188,10 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	
 	private void loadGFFFile(File file) {
 		System.out.println("Loading GFF file " + file.getName());
-		
-		CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-    	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
-    	TaskIterator taskIterator = new TaskIterator();
+
+		//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+		PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
+		TaskIterator taskIterator = new TaskIterator();
 	  
     	LoadGFFFileTask loadGffFileTask = new LoadGFFFileTask(activator, file);
     	taskIterator.append(loadGffFileTask);
@@ -2252,10 +2252,10 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		          		}
 		          		if (opt == 0) {
 		          			//FileFilter selectedFilter = (FileFilter)fc.getFileFilter();
-		          			
-		          			CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-				        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
-				        	TaskIterator taskIterator = new TaskIterator();
+
+							//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+							PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
+							TaskIterator taskIterator = new TaskIterator();
 						  
 				        	SaveQueryNetworkTask saveTask = new SaveQueryNetworkTask(nodesMap, edgesMap, file);
 				        	taskIterator.append(saveTask);
@@ -2830,10 +2830,10 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			vs = null;
 			manager = adapter.getVisualMappingManager();
 			suid = net.getSUID();
-			
-			CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-			PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
-	    	
+
+			//CyServiceRegistrar csr = activator.getCyServiceRegistrar();
+			PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
+
 			if (netName.startsWith("QueryNetwork")) {
 				VisualStyleFactory vsf = adapter.getVisualStyleFactory();
 				Set<VisualStyle> visualStyles = manager.getAllVisualStyles();

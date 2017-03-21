@@ -407,9 +407,9 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent {
 				else { //else if (openAsNewChild) {
 					HashMap<CyNode,CyNode> nodesMap = new HashMap<CyNode,CyNode>();
 					HashMap<CyEdge,CyEdge> edgesMap = new HashMap<CyEdge,CyEdge>();
-					
-					CyServiceRegistrar csr = activator.getCyServiceRegistrar();
-					CyNetworkFactory netFact = csr.getService(CyNetworkFactory.class);
+
+					//CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+					CyNetworkFactory netFact = activator.getCyNetworkFactory();
 					childNetwork = netFact.createNetwork();
 					childNetwork.getRow(childNetwork).set(CyNetwork.NAME, "Match "+ (selectedRow + 1));
 					CyNetworkManager cnm = activator.getCyNetworkManager();
