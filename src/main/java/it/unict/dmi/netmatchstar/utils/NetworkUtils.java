@@ -42,6 +42,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import it.unict.dmi.netmatchstar.CyActivator;
 import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
@@ -74,11 +75,11 @@ public class NetworkUtils {
 	
 	/**
 	 * Create a three-chain network
-	 * @param adapter
+	 * @param activator
 	 * @return
 	 */
-	public static CyNetwork createThreeChainNetwork(CySwingAppAdapter adapter) {
-		CyNetwork threeChain = createMotifNetwork(adapter, "QueryNetwork"+"-unamed-" + Common.indexN);
+	public static CyNetwork createThreeChainNetwork(CyActivator activator) {
+		CyNetwork threeChain = createMotifNetwork(activator, "QueryNetwork"+"-unamed-" + Common.indexN);
 		
 		CyNode node1 = threeChain.addNode();
 		CyNode node2 = threeChain.addNode();
@@ -130,11 +131,11 @@ public class NetworkUtils {
 	
 	/**
 	 * Create a feed-forward-loop network
-	 * @param adapter
+	 * @param activator
 	 * @return
 	 */
-	public static CyNetwork createFeedForwardLoopNetwork(CySwingAppAdapter adapter) {
-		CyNetwork feedForwardLoop = createMotifNetwork(adapter, "QueryNetwork"+"-unamed-" + Common.indexN);
+	public static CyNetwork createFeedForwardLoopNetwork(CyActivator activator) {
+		CyNetwork feedForwardLoop = createMotifNetwork(activator, "QueryNetwork"+"-unamed-" + Common.indexN);
 		
 		CyNode node1 = feedForwardLoop.addNode();
 		CyNode node2 = feedForwardLoop.addNode();
@@ -191,11 +192,11 @@ public class NetworkUtils {
 	
 	/**
 	 * Create a bi-parallel network
-	 * @param adapter
+	 * @param activator
 	 * @return
 	 */
-	public static CyNetwork createBiParallelNetwork(CySwingAppAdapter adapter) {
-		CyNetwork biParallel = createMotifNetwork(adapter, "QueryNetwork"+"-unamed-" + Common.indexN);
+	public static CyNetwork createBiParallelNetwork(CyActivator activator) {
+		CyNetwork biParallel = createMotifNetwork(activator, "QueryNetwork"+"-unamed-" + Common.indexN);
 		
 		CyNode node1 = biParallel.addNode();
 		CyNode node2 = biParallel.addNode();
@@ -261,11 +262,11 @@ public class NetworkUtils {
 	
 	/**
 	 * Create a bi-fan network
-	 * @param adapter
+	 * @param activator
 	 * @return
 	 */
-	public static CyNetwork createBiFanNetwork(CySwingAppAdapter adapter) {
-		CyNetwork biFan = createMotifNetwork(adapter, "QueryNetwork"+"-unamed-" + Common.indexN);
+	public static CyNetwork createBiFanNetwork(CyActivator activator) {
+		CyNetwork biFan = createMotifNetwork(activator, "QueryNetwork"+"-unamed-" + Common.indexN);
 		
 		CyNode node1 = biFan.addNode();
 		CyNode node2 = biFan.addNode();
@@ -331,11 +332,11 @@ public class NetworkUtils {
 	
 	/**
 	 * Create a m-to-n-fan network
-	 * @param adapter
+	 * @param activator
 	 * @return
 	 */
-	public static CyNetwork createMtonFanNetwork(CySwingAppAdapter adapter) {
-		CyNetwork mtonFan = createMotifNetwork(adapter, "QueryNetwork"+"-unamed-" + Common.indexN);
+	public static CyNetwork createMtonFanNetwork(CyActivator activator) {
+		CyNetwork mtonFan = createMotifNetwork(activator, "QueryNetwork"+"-unamed-" + Common.indexN);
 		
 		ArrayList<Object> mn = new ArrayList<Object>();
         
@@ -364,7 +365,7 @@ public class NetworkUtils {
 	    String[] options = {"OK", "Cancel"};
 	    
 	    int result = JOptionPane.showOptionDialog(
-	    		adapter.getCySwingApplication().getJFrame(), //the parent that the dialog blocks
+	    		activator.getCySwingApplication().getJFrame(), //the parent that the dialog blocks
 	    		message, //the dialog message array
 	    		"Please configure m to n pattern", //the title of the dialog window
 	    		JOptionPane.DEFAULT_OPTION, //option type
@@ -643,25 +644,25 @@ public class NetworkUtils {
 	
 	/**
 	 * Create a motif query network
-	 * @param adapter
+	 * @param activator
 	 * @param name
 	 * @return
 	 */
-	private static CyNetwork createMotifNetwork(CySwingAppAdapter adapter, String name) {
-		return createNetwork(adapter, name, Common.NODE_QUERY_ATTR, Common.EDGE_QUERY_ATTR);
+	private static CyNetwork createMotifNetwork(CyActivator activator, String name) {
+		return createNetwork(activator, name, Common.NODE_QUERY_ATTR, Common.EDGE_QUERY_ATTR);
 	}
 	
 	/**
 	 * Create a network with a nodes attribute and an edges attribute
-	 * @param adapter Cytoscape adapter
+	 * @param activator Cytoscape activator
 	 * @param name name of the network
 	 * @param nodeAttr attribute for nodes
 	 * @param edgeAttr attribute for edges
 	 * @return
 	 */
-	public static CyNetwork createNetwork(CySwingAppAdapter adapter, String name,
+	public static CyNetwork createNetwork(CyActivator activator, String name,
 			String nodeAttr, String edgeAttr) {
-		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+		CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 		CyNetworkFactory netFact = csr.getService(CyNetworkFactory.class);
 		CyNetwork cyNetwork = netFact.createNetwork();
 		cyNetwork.getRow(cyNetwork).set(CyNetwork.NAME, name);
@@ -742,8 +743,8 @@ public class NetworkUtils {
 	/**
 	 * Add a network to Cytoscape
 	 */
-	public static void addNetwork(CySwingAppAdapter adapter, CyNetwork network) {
-		CyNetworkManager cnm = adapter.getCyNetworkManager();
+	public static void addNetwork(CyActivator activator, CyNetwork network) {
+		CyNetworkManager cnm = activator.getCyNetworkManager();
 		cnm.addNetwork(network);
 	}
 		

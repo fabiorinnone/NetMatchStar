@@ -77,6 +77,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import it.unict.dmi.netmatchstar.CyActivator;
 import it.unict.dmi.netmatchstar.MenuAction;
 import it.unict.dmi.netmatchstar.exceptions.InvalidSIFException;
 import it.unict.dmi.netmatchstar.NetMatchHelp;
@@ -215,12 +216,13 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	
 	private HashMap<String,String> queryNetworkIdMap; 	//key: description, value = id
 	private HashMap<String,String> targetNetworkIdMap;	//key: description, value = id
-	
-	private CySwingAppAdapter adapter = MenuAction.getAdapter();
-	private CyNetworkManager cnm = MenuAction.getCyNetworkManager();
 
-	@SuppressWarnings("rawtypes")
-	private Set s = cnm.getNetworkSet();
+	private CyActivator activator;
+	
+	//private CySwingAppAdapter adapter = MenuAction.getAdapter();
+	private CyNetworkManager cnm;
+
+	private Set s;
 	
     JAboutDialog aboutbox;
 	NetMatchHelp help;
@@ -251,20 +253,25 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	private static String currentPath;
 	
 	@SuppressWarnings("rawtypes")
-	public WestPanel(CySwingAppAdapter adapter) {
-		MyNetworkAddedListener netListen = new MyNetworkAddedListener(adapter);
-		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+	public WestPanel(CyActivator activator) {
+		this.activator = activator;
+
+		cnm = activator.getCyNetworkManager();
+		s = cnm.getNetworkSet();
+
+		MyNetworkAddedListener netListen = new MyNetworkAddedListener(activator);
+		CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 		csr.registerService(netListen, NetworkAddedListener.class, new Properties());
 		csr.registerService(netListen, NetworkAboutToBeDestroyedListener.class, new Properties());
-		MyNetworkViewAddedListener netViewListen = new MyNetworkViewAddedListener(adapter);
+		MyNetworkViewAddedListener netViewListen = new MyNetworkViewAddedListener(activator);
 		csr.registerService(netViewListen, NetworkViewAddedListener.class, new Properties());
-		MyAddedNodesListener nodesListen = new MyAddedNodesListener(adapter);
+		MyAddedNodesListener nodesListen = new MyAddedNodesListener(activator);
 		csr.registerService(nodesListen, AddedNodesListener.class, new Properties());
-		MyAddedEdgesListener edgesListen = new MyAddedEdgesListener(adapter);
+		MyAddedEdgesListener edgesListen = new MyAddedEdgesListener(activator);
 		csr.registerService(edgesListen, AddedEdgesListener.class, new Properties());
-		MyColumnCreatedListener columnCreatedListen = new MyColumnCreatedListener(adapter);
+		MyColumnCreatedListener columnCreatedListen = new MyColumnCreatedListener(activator);
 		csr.registerService(columnCreatedListen, ColumnCreatedListener.class, new Properties());
-		MyColumnDeletedListener columnDeletedListen = new MyColumnDeletedListener(adapter);
+		MyColumnDeletedListener columnDeletedListen = new MyColumnDeletedListener(activator);
 		csr.registerService(columnDeletedListen, ColumnDeletedListener.class, new Properties());
 		
 		help = null;
@@ -1160,7 +1167,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 				e1.printStackTrace();
 			}
 		else if (command.equals("Create New Query Network")) {
-			CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+			CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 			CyNetworkFactory netFact = csr.getService(CyNetworkFactory.class);
 			CyNetwork cyNetwork = netFact.createNetwork();
 			cyNetwork.getRow(cyNetwork).set(CyNetwork.NAME,"QueryNetwork"+"-unamed-"+Common.indexN);
@@ -1174,9 +1181,9 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			
 			cnm.addNetwork(cyNetwork);
 			
-			CyNetworkViewFactory cnvf = MenuAction.getCyNetworkViewFactory();
+			CyNetworkViewFactory cnvf = activator.getCyNetworkViewFactory();
 			CyNetworkView cyView = cnvf.createNetworkView(cyNetwork);
-			CyNetworkViewManager cnvm = MenuAction.getCyNetworkViewManager();
+			CyNetworkViewManager cnvm = activator.getCyNetworkViewManager();
 			cnvm.addNetworkView(cyView);
 			
 			cyView.updateView();
@@ -1184,7 +1191,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			Common.indexN++;
 		}
 		else if (command.equals("Load New Network")) {
-			FileUtil fileUtil = adapter.getCyServiceRegistrar().getService(FileUtil.class);
+			FileUtil fileUtil = activator.getCyServiceRegistrar().getService(FileUtil.class);
 			ArrayList filters = new ArrayList<FileChooserFilter>();
 	    	filters.add(new FileChooserFilter("SIF File", "sif"));
 	    	filters.add(new FileChooserFilter("OWL File", "owl"));
@@ -1205,8 +1212,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	filters.add(new FileChooserFilter("GFF File", "gff"));
 	    	
 	    	// load file
-	    	LoadNetworkFileTaskFactory loadFactory = adapter.get_LoadNetworkFileTaskFactory();
-	    	File file = fileUtil.getFile(adapter.getCySwingApplication().getJFrame(), 
+	    	LoadNetworkFileTaskFactory loadFactory = activator.getCyAppAdapter().get_LoadNetworkFileTaskFactory();
+	    	File file = fileUtil.getFile(activator.getCySwingApplication().getJFrame(),
 	    			"Load Dynamic Network", FileUtil.LOAD, filters);
 	    	
 	    	currentPath = file.getParent();
@@ -1219,11 +1226,11 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	else {
 	    		// dynamic viewer
 	    		TaskIterator iterator = new TaskIterator(loadFactory.createTaskIterator(file).next());
-	    		adapter.getTaskManager().execute(iterator);
+	    		activator.getTaskManager().execute(iterator);
 	    	}
 		}
 		else if (command.equals("Save Query Network")) {
-			FileUtil fileUtil = adapter.getCyServiceRegistrar().getService(FileUtil.class);
+			FileUtil fileUtil = activator.getCyServiceRegistrar().getService(FileUtil.class);
 			ArrayList filters = new ArrayList<FileChooserFilter>();
 	    	filters.add(new FileChooserFilter("sif", "sif"));
 	    	saveQueryNetwork();
@@ -1263,7 +1270,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		else if (command.equals("Metrics")) {
 			if (!query.isEnabled() || !target.isEnabled()) {
 				JOptionPane.showMessageDialog(
-						adapter.getCySwingApplication().getJFrame(), 
+						activator.getCySwingApplication().getJFrame(),
 						"Please Select a Network and a Query First!", 
 						Common.APP_NAME,
 						JOptionPane.INFORMATION_MESSAGE);
@@ -1284,7 +1291,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 		        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 		        	JOptionPane.showMessageDialog(
-		        			adapter.getCySwingApplication().getJFrame(), 
+		        			activator.getCySwingApplication().getJFrame(),
 		        			"Please Select a Network and Query (not empty) First!", 
 		        			Common.APP_NAME + " Error",
 		        			JOptionPane.ERROR_MESSAGE);
@@ -1304,7 +1311,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 					
 		        	log.setText("Computing metrics...\n");
 		          
-		        	CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+		        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 		        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 		        	
 		        	String queryEdgeAttribute = (String)qea.getSelectedItem();
@@ -1320,14 +1327,14 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        		metricsTask = new MetricsTask(qShufflingVal, labShuffling, wsProbVal, 
 		        				baInitNodesVal, gmDimVal, ffmNumAmbassVal, dmInitVal, dmProbVal,
 		        				direct, tnetwork, qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-		        				queryEdgeAttribute, queryNodeAttribute, this, adapter);
+		        				queryEdgeAttribute, queryNodeAttribute, this, activator);
 		        	else {
 		        		//approxPaths = getApproximatePaths(qnetwork, queryEdgeAttribute);
 		        		metricsTask = new MetricsTask(qShufflingVal, labShuffling, wsProbVal, 
 		        				baInitNodesVal, gmDimVal, ffmNumAmbassVal, dmInitVal, dmProbVal,
 		        				direct, tnetwork, qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 		        				queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-		        				isQueryUnlabeled, this, adapter);
+		        				isQueryUnlabeled, this, activator);
 		        	}
 				  
 		        	taskIterator.append(metricsTask);
@@ -1343,7 +1350,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			if (this.shufflingCheckBox.isSelected()) {
 				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
-							adapter.getCySwingApplication().getJFrame(), 
+							activator.getCySwingApplication().getJFrame(),
 							"Please Select a Network and a Query First!", 
 							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
@@ -1372,7 +1379,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
-			        			adapter.getCySwingApplication().getJFrame(), 
+			        			activator.getCySwingApplication().getJFrame(),
 			        			"Please Select a Network and Query (not empty) First!", 
 			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
@@ -1386,7 +1393,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
@@ -1401,13 +1408,13 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        	if (!isQueryUnlabeled) {
 			        		shufflingTask = new ShufflingTask(Q, N, direct, labshuff, tnetwork, 
 			        				qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        				queryEdgeAttribute, queryNodeAttribute, this, adapter);
+			        				queryEdgeAttribute, queryNodeAttribute, this, activator);
 			        	}
 			        	else {
 			        		shufflingTask = new ShufflingTask(Q, N, direct, labshuff, tnetwork, 
 			        				qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        				queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        				isQueryUnlabeled, this, adapter);
+			        				isQueryUnlabeled, this, activator);
 			        	}
 					  
 			        	taskIterator.append(shufflingTask);
@@ -1420,7 +1427,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 				//System.out.println("Starting Erdos-Renyi");
 				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
-							adapter.getCySwingApplication().getJFrame(), 
+							activator.getCySwingApplication().getJFrame(),
 							"Please Select a Network and a Query First!", 
 							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
@@ -1441,7 +1448,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
-			        			adapter.getCySwingApplication().getJFrame(), 
+			        			activator.getCySwingApplication().getJFrame(),
 			        			"Please Select a Network and Query (not empty) First!", 
 			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
@@ -1453,7 +1460,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
@@ -1469,13 +1476,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        		if (!seedField.isEnabled()) {
 			        			erdosRenyiTask = new ErdosRenyiTask(n, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, this, activator);
 			        		}
 			        		else {
 			        			erdosRenyiTask = new ErdosRenyiTask(n, direct, tnetwork,
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes,
-			        					queryEdgeAttribute, queryNodeAttribute, seedValue,
-			        					this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, activator);
 			        		}
 			        	}
 			        	else {
@@ -1483,13 +1489,13 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        		erdosRenyiTask = new ErdosRenyiTask(n, direct, tnetwork, 
 			        				qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        				queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        				isQueryUnlabeled, this, adapter);
+			        				isQueryUnlabeled, this, activator);
 			        		}
 			        		else {
 			        			erdosRenyiTask = new ErdosRenyiTask(n, direct, tnetwork, 
 				        				qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 				        				queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-				        				isQueryUnlabeled, seedValue, this, adapter);	
+				        				isQueryUnlabeled, seedValue, this, activator);
 			        		}
 			        	}
 			        	taskIterator.append(erdosRenyiTask);
@@ -1502,7 +1508,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 				//System.out.println("Starting Watts-Strogatz");
 				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
-							adapter.getCySwingApplication().getJFrame(), 
+							activator.getCySwingApplication().getJFrame(),
 							"Please Select a Network and a Query First!", 
 							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
@@ -1523,7 +1529,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
-			        			adapter.getCySwingApplication().getJFrame(), 
+			        			activator.getCySwingApplication().getJFrame(),
 			        			"Please Select a Network and Query (not empty) First!", 
 			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
@@ -1536,7 +1542,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
@@ -1552,12 +1558,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        		if (!seedField.isEnabled()) {
 			        			wattsStrogatzTask = new WattsStrogatzTask(n, p, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, this, activator);
 			        		}
 			        		else {
 			        			wattsStrogatzTask = new WattsStrogatzTask(n, p, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, activator);
 			        		}
 			        	}
 			        	else {
@@ -1565,13 +1571,13 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        			wattsStrogatzTask = new WattsStrogatzTask(n, p, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        					queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        					isQueryUnlabeled, this, adapter);
+			        					isQueryUnlabeled, this, activator);
 			        		}
 			        		else {
 			        			wattsStrogatzTask = new WattsStrogatzTask(n, p, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        					queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        					isQueryUnlabeled, seedValue, this, adapter);
+			        					isQueryUnlabeled, seedValue, this, activator);
 			        		}
 			        	}
 					  
@@ -1585,7 +1591,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 				//System.out.println("Starting Barabasi-Albert");
 				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
-							adapter.getCySwingApplication().getJFrame(), 
+							activator.getCySwingApplication().getJFrame(),
 							"Please Select a Network and a Query First!", 
 							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
@@ -1606,7 +1612,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
-			        			adapter.getCySwingApplication().getJFrame(), 
+			        			activator.getCySwingApplication().getJFrame(),
 			        			"Please Select a Network and Query (not empty) First!", 
 			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
@@ -1619,7 +1625,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
@@ -1635,12 +1641,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        		if (!seedField.isEnabled()) {
 			        			barabasiAlbertTask = new BarabasiAlbertTask(n, i, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, this, activator);
 			        		}
 			        		else {
 			        			barabasiAlbertTask = new BarabasiAlbertTask(n, i, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, activator);
 			        		}
 			        	}
 			        	else {
@@ -1648,13 +1654,13 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        			barabasiAlbertTask = new BarabasiAlbertTask(n, i, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        					queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        					isQueryUnlabeled, this, adapter);
+			        					isQueryUnlabeled, this, activator);
 			        		}
 			        		else {
 			        			barabasiAlbertTask = new BarabasiAlbertTask(n, i, direct, tnetwork, 
-			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
+			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes,
 			        					queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        					isQueryUnlabeled, seedValue, this, adapter);
+			        					isQueryUnlabeled, seedValue, this, activator);
 			        		}
 			        	}
 					  
@@ -1666,7 +1672,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			if (this.gmCheckBox.isSelected()) {
 				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
-							adapter.getCySwingApplication().getJFrame(), 
+							activator.getCySwingApplication().getJFrame(),
 							"Please Select a Network and a Query First!", 
 							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
@@ -1687,7 +1693,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
-			        			adapter.getCySwingApplication().getJFrame(), 
+			        			activator.getCySwingApplication().getJFrame(),
 			        			"Please Select a Network and Query (not empty) First!", 
 			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
@@ -1700,7 +1706,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
@@ -1716,12 +1722,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        		if (!seedField.isEnabled()) {
 			        			geometricTask = new GeometricTask(n, d, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, this, activator);
 			        		}
 			        		else {
 			        			geometricTask = new GeometricTask(n, d, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, activator);
 			        		}
 			        	}
 			        	else {
@@ -1729,13 +1735,13 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        			geometricTask = new GeometricTask(n, d, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        					queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        					isQueryUnlabeled, this, adapter);
+			        					isQueryUnlabeled, this, activator);
 			        		}
 			        		else {
 			        			geometricTask = new GeometricTask(n, d, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        					queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        					isQueryUnlabeled, seedValue, this, adapter);
+			        					isQueryUnlabeled, seedValue, this, activator);
 			        		}
 			        	}
 					  
@@ -1748,7 +1754,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			if (this.ffmCheckBox.isSelected()) {
 				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
-							adapter.getCySwingApplication().getJFrame(), 
+							activator.getCySwingApplication().getJFrame(),
 							"Please Select a Network and a Query First!", 
 							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
@@ -1769,7 +1775,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
-			        			adapter.getCySwingApplication().getJFrame(), 
+			        			activator.getCySwingApplication().getJFrame(),
 			        			"Please Select a Network and Query (not empty) First!", 
 			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
@@ -1782,7 +1788,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
@@ -1798,12 +1804,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        		if (!seedField.isEnabled()) {
 			        			forestFireTask = new ForestFireTask(n, a, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, this, activator);
 			        		}
 			        		else {
 			        			forestFireTask = new ForestFireTask(n, a, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, activator);
 			        		}
 			        	}
 			        	else {
@@ -1811,13 +1817,13 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        			forestFireTask = new ForestFireTask(n, a, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        					queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        					isQueryUnlabeled, this, adapter);
+			        					isQueryUnlabeled, this, activator);
 			        		}
 			        		else {
 			        			forestFireTask = new ForestFireTask(n, a, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        					queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        					isQueryUnlabeled, this, adapter);
+			        					isQueryUnlabeled, this, activator);
 			        		}
 			        	}
 					  
@@ -1830,7 +1836,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			if (this.dmCheckBox.isSelected()) {
 				if (!query.isEnabled() || !target.isEnabled()) {
 					JOptionPane.showMessageDialog(
-							adapter.getCySwingApplication().getJFrame(), 
+							activator.getCySwingApplication().getJFrame(),
 							"Please Select a Network and a Query First!", 
 							Common.APP_NAME,
 							JOptionPane.INFORMATION_MESSAGE);
@@ -1851,7 +1857,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 			        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
 			        	JOptionPane.showMessageDialog(
-			        			adapter.getCySwingApplication().getJFrame(), 
+			        			activator.getCySwingApplication().getJFrame(),
 			        			"Please Select a Network and Query (not empty) First!", 
 			        			Common.APP_NAME + " Error",
 			        			JOptionPane.ERROR_MESSAGE);
@@ -1865,7 +1871,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 						
 			        	log.setText("Start motif verification...\n");
 			          
-			        	CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+			        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 			        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 					  
 			        	String queryEdgeAttribute = (String)qea.getSelectedItem();
@@ -1881,12 +1887,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        		if (!seedField.isEnabled()) {
 			        			duplicationTask = new DuplicationTask(n, i, p, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, this, activator);
 			        		}
 			        		else {
 			        			duplicationTask = new DuplicationTask(n, i, p, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
-			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, adapter);
+			        					queryEdgeAttribute, queryNodeAttribute, seedValue, this, activator);
 			        		}
 			        	}
 			        	else {
@@ -1894,13 +1900,13 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        			duplicationTask = new DuplicationTask(n, i, p, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        					queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        					isQueryUnlabeled, this, adapter);
+			        					isQueryUnlabeled, this, activator);
 			        		}
 			        		else {
 			        			duplicationTask = new DuplicationTask(n, i, p, direct, tnetwork, 
 			        					qnetwork, listOfEdgeAttributes, listOfNodeAttributes, 
 			        					queryEdgeAttribute, queryNodeAttribute, isQueryApproximate, 
-			        					isQueryUnlabeled, seedValue, this, adapter);
+			        					isQueryUnlabeled, seedValue, this, activator);
 			        		}
 			        	}
 					  
@@ -1913,7 +1919,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		}
 		else if (command.equals("Match")) {
 			if (!query.isEnabled() || !target.isEnabled()) {
-				JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
+				JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(),
 						"Please Select a Network and a Query First!", 
 						Common.APP_NAME,
 						JOptionPane.INFORMATION_MESSAGE);
@@ -1940,7 +1946,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
   		          	qnetwork = cnm.getNetwork(Integer.parseInt(nn));
 		        if (tnetwork == null || tnetwork.getNodeCount() < 1 || 
 		        		(qnetwork == null && !isUsingQE) || (qnetwork != null && qnetwork.getNodeCount() < 1))
-		        	JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
+		        	JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(),
 		        			"Please Select a Network and Query (not empty) First!", 
 		        			Common.APP_NAME + " Error",
 		        			JOptionPane.ERROR_MESSAGE);
@@ -1949,7 +1955,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        	Common.DIRECTED = directed.isSelected();
 		        	log.setText("Start Matching...\n");
 		          
-		        	CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+		        	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 		        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 				  
 		        	String queryEdgeAttribute = (String)qea.getSelectedItem();
@@ -1963,13 +1969,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        	MatchTask matchTask;
 		        	if (!isQueryUnlabeled)
 		        		matchTask = new MatchTask(tnetwork, qnetwork, listOfEdgeAttributes, 
-		        				listOfNodeAttributes, queryEdgeAttribute, queryNodeAttribute, 
-		        				this, adapter);
+		        				listOfNodeAttributes, queryEdgeAttribute, queryNodeAttribute, this, activator);
 		        	else {
 		        		//approxPaths = getApproximatePaths(qnetwork, queryEdgeAttribute);
 		        		matchTask = new MatchTask(tnetwork, qnetwork, listOfEdgeAttributes, 
 		        				listOfNodeAttributes, queryEdgeAttribute, queryNodeAttribute, 
-		        				isQueryApproximate, isQueryUnlabeled, this, adapter);
+		        				isQueryApproximate, isQueryUnlabeled, this, activator);
 		        	}
 				  
 		        	taskIterator.append(matchTask);
@@ -2185,11 +2190,11 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	private void loadGFFFile(File file) {
 		System.out.println("Loading GFF file " + file.getName());
 		
-		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+		CyServiceRegistrar csr = activator.getCyServiceRegistrar();
     	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
     	TaskIterator taskIterator = new TaskIterator();
 	  
-    	LoadGFFFileTask loadGffFileTask = new LoadGFFFileTask(adapter, file);
+    	LoadGFFFileTask loadGffFileTask = new LoadGFFFileTask(activator, file);
     	taskIterator.append(loadGffFileTask);
     	dialogTaskManager.execute(taskIterator);
 	}
@@ -2204,12 +2209,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 				fc.addChoosableFileFilter(filter);
 				fc.setFileFilter(filter);
 				
-				CyApplicationManager am = adapter.getCyApplicationManager();
+				CyApplicationManager am = activator.getCyApplicationManager();
 	      		CyNetwork currentNetwork = am.getCurrentNetwork();
 	      		String currentNetworkName = currentNetwork.getRow(currentNetwork).get(CyNetwork.NAME, String.class);
 	      		
 				if (!currentNetworkName.startsWith("QueryNetwork")) {
-	      			JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(),
+	      			JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(),
 	      		    		"You can save only a Query Network!", Common.APP_NAME, JOptionPane.WARNING_MESSAGE);
 	      		}
 				else {
@@ -2249,7 +2254,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		          		if (opt == 0) {
 		          			//FileFilter selectedFilter = (FileFilter)fc.getFileFilter();
 		          			
-		          			CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+		          			CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 				        	PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 				        	TaskIterator taskIterator = new TaskIterator();
 						  
@@ -2397,7 +2402,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			matchingPanel.setVisible(false);
         	MenuAction.setOpened(false);
         	WestPanel panel = this;
-        	CyAppAdapter adapt = MenuAction.getAdapter();
+        	CyAppAdapter adapt = activator.getCyAppAdapter();
         	CyServiceRegistrar csr=adapt.getCyServiceRegistrar();
         	csr.unregisterAllServices(panel);
         	//pan.dispose();
@@ -2704,10 +2709,10 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 
 	@SuppressWarnings("unchecked")
 	public class MyNetworkAddedListener implements NetworkAddedListener, NetworkAboutToBeDestroyedListener {
-		private CyAppAdapter adapter;
+		private CyActivator activator;
 		
-		public MyNetworkAddedListener(CyAppAdapter adapter2) {
-			this.setAdapter(adapter2);
+		public MyNetworkAddedListener(CyActivator activator) {
+			this.setActivator(activator);
 		}
 		
 		public void handleEvent(NetworkAddedEvent e) {
@@ -2790,11 +2795,12 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			acquireData("");
 		}
 		
-		public CyAppAdapter getAdapter() {
-			return adapter;
+		public CyActivator getActivator() {
+			return activator;
 		}
-		public void setAdapter(CyAppAdapter adapter) {
-			this.adapter = adapter;
+
+		public void setActivator(CyActivator activator) {
+			this.activator = activator;
 		}
 	}//class MyNetworkAddedListener
 	
@@ -2803,6 +2809,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	 * @author Fabio Rinnone
 	 */
 	public class MyNetworkViewAddedListener implements NetworkViewAddedListener {
+		private CyActivator activator;
 		private CySwingAppAdapter adapter;
 		private CyNetworkView netView;
 		private CyNetwork net;
@@ -2811,8 +2818,9 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		private Long suid;
 		private Integer motifType;
 		
-		public MyNetworkViewAddedListener(CySwingAppAdapter adapt) {
-			this.adapter = adapt;
+		public MyNetworkViewAddedListener(CyActivator activator) {
+			this.activator = activator;
+			adapter = activator.getCySwingAppAdapter();
 		}
 
 		@Override
@@ -2824,7 +2832,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			manager = adapter.getVisualMappingManager();
 			suid = net.getSUID();
 			
-			CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+			CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 			PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 	    	
 			if (netName.startsWith("QueryNetwork")) {
@@ -2881,10 +2889,10 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	}//class MyNetworkViewAddedListener
 	
 	private class MyAddedNodesListener implements AddedNodesListener {
-		CyAppAdapter adapter;
-		
-		public MyAddedNodesListener(CyAppAdapter adapter) {
-			this.adapter = adapter;
+		CyActivator activator;
+
+		public MyAddedNodesListener(CyActivator activator) {
+			this.activator = activator;
 		}
 
 		@Override
@@ -2898,10 +2906,10 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	}//class MyAddedNodesListener
 	
 	private class MyAddedEdgesListener implements AddedEdgesListener {
-		CyAppAdapter adapter;
+		CyActivator activator;
 		
-		public MyAddedEdgesListener(CyAppAdapter adapter) {
-			this.adapter = adapter;
+		public MyAddedEdgesListener(CyActivator activator) {
+			this.activator = activator;
 		}
 
 		@Override
@@ -2915,10 +2923,10 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	}//class MyAddedEdgesListener
 	
 	private class MyColumnCreatedListener implements ColumnCreatedListener {
-		CyAppAdapter adapter;
+		CyActivator activator;
 		
-		public MyColumnCreatedListener(CyAppAdapter adapter) {
-			this.adapter = adapter;
+		public MyColumnCreatedListener(CyActivator activator) {
+			this.activator = activator;
 		}
 
 		@Override
@@ -2928,10 +2936,10 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	}
 	
 	private class MyColumnDeletedListener implements ColumnDeletedListener {
-		CyAppAdapter adapter;
+		CyActivator activator;
 		
-		public MyColumnDeletedListener(CyAppAdapter adapter) {
-			this.adapter = adapter;
+		public MyColumnDeletedListener(CyActivator activator) {
+			this.activator = activator;
 		}
 
 		@Override
@@ -2966,39 +2974,39 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	}//class ButtonListener
 	
 	private void loadThreeChain() {
-		CyNetwork threeChain = NetworkUtils.createThreeChainNetwork(adapter);			
+		CyNetwork threeChain = NetworkUtils.createThreeChainNetwork(activator);
 		cnm.addNetwork(threeChain);
 		Common.indexN++;
-		NetworkUtils.addNetworkView(adapter, threeChain);
+		NetworkUtils.addNetworkView(activator.getCySwingAppAdapter(), threeChain);
 	}
 	
 	private void loadFeedForwardLoop() {
-		CyNetwork feedForwardLoop = NetworkUtils.createFeedForwardLoopNetwork(adapter);
+		CyNetwork feedForwardLoop = NetworkUtils.createFeedForwardLoopNetwork(activator);
 		cnm.addNetwork(feedForwardLoop);
 		Common.indexN++;
-		NetworkUtils.addNetworkView(adapter, feedForwardLoop);
+		NetworkUtils.addNetworkView(activator.getCySwingAppAdapter(), feedForwardLoop);
 	}
 	
 	private void loadBiParallel() {
-		CyNetwork biParallel = NetworkUtils.createBiParallelNetwork(adapter);
+		CyNetwork biParallel = NetworkUtils.createBiParallelNetwork(activator);
 		cnm.addNetwork(biParallel);
 		Common.indexN++;
-		NetworkUtils.addNetworkView(adapter, biParallel);
+		NetworkUtils.addNetworkView(activator.getCySwingAppAdapter(), biParallel);
 	}
 	
 	private void loadBiFan() {
-		CyNetwork biFan = NetworkUtils.createBiFanNetwork(adapter);
+		CyNetwork biFan = NetworkUtils.createBiFanNetwork(activator);
 		cnm.addNetwork(biFan);
 		Common.indexN++;
-		NetworkUtils.addNetworkView(adapter, biFan);
+		NetworkUtils.addNetworkView(activator.getCySwingAppAdapter(), biFan);
 	}
 	
 	private void loadMtonFan() {
-		CyNetwork mtonFan = NetworkUtils.createMtonFanNetwork(adapter);
+		CyNetwork mtonFan = NetworkUtils.createMtonFanNetwork(activator);
 		if (mtonFan != null) {
 	        cnm.addNetwork(mtonFan);
 	        Common.indexN++;
-	        NetworkUtils.addNetworkView(adapter, mtonFan);
+	        NetworkUtils.addNetworkView(activator.getCySwingAppAdapter(), mtonFan);
 		}
 	}
 

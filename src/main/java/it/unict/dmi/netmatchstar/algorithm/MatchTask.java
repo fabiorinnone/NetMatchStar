@@ -43,13 +43,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import it.unict.dmi.netmatchstar.CyActivator;
 import it.unict.dmi.netmatchstar.graph.Graph;
 import it.unict.dmi.netmatchstar.graph.GraphLoader;
 import it.unict.dmi.netmatchstar.utils.Common;
 import it.unict.dmi.netmatchstar.view.ResultsTableModel;
 import it.unict.dmi.netmatchstar.view.WestPanel;
 
-import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
@@ -85,14 +85,14 @@ public class MatchTask extends AbstractTask {
 	private boolean interrupted;
 	private JTextArea log;
 	
-	private CySwingAppAdapter adapter;
+	private CyActivator activator;
 	protected int howToShow;
 	private Hashtable<String,Long> table;
 	
 	private static boolean completedSuccessfully;
 	
 	public MatchTask(CyNetwork t, CyNetwork q, ArrayList tel, ArrayList tnl, 
-			String qeaa, String qnaa, JPanel frame2, CySwingAppAdapter adapt) {
+			String qeaa, String qnaa, JPanel frame2, CyActivator activator) {
 		target = t;
 		query = q;
 		tea = tel;
@@ -105,11 +105,11 @@ public class MatchTask extends AbstractTask {
 		isApproximate = false;
 		approxPaths = null;
 		
-		adapter = adapt;
+		this.activator = activator;
 	}
 	
 	public MatchTask(CyNetwork t, CyNetwork q, ArrayList tel, ArrayList tnl, 
-			String qeaa, String qnaa, boolean iqa, boolean iqu, JPanel frame2, CySwingAppAdapter adapt) {
+			String qeaa, String qnaa, boolean iqa, boolean iqu, JPanel frame2, CyActivator activator) {
 		target = t;
 		query = q;
 		tea = tel;
@@ -124,7 +124,7 @@ public class MatchTask extends AbstractTask {
 		//approxPaths = ap;
 		approxPaths = new Vector<String>();
 		
-		adapter = adapt;
+		this.activator = activator;
 	}
 
 	@Override
@@ -227,16 +227,16 @@ public class MatchTask extends AbstractTask {
 	    	      		else
 	    	      			howToShow = 0;
 	    	      		if (howToShow != 2 && totalMatches > 0) {
-	    	      			CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+	    	      			CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 	    					PanelTaskManager dialogTaskManager = csr.getService(PanelTaskManager.class);
 	    					TaskIterator taskIterator = new TaskIterator();
 	    					ResultsTableModel resultsTask = null;
 	    					if (isApproximate)
 	    						resultsTask = new ResultsTableModel(target, array, table, 
-	    								howToShow, isApproximate, allPaths, adapter);
+	    								howToShow, isApproximate, allPaths, activator);
 	    					else 
 	    						resultsTask = new ResultsTableModel(target, array, table, 
-	    								howToShow, isApproximate, adapter);
+	    								howToShow, isApproximate, activator);
 	    					taskIterator.append(resultsTask);
 	    					dialogTaskManager.execute(taskIterator);
 	    	      		}
@@ -311,7 +311,7 @@ public class MatchTask extends AbstractTask {
         int i, k;
         boolean any;
         i = k = 0;
-        loader = new GraphLoader(frame);
+        loader = new GraphLoader(activator, frame);
         int size = network.getNodeCount() + network.getEdgeCount();
         //int count = 0;
         //int nodeCount = network.getNodeCount();
@@ -415,7 +415,7 @@ public class MatchTask extends AbstractTask {
         int i, k;
         boolean any;
         i = k = 0;
-        loader = new GraphLoader(frame);
+        loader = new GraphLoader(activator, frame);
         int size = network.getNodeCount() + network.getEdgeCount();
         for (CyNode node : network.getNodeList()) {
 			CyRow row = network.getRow(node);
@@ -538,7 +538,7 @@ public class MatchTask extends AbstractTask {
 	    message[3] = c3;
 	    String[] options = {"OK"};
 
-	    JOptionPane.showOptionDialog(adapter.getCySwingApplication().getJFrame(), // the parent that the dialog blocks
+	    JOptionPane.showOptionDialog(activator.getCySwingApplication().getJFrame(), // the parent that the dialog blocks
 	    		message, // the dialog message array
 	    		Common.APP_NAME, // the title of the dialog window
 	    		JOptionPane.DEFAULT_OPTION, // option type

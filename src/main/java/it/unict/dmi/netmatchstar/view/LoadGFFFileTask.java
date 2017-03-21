@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import it.unict.dmi.netmatchstar.CyActivator;
 import it.unict.dmi.netmatchstar.utils.Common;
 import it.unict.dmi.netmatchstar.utils.NetworkUtils;
 import org.cytoscape.app.swing.CySwingAppAdapter;
@@ -57,7 +58,7 @@ public class LoadGFFFileTask extends AbstractTask {
 	
 	private static boolean completedSuccessfully;
 	
-	private CySwingAppAdapter adapter;
+	private CyActivator activator;
 	private File file;
 	//private String fileName;
 	
@@ -72,8 +73,8 @@ public class LoadGFFFileTask extends AbstractTask {
 	
 	int edgeCount;
 	
-	public LoadGFFFileTask(CySwingAppAdapter adapter, File file) {
-		this.adapter = adapter;
+	public LoadGFFFileTask(CyActivator activator, File file) {
+		this.activator = activator;
 		this.file = file;
 		//this.fileName = fileName;
 		
@@ -101,10 +102,10 @@ public class LoadGFFFileTask extends AbstractTask {
 	}
 	
 	private void loadNetwork() throws IOException {
-		CyNetwork network = NetworkUtils.createNetwork(adapter, fileName,
+		CyNetwork network = NetworkUtils.createNetwork(activator, fileName,
 				Common.NODE_LABEL_ATTR, Common.EDGE_LABEL_ATTR);
 		
-		NetworkUtils.addNetwork(adapter, network);
+		NetworkUtils.addNetwork(activator, network);
 		
 		reader = new BufferedReader(new FileReader(fileName));
 		reader.readLine(); //network name (but we use file name)
@@ -125,7 +126,8 @@ public class LoadGFFFileTask extends AbstractTask {
 			addEdge(network, line);
 		
 		reader.close();
-		
+
+		CySwingAppAdapter adapter = activator.getCySwingAppAdapter();
 		VisualStyle vs = adapter.getVisualMappingManager().getDefaultVisualStyle();
 		NetworkUtils.setVisualMappingFunction(adapter, vs, Common.NODE_LABEL_ATTR, null);
 		

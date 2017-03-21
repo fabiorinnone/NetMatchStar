@@ -32,6 +32,7 @@ package it.unict.dmi.netmatchstar.graph;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import it.unict.dmi.netmatchstar.CyActivator;
 import it.unict.dmi.netmatchstar.MenuAction;
 import it.unict.dmi.netmatchstar.utils.Common;
 
@@ -40,13 +41,15 @@ public class GraphLoader {
     private Node nodes;
     private Node lastNode;
     private Edge lastEdge;
+    private CyActivator activator;
     private JPanel frame;
 
-    public GraphLoader(JPanel frame) {
+    public GraphLoader(CyActivator activator, JPanel frame) {
         count = 0;
         nodes = null;
         lastNode = null;
         lastEdge = null;
+        this.activator = activator;
         this.frame = frame;
     }
 
@@ -65,7 +68,7 @@ public class GraphLoader {
         if(n == null) {
                 if(frame != null)
                 JOptionPane.showMessageDialog(
-                        MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+                        activator.getCySwingApplication().getJFrame(),
                         Common.APP_NAME + " Error. Inconsistent data!",
                         Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
             else
@@ -84,7 +87,7 @@ public class GraphLoader {
         if(n == null) {
             if(frame != null)
                 JOptionPane.showMessageDialog(
-                        MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+                        activator.getCySwingApplication().getJFrame(),
                         Common.APP_NAME + " Error. Inconsistent data!",
                         Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
             else
@@ -104,7 +107,7 @@ public class GraphLoader {
         if(n == null) {
             if(frame != null)
                 JOptionPane.showMessageDialog(
-        		        MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+        		        activator.getCySwingApplication().getJFrame(),
         		        Common.APP_NAME + "Error. Inconsistent data!", Common.APP_NAME + "Error",
                         JOptionPane.ERROR_MESSAGE);
             else
@@ -124,7 +127,7 @@ public class GraphLoader {
         if(n == null) {
             if(frame != null)
                 JOptionPane.showMessageDialog(
-        		        MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+        		        activator.getCySwingApplication().getJFrame(),
         		        Common.APP_NAME + "Error. Inconsistent data!", Common.APP_NAME + "Error",
                         JOptionPane.ERROR_MESSAGE);
             else
@@ -144,7 +147,7 @@ public class GraphLoader {
         }
         if(e == null) {
             if(frame != null)
-                JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+                JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(),
                         Common.APP_NAME + "Error. Inconsistent data!",
                         Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
             else
@@ -227,7 +230,7 @@ public class GraphLoader {
         if(pn == null || pn.id != id1)
             if(frame != null)
                 JOptionPane.showMessageDialog(
-        		        MenuAction.getAdapter().getCySwingApplication().getJFrame(),
+        		        activator.getCySwingApplication().getJFrame(),
         		        Common.APP_NAME + "Warning. Bad param 1 in GraphLoader - InsertEdge: " + id1 + " " + id2,
         		        Common.APP_NAME + "Warning", JOptionPane.WARNING_MESSAGE);
             else

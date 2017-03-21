@@ -39,6 +39,7 @@ import java.util.Properties;
 
 import it.unict.dmi.netmatchstar.utils.Common;
 import it.unict.dmi.netmatchstar.view.*;
+import org.cytoscape.app.CyAppAdapter;
 import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CySwingApplication;
@@ -49,6 +50,7 @@ import org.cytoscape.task.EdgeViewTaskFactory;
 import org.cytoscape.task.NodeViewTaskFactory;
 import org.cytoscape.view.model.CyNetworkViewFactory;
 import org.cytoscape.view.model.CyNetworkViewManager;
+import org.cytoscape.work.TaskManager;
 import org.osgi.framework.BundleContext;
 
 public class CyActivator extends AbstractCyActivator {
@@ -56,10 +58,12 @@ public class CyActivator extends AbstractCyActivator {
     private CyApplicationManager cyApplicationManager;
     private CyServiceRegistrar cyServiceRegistrar;
     private CySwingAppAdapter cySwingAppAdapter;
+    private CyAppAdapter cyAppAdapter;
     private CySwingApplication cySwingApplication;
     private CyNetworkManager cyNetworkManager;
     private CyNetworkViewManager cyNetworkViewManager;
     private CyNetworkViewFactory cyNetworkViewFactory;
+    private TaskManager taskManager;
 
     public CyActivator() {
         super();
@@ -70,12 +74,14 @@ public class CyActivator extends AbstractCyActivator {
         cyApplicationManager = getService(bc, CyApplicationManager.class);
         cyServiceRegistrar = getService(bc, CyServiceRegistrar.class);
         cySwingAppAdapter = getService(bc, CySwingAppAdapter.class);
+        cyAppAdapter = getService(bc, CyAppAdapter.class);
         cySwingApplication = getService(bc, CySwingApplication.class);
         cyNetworkManager = getService(bc, CyNetworkManager.class);
         cyNetworkViewManager = getService(bc, CyNetworkViewManager.class);
         cyNetworkViewFactory = getService(bc, CyNetworkViewFactory.class);
+        taskManager = getService(bc, TaskManager.class);
 
-        MenuAction menuAction = new MenuAction(Common.APP_NAME, this, cySwingAppAdapter);
+        MenuAction menuAction = new MenuAction(Common.APP_NAME, this);
         cySwingAppAdapter.getCySwingApplication().addAction(menuAction);
         registerAllServices(bc, menuAction, new Properties());
 
@@ -110,7 +116,7 @@ public class CyActivator extends AbstractCyActivator {
                 EdgeViewTaskFactory.class, editSetApproxPathProps);
     }
 
-    public CyServiceRegistrar getcyServiceRegistrar() {
+    public CyServiceRegistrar getCyServiceRegistrar() {
         return cyServiceRegistrar;
     }
 
@@ -118,11 +124,15 @@ public class CyActivator extends AbstractCyActivator {
         return cySwingAppAdapter;
     }
 
+    public CyAppAdapter getCyAppAdapter() {
+        return cyAppAdapter;
+    }
+
     public CySwingApplication getCySwingApplication() {
         return cySwingApplication;
     }
 
-    public CyApplicationManager getcyApplicationManager() {
+    public CyApplicationManager getCyApplicationManager() {
         return cyApplicationManager;
     }
 
@@ -136,5 +146,9 @@ public class CyActivator extends AbstractCyActivator {
 
     public CyNetworkViewFactory getCyNetworkViewFactory() {
         return cyNetworkViewFactory;
+    }
+
+    public TaskManager getTaskManager() {
+        return taskManager;
     }
 }

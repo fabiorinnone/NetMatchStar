@@ -42,6 +42,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import it.unict.dmi.netmatchstar.CyActivator;
 import it.unict.dmi.netmatchstar.algorithm.ApproxEdgeComparator;
 import it.unict.dmi.netmatchstar.algorithm.ApproxNodeComparator;
 import it.unict.dmi.netmatchstar.algorithm.ExactEdgeComparator;
@@ -50,10 +51,8 @@ import it.unict.dmi.netmatchstar.algorithm.significance.RandomGenerator;
 import it.unict.dmi.netmatchstar.graph.Graph;
 import it.unict.dmi.netmatchstar.graph.GraphLoader;
 import it.unict.dmi.netmatchstar.utils.Common;
-import it.unict.dmi.netmatchstar.MenuAction;
 import it.unict.dmi.netmatchstar.view.WestPanel;
 
-import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
@@ -84,7 +83,7 @@ public class MetricsTask extends AbstractTask {
 	
 	private TaskMonitor taskMonitor;
 	private boolean interrupted;
-	private CySwingAppAdapter adapter;
+	private CyActivator activator;
 	private int N;
 	private JTextArea log;
 	
@@ -134,7 +133,7 @@ public class MetricsTask extends AbstractTask {
 	public MetricsTask(int shufflingQ, boolean labShuffling, double wsProb, int baInitNumNodes, 
 			int gmDim, int ffmNumAmb, int dmInitNumNodes, double dmInitProbEdges, 
 			boolean direct, CyNetwork t, CyNetwork q, ArrayList tel, 
-			ArrayList tnl, String qeaa, String qnaa, JPanel frame2, CySwingAppAdapter adapt) {
+			ArrayList tnl, String qeaa, String qnaa, JPanel frame2, CyActivator activator) {
 		this.shufflingQ = shufflingQ;
 		this.labelShuffling = labShuffling;
 		this.wsProb = wsProb;
@@ -158,14 +157,14 @@ public class MetricsTask extends AbstractTask {
 		isApproximate = false;
 		approxPaths = null;
 		
-		adapter = adapt;
+		this.activator = activator;
 	}
 	
 	public MetricsTask(int shufflingQ, boolean labShuffling, double wsProb, int baInitNumNodes, 
 			int gmDim, int ffmNumAmb, int dmInitNumNodes, double dmInitProbEdges, 
 			boolean direct, CyNetwork t, CyNetwork q, ArrayList tel, 
 			ArrayList tnl, String qeaa, String qnaa, boolean iqa, boolean iqu, JPanel frame2,
-			CySwingAppAdapter adapt) {
+			CyActivator activator) {
 		this.shufflingQ = shufflingQ;
 		this.labelShuffling = labShuffling;
 		this.wsProb = wsProb;
@@ -191,7 +190,7 @@ public class MetricsTask extends AbstractTask {
 		//approxPaths = ap;
 		approxPaths = new Vector<String>();
 		
-		adapter = adapt;
+		this.activator = activator;
 	}
 	
 	@Override
@@ -326,7 +325,6 @@ public class MetricsTask extends AbstractTask {
 	      	
 	      	completedSuccessfully = true;
     	      
-	        adapter = MenuAction.getAdapter();
 	        N = WestPanel.getRandomNets().getValue();
 	        
 	        log = WestPanel.getLog();
@@ -368,7 +366,7 @@ public class MetricsTask extends AbstractTask {
         int i, k;
         boolean any;
         i = k = 0;
-        loader = new GraphLoader(frame);
+        loader = new GraphLoader(activator, frame);
         int size = network.getNodeCount() + network.getEdgeCount();
         for (CyNode node : network.getNodeList()) {
 			CyRow nodeRow = network.getRow(node);
@@ -466,7 +464,7 @@ public class MetricsTask extends AbstractTask {
         int i, k;
         boolean any;
         i = k = 0;
-        loader = new GraphLoader(frame);
+        loader = new GraphLoader(activator, frame);
         int size = network.getNodeCount() + network.getEdgeCount();
         for (CyNode node : network.getNodeList()) {
 			CyRow row = network.getRow(node);
@@ -641,7 +639,7 @@ public class MetricsTask extends AbstractTask {
 		JTable table = new JTable(rows, cols);
 		table.setPreferredScrollableViewportSize(new Dimension(600, 130));
 
-		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(),
+		JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(),
 				new JScrollPane(table), Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
 	}
     

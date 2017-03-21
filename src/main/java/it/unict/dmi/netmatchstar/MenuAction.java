@@ -36,57 +36,39 @@ import javax.swing.JOptionPane;
 
 import it.unict.dmi.netmatchstar.utils.Common;
 import it.unict.dmi.netmatchstar.view.WestPanel;
-import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.application.swing.AbstractCyAction;
 import org.cytoscape.application.swing.CytoPanelComponent;
-import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.service.util.CyServiceRegistrar;
-import org.cytoscape.view.model.CyNetworkViewFactory;
-import org.cytoscape.view.model.CyNetworkViewManager;
 
 @SuppressWarnings("serial")
 public class MenuAction extends AbstractCyAction {
 	private static CyActivator cyActivator;
-	private static CySwingAppAdapter adapter;
-    private static boolean opened = false;
+	private static boolean opened = false;
 
 	public static void setOpened(boolean open) {
 		opened = open;
 	}
 
-	public MenuAction(final String menuTitle, CyActivator activator, CySwingAppAdapter adapt) {
-        super(menuTitle, activator.getcyApplicationManager(), null, null);
+	public MenuAction(final String menuTitle, CyActivator activator) {
+        super(menuTitle, activator.getCyApplicationManager(), null, null);
 		cyActivator = activator;
-		adapter = adapt;
-        setPreferredMenu("Apps");
+	    setPreferredMenu("Apps");
     }
  
     public void actionPerformed(ActionEvent e) {
     	if(!opened) {
-    		WestPanel panel = new WestPanel(adapter);
-    		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+    		WestPanel panel = new WestPanel(cyActivator);
+    		CyServiceRegistrar csr = cyActivator.getCyServiceRegistrar();
 			csr.registerService(panel, CytoPanelComponent.class, new Properties());
 			opened = true;
     	}
     	else {
-    		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(),
+    		JOptionPane.showMessageDialog(cyActivator.getCySwingApplication().getJFrame(),
 					Common.APP_NAME + " is already open!");
     	}
     }
 
-	public static CySwingAppAdapter getAdapter() {
-		return adapter;
-	}
-
-	public static CyNetworkManager getCyNetworkManager() {
-		return cyActivator.getCyNetworkManager();
-	}
-
-	public static CyNetworkViewManager getCyNetworkViewManager() {
-		return cyActivator.getCyNetworkViewManager();
-	}
-
-	public static CyNetworkViewFactory getCyNetworkViewFactory () {
-		return cyActivator.getCyNetworkViewFactory();
+	public static CyActivator getCyActivator() {
+		return cyActivator;
 	}
 }

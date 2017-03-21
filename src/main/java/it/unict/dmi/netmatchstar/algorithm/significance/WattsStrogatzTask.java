@@ -40,6 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import it.unict.dmi.netmatchstar.CyActivator;
 import it.unict.dmi.netmatchstar.algorithm.*;
 import it.unict.dmi.netmatchstar.graph.Graph;
 import it.unict.dmi.netmatchstar.graph.GraphLoader;
@@ -82,7 +83,7 @@ public class WattsStrogatzTask extends AbstractTask {
 	private TaskMonitor taskMonitor;
 	private boolean interrupted;
 	private double evalue;
-	private CySwingAppAdapter adapter;
+	private CyActivator activator;
 	private int N;
 	private JTextArea log;
 	
@@ -99,8 +100,8 @@ public class WattsStrogatzTask extends AbstractTask {
 	private double m_numSignificativeNets;
 	
 	public WattsStrogatzTask(int n, double p, boolean direct, CyNetwork t, 
-			CyNetwork q, ArrayList tel, ArrayList tnl, String qeaa, String qnaa, 
-			JPanel frame2, CySwingAppAdapter adapt) {
+			CyNetwork q, ArrayList tel, ArrayList tnl, String qeaa, String qnaa,
+			JPanel frame2, CyActivator activator) {
 		m_netNum = n;
 		m_rewProb = p;
 		m_direct = direct;
@@ -117,15 +118,15 @@ public class WattsStrogatzTask extends AbstractTask {
 		isApproximate = false;
 		approxPaths = null;
 		
-		adapter = adapt;
+		this.activator = activator;
 		
 		customSeed = false;
 	}
 	
 	public WattsStrogatzTask(int n, double p, boolean direct, CyNetwork t, 
 			CyNetwork q, ArrayList tel, ArrayList tnl, String qeaa, String qnaa, 
-			long seedValue, JPanel frame2, CySwingAppAdapter adapt) {
-		this(n, p, direct, t, q, tel, tnl, qeaa, qnaa, frame2, adapt);
+			long seedValue, JPanel frame2, CyActivator activator) {
+		this(n, p, direct, t, q, tel, tnl, qeaa, qnaa, frame2, activator);
 		this.seedValue = seedValue;
 		
 		customSeed = true;
@@ -133,7 +134,7 @@ public class WattsStrogatzTask extends AbstractTask {
 	
 	public WattsStrogatzTask(int n, double p, boolean direct, CyNetwork t, 
 			CyNetwork q, ArrayList tel, ArrayList tnl, String qeaa, String qnaa, 
-			boolean iqa, boolean iqu, JPanel frame2, CySwingAppAdapter adapt) {
+			boolean iqa, boolean iqu, JPanel frame2, CyActivator activator) {
 		m_netNum = n;
 		m_rewProb = p;
 		m_direct = direct;
@@ -152,15 +153,15 @@ public class WattsStrogatzTask extends AbstractTask {
 		//approxPaths = ap;
 		approxPaths = new Vector<String>();
 		
-		adapter = adapt;
+		this.activator = activator;
 		
 		customSeed = false;
 	}
 	
 	public WattsStrogatzTask(int n, double p, boolean direct, CyNetwork t, 
 			CyNetwork q, ArrayList tel, ArrayList tnl, String qeaa, String qnaa, 
-			boolean iqa, boolean iqu, long seedValue, JPanel frame2, CySwingAppAdapter adapt) {
-		this(n, p, direct, t, q, tel, tnl, qeaa, qnaa, iqa, iqu, frame2, adapt);
+			boolean iqa, boolean iqu, long seedValue, JPanel frame2, CyActivator activator) {
+		this(n, p, direct, t, q, tel, tnl, qeaa, qnaa, iqa, iqu, frame2, activator);
 		this.seedValue = seedValue;
 		
 		customSeed = true;
@@ -287,7 +288,6 @@ public class WattsStrogatzTask extends AbstractTask {
 
 	      	completedSuccessfully = true;
     	      
-	        adapter = MenuAction.getAdapter();
 	        N = WestPanel.getRandomNets().getValue();
 	        
 	        log = WestPanel.getLog();
@@ -298,7 +298,7 @@ public class WattsStrogatzTask extends AbstractTask {
 	        		SwingUtilities.invokeLater(new Runnable() {
   		          		public void run() {
   		          			log.append("The network has not any occurrences of the query\n");
-  		          			JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
+  		          			JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(),
 	          						"The network has not any occurrences of the query\n", 
 	          						Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
   		          		}
@@ -325,21 +325,21 @@ public class WattsStrogatzTask extends AbstractTask {
   		          			log.append("Z-score: " + m_zScore + "\n");
   		          			System.out.println("Z-score: " + m_zScore);
   		          			if (evalue == 0)
-  		          				JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), "Number of "
+  		          				JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(), "Number of "
   		          						+ "occurrences in the real network: " + m_numMatchesNet + "\n" +
-  	  		          				"Average occurrences in the randomized networks: " + m_averageNumMatches + "\n" +
-  	  		          				"Standard deviation occurrences in the randomized networks: " + m_sigmaNumMatches + "\n" +
-  	  		          				"E-value < " + (1.0/N) + "\n" +
-  	  		          				"Z-score: " + m_zScore + "\n", 
-  	  		          				Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
+										"Average occurrences in the randomized networks: " + m_averageNumMatches + "\n" +
+										"Standard deviation occurrences in the randomized networks: " + m_sigmaNumMatches + "\n" +
+										"E-value < " + (1.0/N) + "\n" +
+										"Z-score: " + m_zScore + "\n",
+										Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
   		          			else
-  	  		          			JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), "Number of "
+  	  		          			JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(), "Number of "
   	  		          					+ "occurrences in the real network: " + m_numMatchesNet + "\n" +
-  	  		          				"Average occurrences in the randomized networks: " + m_averageNumMatches + "\n" +
-  	  		          				"Standard deviation of occurrences in the randomized networks: " + m_sigmaNumMatches + "\n" +
-  	  		          				"E-value: " + evalue + "\n" +
-  	  		          				"Z-score: " + m_zScore + "\n",
-  	  		          				Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
+										"Average occurrences in the randomized networks: " + m_averageNumMatches + "\n" +
+										"Standard deviation of occurrences in the randomized networks: " + m_sigmaNumMatches + "\n" +
+										"E-value: " + evalue + "\n" +
+										"Z-score: " + m_zScore + "\n",
+										Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
   		          		}
   		          	});
   		          	
@@ -374,7 +374,7 @@ public class WattsStrogatzTask extends AbstractTask {
         int i, k;
         boolean any;
         i = k = 0;
-        loader = new GraphLoader(frame);
+        loader = new GraphLoader(activator, frame);
         int size = network.getNodeCount() + network.getEdgeCount();
         for (CyNode node : network.getNodeList()) {
 			CyRow nodeRow = network.getRow(node);
@@ -472,7 +472,7 @@ public class WattsStrogatzTask extends AbstractTask {
         int i, k;
         boolean any;
         i = k = 0;
-        loader = new GraphLoader(frame);
+        loader = new GraphLoader(activator, frame);
         int size = network.getNodeCount() + network.getEdgeCount();
         for (CyNode node : network.getNodeList()) {
 			CyRow row = network.getRow(node);

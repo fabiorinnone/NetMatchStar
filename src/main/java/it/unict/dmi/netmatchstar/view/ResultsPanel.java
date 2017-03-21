@@ -73,6 +73,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import it.unict.dmi.netmatchstar.CyActivator;
 import it.unict.dmi.netmatchstar.utils.Resources;
 import it.unict.dmi.netmatchstar.utils.Resources.ImageName;
 import it.unict.dmi.netmatchstar.graph.Graph;
@@ -125,10 +126,10 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent {
 	private ArrayList allPaths;
 	//private boolean showPics;
 	
-	private CySwingAppAdapter adapter;
+	private CyActivator activator;
 	
-	public ResultsPanel(CySwingAppAdapter adapt) {
-		adapter = adapt;
+	public ResultsPanel(CyActivator activator) {
+		this.activator = activator;
 		
 		network = null;
 	    //showPics = false;
@@ -407,11 +408,11 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent {
 					HashMap<CyNode,CyNode> nodesMap = new HashMap<CyNode,CyNode>();
 					HashMap<CyEdge,CyEdge> edgesMap = new HashMap<CyEdge,CyEdge>();
 					
-					CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+					CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 					CyNetworkFactory netFact = csr.getService(CyNetworkFactory.class);
 					childNetwork = netFact.createNetwork();
 					childNetwork.getRow(childNetwork).set(CyNetwork.NAME, "Match "+ (selectedRow + 1));
-					CyNetworkManager cnm = adapter.getCyNetworkManager();
+					CyNetworkManager cnm = activator.getCyNetworkManager();
 					cnm.addNetwork(childNetwork);
 					
 					Iterator<CyNode> nodesIterator = matchNodesList.iterator();
@@ -537,11 +538,12 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent {
 						
 						@Override
 						protected CyNetworkView doInBackground() throws Exception {
-							CyNetworkViewFactory cnvf = adapter.getCyNetworkViewFactory();
+							CyNetworkViewFactory cnvf = activator.getCyNetworkViewFactory();
 							CyNetworkView childNetworkView = cnvf.createNetworkView(childNetwork);
-							CyNetworkViewManager cnvm = adapter.getCyNetworkViewManager();
+							CyNetworkViewManager cnvm = activator.getCyNetworkViewManager();
 							cnvm.addNetworkView(childNetworkView);
-							
+
+							CySwingAppAdapter adapter = activator.getCySwingAppAdapter();
 							VisualMappingManager manager = adapter.getVisualMappingManager();
 							VisualStyle defaultStyle = manager.getDefaultVisualStyle();
 							//VisualStyleFactory vsf = adapter.getVisualStyleFactory();
@@ -554,7 +556,7 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent {
 							TaskIterator ti = alg.createTaskIterator(
 									childNetworkView,alg.getDefaultLayoutContext(), CyLayoutAlgorithm.ALL_NODE_VIEWS, null);
 							
-							adapter.getTaskManager().execute(ti);
+							activator.getTaskManager().execute(ti);
 							childNetworkView.updateView();
 							
 							//double scale = childNetworkView.getVisualProperty(BasicVisualLexicon.NETWORK_SCALE_FACTOR).doubleValue() * 0.2;
@@ -590,7 +592,7 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent {
 			for (final CyIdentifiable nodeOrEdge : elements) {
 				//boolean select = elements.contains(nodeOrEdge);
 				network.getRow(nodeOrEdge).set(CyNetwork.SELECTED, true);
-				CyNetworkViewManager cnvm = adapter.getCyNetworkViewManager();
+				CyNetworkViewManager cnvm = activator.getCyNetworkViewManager();
 				Set<CyNetworkView> nvs = cnvm.getNetworkViewSet();
 				Iterator<CyNetworkView> it = nvs.iterator();
 				while (it.hasNext()) {
@@ -667,7 +669,8 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent {
 	    		return true;
 	    	}
 	    	catch(IOException e) {
-	    		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), e.toString(), "Error Writing to \"" + fileName + "\"", JOptionPane.ERROR_MESSAGE);
+	    		JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(), e.toString(),
+						"Error Writing to \"" + fileName + "\"", JOptionPane.ERROR_MESSAGE);
 	    		return false;
 	    	}
 	    }
@@ -691,9 +694,9 @@ public class ResultsPanel extends JPanel implements CytoPanelComponent {
 
 	    @Override
 	    public void actionPerformed(ActionEvent e) {
-	    	CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+	    	CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 			
-			CytoPanel resPanel = adapter.getCySwingApplication().getCytoPanel(CytoPanelName.EAST);
+			CytoPanel resPanel = activator.getCySwingApplication().getCytoPanel(CytoPanelName.EAST);
 			resPanel.setState(CytoPanelState.DOCK);
 			csr.unregisterService(p, CytoPanelComponent.class);
 	    	

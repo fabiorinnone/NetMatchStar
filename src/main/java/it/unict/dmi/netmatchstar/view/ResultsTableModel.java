@@ -52,6 +52,7 @@ import javax.swing.JWindow;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
+import it.unict.dmi.netmatchstar.CyActivator;
 import it.unict.dmi.netmatchstar.utils.layout.SpringEmbeddedLayouter;
 import it.unict.dmi.netmatchstar.graph.Graph;
 
@@ -96,7 +97,7 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 	
 	private static final int graphPicSize = 80;
 	
-	private CySwingAppAdapter adapter;
+	private CyActivator activator;
 	
 	private CyNetwork network;
 	private ArrayList<int[]> complexes;
@@ -127,26 +128,26 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 	}
 	
 	public ResultsTableModel(CyNetwork network, ArrayList complexes, Hashtable table, 
-			int howToShow, boolean isApproximate, ArrayList allPaths, CySwingAppAdapter adapter) {
+			int howToShow, boolean isApproximate, ArrayList allPaths, CyActivator activator) {
 		this.network = network;
 		this.complexes = complexes;
 		this.table = table;
 		this.howToShow = howToShow;
 		this.isApproximate = isApproximate;
 		this.allPaths = allPaths;
-		this.adapter = adapter;
+		this.activator = activator;
 		model = this;
 		data = new Object[complexes.size()][columnNames.length];
 	}
 	
 	public ResultsTableModel(CyNetwork network, ArrayList complexes, Hashtable table, 
-			int howToShow, boolean isApproximate, CySwingAppAdapter adapter) {
+			int howToShow, boolean isApproximate, CyActivator activator) {
 		this.network = network;
 		this.complexes = complexes;
 		this.table = table;
 		this.howToShow = howToShow;
 		this.isApproximate = isApproximate;
-		this.adapter = adapter;
+		this.activator = activator;
 		model = this;
 		data = new Object[complexes.size()][columnNames.length];
 	}
@@ -235,12 +236,12 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 	}
 	
 	private void loadResultsInGraphicMode() {
-		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+		CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 		
 		//if (complexes.size() > 0 && howToShow != 2) {
-			CytoPanel resPanel = adapter.getCySwingApplication().getCytoPanel(CytoPanelName.EAST);
+			CytoPanel resPanel = activator.getCySwingApplication().getCytoPanel(CytoPanelName.EAST);
 			resPanel.setState(CytoPanelState.DOCK);
-			resultsPanel = new ResultsPanel(adapter);
+			resultsPanel = new ResultsPanel(activator);
 			csr.registerService(resultsPanel, CytoPanelComponent.class, new Properties());
 			resPanel.setSelectedIndex(resPanel.getCytoPanelComponentCount()-1);
 		//}
@@ -279,12 +280,12 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 	}
 	
 	private void loadResultsInTextMode() {
-		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+		CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 		
 		//if (complexes.size() > 0 && howToShow != 2) {
-			CytoPanel resPanel = adapter.getCySwingApplication().getCytoPanel(CytoPanelName.EAST);
+			CytoPanel resPanel = activator.getCySwingApplication().getCytoPanel(CytoPanelName.EAST);
 			resPanel.setState(CytoPanelState.DOCK);
-			resultsPanel = new ResultsPanel(adapter);
+			resultsPanel = new ResultsPanel(activator);
 			csr.registerService(resultsPanel, CytoPanelComponent.class, new Properties());
 			resPanel.setSelectedIndex(resPanel.getCytoPanelComponentCount()-1);
 		//}
@@ -456,7 +457,7 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 	}
 	
 	private Image convertNetworkToImage(int[] complex, int matchNumber, final int height, final int width) {
-		CyNetworkViewManager nvm = adapter.getCyNetworkViewManager();
+		CyNetworkViewManager nvm = activator.getCyNetworkViewManager();
 		Collection<CyNetworkView> networkViewSet = nvm.getNetworkViews(network);
 		Iterator<CyNetworkView> networkViewSetIterator = networkViewSet.iterator();
 		CyNetworkView networkView = null;
@@ -466,7 +467,8 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 		
 		final CyNetwork subNetwork = getSubNetworkFromMatches(complex, matchNumber);
 		HashMap<CyNode,CyNode> nodesMap = nodesList.get(matchNumber);
-		
+
+		CySwingAppAdapter adapter = activator.getCySwingAppAdapter();
 		VisualMappingManager manager = adapter.getVisualMappingManager();
 		final VisualStyle vs = NetworkUtils.createSubNetworkVisualStyle(adapter);
 		//final VisualStyle vs = getSubNetworkStyle(manager);
@@ -554,10 +556,10 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 	
 	private CyNetwork getSubNetworkFromMatches(int[] complex, int matchNumber) {
 		CyNetwork subNetwork;
-		CyServiceRegistrar csr = adapter.getCyServiceRegistrar();
+		CyServiceRegistrar csr = activator.getCyServiceRegistrar();
 		CyNetworkFactory netFact = csr.getService(CyNetworkFactory.class);
 		//subNetwork = netFact.createNetwork();
-		subNetwork = NetworkUtils.createNetwork(adapter, "Match", Common.NODE_LABEL_ATTR, Common.EDGE_LABEL_ATTR);
+		subNetwork = NetworkUtils.createNetwork(activator, "Match", Common.NODE_LABEL_ATTR, Common.EDGE_LABEL_ATTR);
 		
 		HashMap<CyNode,CyNode> subNodesMap = new HashMap<CyNode,CyNode>();
 		HashMap<CyEdge,CyEdge> subEdgesMap = new HashMap<CyEdge,CyEdge>();
