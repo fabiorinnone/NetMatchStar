@@ -2721,8 +2721,9 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			String attrName = attrCol.getName();
 			
 			Class<?> type = attrCol.getType();
-			String networkName = (String)networkRow.get(attrName, type);
-			
+			//String networkName = (String)networkRow.get(attrName, type);
+			String networkName = network.getRow(network).get(CyNetwork.NAME, String.class);
+
 			String fileName = currentPath + "/" +networkName;
 			//String fileName = networkName;
 			String baseName = FilenameUtils.getBaseName(fileName);
