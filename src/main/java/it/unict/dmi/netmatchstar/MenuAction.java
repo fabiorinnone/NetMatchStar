@@ -39,10 +39,14 @@ import it.unict.dmi.netmatchstar.view.WestPanel;
 import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.application.swing.AbstractCyAction;
 import org.cytoscape.application.swing.CytoPanelComponent;
+import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.service.util.CyServiceRegistrar;
+import org.cytoscape.view.model.CyNetworkViewFactory;
+import org.cytoscape.view.model.CyNetworkViewManager;
 
 @SuppressWarnings("serial")
 public class MenuAction extends AbstractCyAction {
+	private static CyActivator cyActivator;
 	private static CySwingAppAdapter adapter;
     private static boolean opened = false;
 
@@ -52,6 +56,7 @@ public class MenuAction extends AbstractCyAction {
 
 	public MenuAction(final String menuTitle, CyActivator activator, CySwingAppAdapter adapt) {
         super(menuTitle, activator.getcyApplicationManager(), null, null);
+		cyActivator = activator;
 		adapter = adapt;
         setPreferredMenu("Apps");
     }
@@ -71,5 +76,17 @@ public class MenuAction extends AbstractCyAction {
 
 	public static CySwingAppAdapter getAdapter() {
 		return adapter;
+	}
+
+	public static CyNetworkManager getCyNetworkManager() {
+		return cyActivator.getCyNetworkManager();
+	}
+
+	public static CyNetworkViewManager getCyNetworkViewManager() {
+		return cyActivator.getCyNetworkViewManager();
+	}
+
+	public static CyNetworkViewFactory getCyNetworkViewFactory () {
+		return cyActivator.getCyNetworkViewFactory();
 	}
 }

@@ -42,10 +42,13 @@ import it.unict.dmi.netmatchstar.view.*;
 import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.CySwingApplication;
+import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.service.util.AbstractCyActivator;
 import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.task.EdgeViewTaskFactory;
 import org.cytoscape.task.NodeViewTaskFactory;
+import org.cytoscape.view.model.CyNetworkViewFactory;
+import org.cytoscape.view.model.CyNetworkViewManager;
 import org.osgi.framework.BundleContext;
 
 public class CyActivator extends AbstractCyActivator {
@@ -54,6 +57,9 @@ public class CyActivator extends AbstractCyActivator {
     private CyServiceRegistrar cyServiceRegistrar;
     private CySwingAppAdapter cySwingAppAdapter;
     private CySwingApplication cySwingApplication;
+    private CyNetworkManager cyNetworkManager;
+    private CyNetworkViewManager cyNetworkViewManager;
+    private CyNetworkViewFactory cyNetworkViewFactory;
 
     public CyActivator() {
         super();
@@ -65,6 +71,9 @@ public class CyActivator extends AbstractCyActivator {
         cyServiceRegistrar = getService(bc, CyServiceRegistrar.class);
         cySwingAppAdapter = getService(bc, CySwingAppAdapter.class);
         cySwingApplication = getService(bc, CySwingApplication.class);
+        cyNetworkManager = getService(bc, CyNetworkManager.class);
+        cyNetworkViewManager = getService(bc, CyNetworkViewManager.class);
+        cyNetworkViewFactory = getService(bc, CyNetworkViewFactory.class);
 
         MenuAction menuAction = new MenuAction(Common.APP_NAME, this, cySwingAppAdapter);
         cySwingAppAdapter.getCySwingApplication().addAction(menuAction);
@@ -115,5 +124,17 @@ public class CyActivator extends AbstractCyActivator {
 
     public CyApplicationManager getcyApplicationManager() {
         return cyApplicationManager;
+    }
+
+    public CyNetworkManager getCyNetworkManager() {
+        return cyNetworkManager;
+    }
+
+    public CyNetworkViewManager getCyNetworkViewManager() {
+        return cyNetworkViewManager;
+    }
+
+    public CyNetworkViewFactory getCyNetworkViewFactory() {
+        return cyNetworkViewFactory;
     }
 }

@@ -217,8 +217,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	private HashMap<String,String> targetNetworkIdMap;	//key: description, value = id
 	
 	private CySwingAppAdapter adapter = MenuAction.getAdapter();
-	private CyNetworkManager cnm = adapter.getCyNetworkManager();
-	
+	private CyNetworkManager cnm = MenuAction.getCyNetworkManager();
+
 	@SuppressWarnings("rawtypes")
 	private Set s = cnm.getNetworkSet();
 	
@@ -1174,9 +1174,9 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			
 			cnm.addNetwork(cyNetwork);
 			
-			CyNetworkViewFactory cnvf = adapter.getCyNetworkViewFactory();
+			CyNetworkViewFactory cnvf = MenuAction.getCyNetworkViewFactory();
 			CyNetworkView cyView = cnvf.createNetworkView(cyNetwork);
-			CyNetworkViewManager cnvm = adapter.getCyNetworkViewManager();
+			CyNetworkViewManager cnvm = MenuAction.getCyNetworkViewManager();
 			cnvm.addNetworkView(cyView);
 			
 			cyView.updateView();
