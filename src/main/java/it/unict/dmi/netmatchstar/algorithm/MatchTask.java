@@ -305,7 +305,8 @@ public class MatchTask extends AbstractTask {
 		System.out.println("}");
 	}
 	
-	public GraphLoader loadGraphFromNetwork(CyNetwork network, ArrayList edgeAttr, ArrayList nodeAttr) throws Exception {   	
+	public GraphLoader loadGraphFromNetwork(CyNetwork network, ArrayList edgeAttr,
+											ArrayList nodeAttr) throws Exception {
     	GraphLoader loader;
         Hashtable names = new Hashtable();
         int i, k;

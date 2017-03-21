@@ -323,22 +323,30 @@ public class GeometricTask extends AbstractTask {
   		          			}
   		          			log.append("Z-score: " + m_zScore + "\n");
   		          			System.out.println("Z-score: " + m_zScore);
-  		          			if (evalue == 0)
-  		          				JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(), "Number of "
-  		          						+ "occurrences in the real network: " + m_numMatchesNet + "\n" +
-  	  		          				"Average occurrences in the randomized networks: " + m_averageNumMatches + "\n" +
-  	  		          				"Standard deviation occurrences in the randomized networks: " + m_sigmaNumMatches + "\n" +
-  	  		          				"E-value < " + (1.0/N) + "\n" +
-  	  		          				"Z-score: " + m_zScore + "\n", 
-  	  		          				Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
-  		          			else
-  	  		          			JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(), "Number of "
-  	  		          					+ "occurrences in the real network: " + m_numMatchesNet + "\n" +
-  	  		          				"Average occurrences in the randomized networks: " + m_averageNumMatches + "\n" +
-  	  		          				"Standard deviation of occurrences in the randomized networks: " + m_sigmaNumMatches + "\n" +
-  	  		          				"E-value: " + evalue + "\n" +
-  	  		          				"Z-score: " + m_zScore + "\n",
-  	  		          				Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
+							if (evalue == 0) {
+								JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(),
+										"Number of occurrences in the real network: " +
+										m_numMatchesNet + "\n" +
+										"Average occurrences in the randomized networks: " +
+										m_averageNumMatches + "\n" +
+										"Standard deviation occurrences in the randomized networks: " +
+										m_sigmaNumMatches + "\n" +
+										"E-value < " + (1.0 / N) + "\n" +
+										"Z-score: " + m_zScore + "\n",
+										Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
+							}
+							else {
+								JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(),
+										"Number of occurrences in the real network: " +
+										m_numMatchesNet + "\n" +
+										"Average occurrences in the randomized networks: " +
+										m_averageNumMatches + "\n" +
+										"Standard deviation of occurrences in the randomized networks: " +
+										m_sigmaNumMatches + "\n" +
+										"E-value: " + evalue + "\n" +
+										"Z-score: " + m_zScore + "\n",
+										Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
+							}
   		          		}
   		          	});
   		          	
@@ -367,7 +375,8 @@ public class GeometricTask extends AbstractTask {
 		}
 	}
 	
-	public GraphLoader loadGraphFromNetwork(CyNetwork network, ArrayList edgeAttr, ArrayList nodeAttr) throws Exception {   	
+	public GraphLoader loadGraphFromNetwork(CyNetwork network, ArrayList edgeAttr,
+											ArrayList nodeAttr) throws Exception {
     	GraphLoader loader;
         Hashtable names = new Hashtable();
         int i, k;

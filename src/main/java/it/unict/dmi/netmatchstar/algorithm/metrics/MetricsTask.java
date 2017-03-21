@@ -360,7 +360,8 @@ public class MetricsTask extends AbstractTask {
 		}
 	}
 	
-	public GraphLoader loadGraphFromNetwork(CyNetwork network, ArrayList edgeAttr, ArrayList nodeAttr) throws Exception {   	
+	public GraphLoader loadGraphFromNetwork(CyNetwork network, ArrayList edgeAttr,
+											ArrayList nodeAttr) throws Exception {
     	GraphLoader loader;
         Hashtable names = new Hashtable();
         int i, k;
