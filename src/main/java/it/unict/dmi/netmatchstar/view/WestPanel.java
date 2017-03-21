@@ -207,8 +207,6 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	private JTextField dmInitNodes;
 	private JTextField dmProb;
 	
-	//public HashMap queries;
-	
 	@SuppressWarnings("rawtypes")
 	public ArrayList listOfNodeAttributes;
 	@SuppressWarnings("rawtypes")
@@ -219,7 +217,6 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 
 	private CyActivator activator;
 	
-	//private CySwingAppAdapter adapter = MenuAction.getAdapter();
 	private CyNetworkManager cnm;
 	private Set<CyNetwork> networkSet;
 
@@ -1499,7 +1496,6 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        	}
 			        	taskIterator.append(erdosRenyiTask);
 			        	dialogTaskManager.execute(taskIterator);
-					  
 	        		}
 				}
 			}
@@ -3012,6 +3008,5 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Stub di metodo generato automaticamente
-		
 	}
 }//class WestPanel
