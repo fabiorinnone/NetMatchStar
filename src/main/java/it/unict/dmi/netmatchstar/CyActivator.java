@@ -116,43 +116,4 @@ public class CyActivator extends AbstractCyActivator {
     public CyApplicationManager getcyApplicationManager() {
         return cyApplicationManager;
     }
-
-	/*public NetMatchApp(CySwingAppAdapter adapter)
-	{
-		super(adapter);
-		adapter.getCySwingApplication()
-        		.addAction(new MenuAction(adapter));
-
-		final CyServiceRegistrar registrar = adapter.getCyServiceRegistrar();
-
-		Properties editNodeLabelProps = new Properties();
-		editNodeLabelProps.setProperty(PREFERRED_ACTION, "NEW");
-		editNodeLabelProps.setProperty(PREFERRED_MENU, "NetMatch*[100]");
-		editNodeLabelProps.setProperty(MENU_GRAVITY, "6.0f");
-		editNodeLabelProps.setProperty(IN_MENU_BAR, "false");
-		editNodeLabelProps.setProperty(TITLE, "Edit Node Label Attribute");
-
-	  	registrar.registerService(new EditNodeLabelTaskFactory(adapter),
-	  			NodeViewTaskFactory.class, editNodeLabelProps);
-
-	  	Properties editEdgeLabelProps = new Properties();
-	  	editEdgeLabelProps.setProperty(PREFERRED_ACTION, "NEW");
-		editEdgeLabelProps.setProperty(PREFERRED_MENU, "NetMatch*[100]");
-		editEdgeLabelProps.setProperty(MENU_GRAVITY, "6.0f");
-		editEdgeLabelProps.setProperty(IN_MENU_BAR, "false");
-		editEdgeLabelProps.setProperty(TITLE, "Edit Edge Label Attribute");
-
-	  	registrar.registerService(new EditEdgeLabelTaskFactory(adapter),
-	  			EdgeViewTaskFactory.class, editEdgeLabelProps);
-
-	  	Properties editSetApproxPathProps = new Properties();
-	  	editSetApproxPathProps.setProperty(PREFERRED_ACTION, "NEW");
-	  	editSetApproxPathProps.setProperty(PREFERRED_MENU, "NetMatch*[100]");
-	  	editSetApproxPathProps.setProperty(MENU_GRAVITY, "7.0f");
-	  	editSetApproxPathProps.setProperty(IN_MENU_BAR, "false");
-	  	editSetApproxPathProps.setProperty(TITLE, "Set Approximate Path");
-
-	  	registrar.registerService(new SetApproxPathTaskFactory(adapter),
-	  			EdgeViewTaskFactory.class, editSetApproxPathProps);
-	}*/
 }
