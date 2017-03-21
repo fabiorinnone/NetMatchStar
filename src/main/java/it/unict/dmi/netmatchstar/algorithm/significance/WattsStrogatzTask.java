@@ -300,7 +300,7 @@ public class WattsStrogatzTask extends AbstractTask {
   		          			log.append("The network has not any occurrences of the query\n");
   		          			JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
 	          						"The network has not any occurrences of the query\n", 
-	          						"NetMatch*", JOptionPane.INFORMATION_MESSAGE);
+	          						Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
   		          		}
 	        		});
 	        	}
@@ -331,7 +331,7 @@ public class WattsStrogatzTask extends AbstractTask {
   	  		          				"Standard deviation occurrences in the randomized networks: " + m_sigmaNumMatches + "\n" +
   	  		          				"E-value < " + (1.0/N) + "\n" +
   	  		          				"Z-score: " + m_zScore + "\n", 
-  	  		          				"NetMatch*", JOptionPane.INFORMATION_MESSAGE);
+  	  		          				Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
   		          			else
   	  		          			JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), "Number of "
   	  		          					+ "occurrences in the real network: " + m_numMatchesNet + "\n" +
@@ -339,7 +339,7 @@ public class WattsStrogatzTask extends AbstractTask {
   	  		          				"Standard deviation of occurrences in the randomized networks: " + m_sigmaNumMatches + "\n" +
   	  		          				"E-value: " + evalue + "\n" +
   	  		          				"Z-score: " + m_zScore + "\n",
-  	  		          				"NetMatch*", JOptionPane.INFORMATION_MESSAGE);
+  	  		          				Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
   		          		}
   		          	});
   		          	
@@ -361,7 +361,7 @@ public class WattsStrogatzTask extends AbstractTask {
 		catch (Error e) {
 			completedSuccessfully = false;
 			System.out.println(e);
-			throw new Exception("NetMatch* cancelled", e);
+			throw new Exception(Common.APP_NAME + "cancelled", e);
 		}
 		finally {
 			//No op
@@ -562,7 +562,7 @@ public class WattsStrogatzTask extends AbstractTask {
 	}
     
     public String getTitle() {
-        return "NetMatch*";
+        return Common.APP_NAME;
     }
 
     public void halt() {

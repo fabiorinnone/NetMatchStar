@@ -355,7 +355,7 @@ public class MetricsTask extends AbstractTask {
 		catch (Error e) {
 			completedSuccessfully = false;
 			System.out.println(e);
-			throw new Exception("NetMatch* cancelled", e);
+			throw new Exception(Common.APP_NAME + " cancelled", e);
 		}
 		finally {
 			//No op
@@ -556,7 +556,7 @@ public class MetricsTask extends AbstractTask {
 	}
     
     public String getTitle() {
-        return "NetMatch*";
+        return Common.APP_NAME;
     }
 
     public void halt() {
@@ -642,7 +642,7 @@ public class MetricsTask extends AbstractTask {
 		table.setPreferredScrollableViewportSize(new Dimension(600, 130));
 
 		JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(),
-				new JScrollPane(table), "NetMatch*", JOptionPane.INFORMATION_MESSAGE);
+				new JScrollPane(table), Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
 	}
     
     @Override

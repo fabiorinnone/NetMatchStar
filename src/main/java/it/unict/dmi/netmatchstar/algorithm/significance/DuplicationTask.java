@@ -302,7 +302,7 @@ public class DuplicationTask extends AbstractTask {
   		          			log.append("The network has not any occurrences of the query\n");
   		          			JOptionPane.showMessageDialog(adapter.getCySwingApplication().getJFrame(), 
 	          						"The network has not any occurrences of the query\n", 
-	          						"NetMatch*", JOptionPane.INFORMATION_MESSAGE);
+	          						Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
   		          		}
 	        		});
 	        	}

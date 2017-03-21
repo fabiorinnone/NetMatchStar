@@ -29,6 +29,8 @@
  */
 package it.unict.dmi.netmatchstar;
 
+import it.unict.dmi.netmatchstar.utils.Common;
+
 import javax.swing.*;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 import javax.swing.text.html.HTMLDocument;
@@ -49,7 +51,7 @@ public class NetMatchQuickHelp extends JFrame implements ActionListener, WindowL
   private JEditorPane editor;
 
   public static void main(String args[]) {
-    NetMatchQuickHelp f = new NetMatchQuickHelp("NetMatch Quick Help",null);
+    NetMatchQuickHelp f = new NetMatchQuickHelp(Common.APP_NAME + " Quick Help",null);
     f.setVisible(true);
   }
 

@@ -58,7 +58,7 @@ public class Common {
 	public static String NODE_LABEL_ATTR = "Node Label";
 	public static String EDGE_LABEL_ATTR = "Edge Label";
 	
-	public static String NETMATCH_STYLE = "NetMatch* Style";
+	public static String NETMATCH_STYLE = Common.APP_NAME + "Style";
 	
 	//motifs types
 	public static final Integer THREE_CHAIN = 1;

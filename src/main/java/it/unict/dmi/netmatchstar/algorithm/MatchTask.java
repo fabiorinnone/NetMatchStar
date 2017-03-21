@@ -261,7 +261,7 @@ public class MatchTask extends AbstractTask {
 		catch (Error e) {
 			completedSuccessfully = false;
 			System.out.println(e);
-			throw new Exception("NetMatch* cancelled", e);
+			throw new Exception(Common.APP_NAME + " cancelled", e);
 		}
 		finally {
 			//No op
@@ -505,7 +505,7 @@ public class MatchTask extends AbstractTask {
 	}
     
     public String getTitle() {
-        return "NetMatch*";
+        return Common.APP_NAME;
     }
 
     public void halt() {
@@ -540,7 +540,7 @@ public class MatchTask extends AbstractTask {
 
 	    JOptionPane.showOptionDialog(adapter.getCySwingApplication().getJFrame(), // the parent that the dialog blocks
 	    		message, // the dialog message array
-	    		"NetMatch*", // the title of the dialog window
+	    		Common.APP_NAME, // the title of the dialog window
 	    		JOptionPane.DEFAULT_OPTION, // option type
 	    		JOptionPane.INFORMATION_MESSAGE, // message type
 	    		null, // optional icon, use null to use the default icon

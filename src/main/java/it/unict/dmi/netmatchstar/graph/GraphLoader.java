@@ -33,6 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import it.unict.dmi.netmatchstar.MenuAction;
+import it.unict.dmi.netmatchstar.utils.Common;
 
 public class GraphLoader {
   private int count;
@@ -67,9 +68,9 @@ public class GraphLoader {
       n = n.next;
     if(n == null) {
       if(frame != null)
-        JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(), "NetMatch Error. Inconsistent data!", "NetMatch Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(), Common.APP_NAME + " Error. Inconsistent data!", Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
       else
-        System.err.println("NetMatch Error. Inconsistent data!");
+        System.err.println(Common.APP_NAME + " Error. Inconsistent data!");
       return null;
     }
     return n.attr;
@@ -84,9 +85,9 @@ public class GraphLoader {
       n = n.next;
     if(n == null) {
       if(frame != null)
-        JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(), "**NetMatch Error. Inconsistent data!", "NetMatch Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(), Common.APP_NAME + " Error. Inconsistent data!", Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
       else
-        System.err.println("NetMatch Error. Inconsistent data!");
+        System.err.println(Common.APP_NAME + " Error. Inconsistent data!");
       return -1;
     }
     return n.networkIndex;
@@ -105,9 +106,9 @@ public class GraphLoader {
       if(frame != null)
         JOptionPane.showMessageDialog(
         		MenuAction.getAdapter().getCySwingApplication().getJFrame(), 
-        		"NetMatch Error. Inconsistent data!", "NetMatch Error", JOptionPane.ERROR_MESSAGE);
+        		Common.APP_NAME + "Error. Inconsistent data!", Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
       else
-        System.err.println("NetMatch Error. Inconsistent data!");
+        System.err.println(Common.APP_NAME + "Error. Inconsistent data!");
       return -1;
     }
     return n.count;
@@ -126,9 +127,9 @@ public class GraphLoader {
       if(frame != null)
         JOptionPane.showMessageDialog(
         		MenuAction.getAdapter().getCySwingApplication().getJFrame(), 
-        		"NetMatch Error. Inconsistent data!", "NetMatch Error", JOptionPane.ERROR_MESSAGE);
+        		Common.APP_NAME + "Error. Inconsistent data!", Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
       else
-        System.err.println("NetMatch Error. Inconsistent data!");
+        System.err.println(Common.APP_NAME + "Error. Inconsistent data!");
       return -1;
     }
     Edge e = n.edges;
@@ -144,9 +145,9 @@ public class GraphLoader {
     }
     if(e == null) {
       if(frame != null)
-        JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(), "NetMatch Error. Inconsistent data!", "NetMatch Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(MenuAction.getAdapter().getCySwingApplication().getJFrame(), Common.APP_NAME + "Error. Inconsistent data!", Common.APP_NAME + "Error", JOptionPane.ERROR_MESSAGE);
       else
-        System.err.println("NetMatch Error. Inconsistent data!");
+        System.err.println(Common.APP_NAME + "Error. Inconsistent data!");
       return -1;
     }
     if(pattr != null)
@@ -240,10 +241,10 @@ public class GraphLoader {
       if(frame != null)
         JOptionPane.showMessageDialog(
         		MenuAction.getAdapter().getCySwingApplication().getJFrame(), 
-        		"NetMatch Warning. Bad param 1 in GraphLoader - InsertEdge: " + id1 + " " + id2, 
-        		"NetMatch Warning", JOptionPane.WARNING_MESSAGE);
+        		Common.APP_NAME + "Warning. Bad param 1 in GraphLoader - InsertEdge: " + id1 + " " + id2, 
+        		Common.APP_NAME + "Warning", JOptionPane.WARNING_MESSAGE);
       else
-        System.err.println("NetMatch Warning. Bad param 1 in GraphLoader - InsertEdge: " + id1 + " " + id2);
+        System.err.println(Common.APP_NAME + "Warning. Bad param 1 in GraphLoader - InsertEdge: " + id1 + " " + id2);
     else {
       Edge p = pn.edges, p0 = null;
       if(lastEdge != null && lastEdge.from == id1 && lastEdge.to < id2) {

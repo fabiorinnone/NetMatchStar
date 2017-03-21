@@ -29,6 +29,8 @@
  */
 package it.unict.dmi.netmatchstar;
 
+import it.unict.dmi.netmatchstar.utils.Common;
+
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
@@ -52,7 +54,7 @@ public class NetMatchHelp extends JFrame implements ActionListener, WindowListen
   private JEditorPane editor;
 
   public static void main(String args[]) {
-    NetMatchHelp f = new NetMatchHelp("NetMatch Help",null);
+    NetMatchHelp f = new NetMatchHelp(Common.APP_NAME + " Help",null);
     f.setVisible(true);
   }
 
@@ -170,7 +172,7 @@ public class NetMatchHelp extends JFrame implements ActionListener, WindowListen
   }
 
   public JScrollPane createTree() {
-    DefaultMutableTreeNode top = new DefaultMutableTreeNode("NetMatch Help");
+    DefaultMutableTreeNode top = new DefaultMutableTreeNode(Common.APP_NAME + " Help");
     DefaultMutableTreeNode introduction = new DefaultMutableTreeNode("Introduction");
     DefaultMutableTreeNode installation = new DefaultMutableTreeNode("Installation");
     DefaultMutableTreeNode usage = new DefaultMutableTreeNode("Usage");
@@ -179,7 +181,7 @@ public class NetMatchHelp extends JFrame implements ActionListener, WindowListen
     top.add(installation);
     top.add(usage);
     top.add(bug);
-    DefaultMutableTreeNode netMatchOptions = new DefaultMutableTreeNode("NetMatch* options");
+    DefaultMutableTreeNode netMatchOptions = new DefaultMutableTreeNode(Common.APP_NAME + "options");
     DefaultMutableTreeNode loadingInputData = new DefaultMutableTreeNode("Loading input data");
     DefaultMutableTreeNode drawingQuery = new DefaultMutableTreeNode("Drawing query");
     DefaultMutableTreeNode motifsLibrary = new DefaultMutableTreeNode("Motifs library");
@@ -204,7 +206,7 @@ public class NetMatchHelp extends JFrame implements ActionListener, WindowListen
   public void valueChanged(TreeSelectionEvent e) {
     String n = e.getPath().getLastPathComponent().toString();
     try {
-      if(n.equals("NetMatch* Help")) {
+      if(n.equals(Common.APP_NAME + "Help")) {
         editor.setPage(getPage("/help/index.html"));
       }
       else if(n.equals("Introduction")) {
@@ -213,7 +215,7 @@ public class NetMatchHelp extends JFrame implements ActionListener, WindowListen
       else if(n.equals("Installation")) {
         editor.setPage(getPage("/help/installation.html"));
       }
-      else if(n.equals("NetMatch* options")) {
+      else if(n.equals(Common.APP_NAME + "options")) {
         editor.setPage(getPage("/help/netmatch_options.html"));
       }
       else if(n.equals("Loading input data")) {
