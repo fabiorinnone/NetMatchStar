@@ -437,7 +437,12 @@ public class Graph {
 		}
 		
 		public Edge pickupEdge() {
-			int i = (int) (random() * edges.length);
+            int numEdges;
+            if (oriented) //workaround issue #9
+                numEdges = edges.length;
+            else
+                numEdges = edges.length / 2;
+			int i = (int) (random() * numEdges);
             return edges[i];
 		}
 	}
