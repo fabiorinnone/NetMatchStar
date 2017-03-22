@@ -213,16 +213,17 @@ public class Graph {
 			edges.remove(count);
 			if(!oriented)
 			{
-				outAdiacs=dest.getOutAdiacs();
+				outAdiacs = dest.getOutAdiacs();
 				outAdiacs.remove(idSource);
-				inAdiacs=source.getInAdiacs();
+				inAdiacs = source.getInAdiacs();
 				inAdiacs.remove(idTarget);
+                Iterator<Edge> iterator2 = edges.iterator();
 				count = 0;
-				while(iterator.hasNext()) {
-					Edge edge = iterator.next();
-					int s = edge.getSource();
-					int t = edge.getAdjTarget();
-					if (s == idTarget && t == idSource)
+				while(iterator2.hasNext()) {
+					Edge edge = iterator2.next();
+					int t = edge.getSource();
+					int s = edge.getAdjTarget();
+					if (s == idSource && t == idTarget)
 						break;
 					count++;
 				}
