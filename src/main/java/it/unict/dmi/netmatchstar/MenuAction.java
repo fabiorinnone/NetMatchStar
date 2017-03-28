@@ -37,7 +37,9 @@ import javax.swing.JOptionPane;
 import it.unict.dmi.netmatchstar.utils.Common;
 import it.unict.dmi.netmatchstar.view.WestPanel;
 import org.cytoscape.application.swing.AbstractCyAction;
+import org.cytoscape.application.swing.CytoPanel;
 import org.cytoscape.application.swing.CytoPanelComponent;
+import org.cytoscape.application.swing.CytoPanelName;
 import org.cytoscape.service.util.CyServiceRegistrar;
 
 @SuppressWarnings("serial")
@@ -61,6 +63,9 @@ public class MenuAction extends AbstractCyAction {
     		CyServiceRegistrar csr = cyActivator.getCyServiceRegistrar();
 			csr.registerService(panel, CytoPanelComponent.class, new Properties());
 			opened = true;
+
+			CytoPanel cytoPanel = cyActivator.getCySwingApplication().getCytoPanel(CytoPanelName.WEST);
+			cytoPanel.setSelectedIndex(cytoPanel.indexOfComponent(panel));
     	}
     	else {
     		JOptionPane.showMessageDialog(cyActivator.getCySwingApplication().getJFrame(),
