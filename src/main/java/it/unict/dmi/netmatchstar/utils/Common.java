@@ -88,8 +88,6 @@ public class Common {
 	public static final String LE = "<=";
 	public static final String UNDEFINED = "UNDEFINED";
 
-	public static final String VERSION_NUMBER = "3.1";
-  
 	public static boolean isApproximatePath(String s) {
 		return 	s.startsWith(APPROX_GT) ||  s.startsWith(APPROX_GE) || 
 				s.startsWith(APPROX_EQ) ||  s.startsWith(APPROX_LT) || 
