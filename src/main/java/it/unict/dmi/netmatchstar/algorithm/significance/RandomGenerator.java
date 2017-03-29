@@ -154,7 +154,8 @@ public class RandomGenerator
 				Integer[] listAdiac=adiacs.toArray(new Integer[adiacs.size()]);
 				int dest=listAdiac[r.nextInt(listAdiac.length)];
 				randomNet.removeEdge(source,dest);
-				i--;
+				//i--;
+				i=randomNet.getEdgeCount(); //issue #11 workaround
 			}
 		}
 		//Shuffling each edge with probability beta
