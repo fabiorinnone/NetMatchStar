@@ -627,12 +627,12 @@ public class MetricsTask extends AbstractTask {
 		log.append("Assortativity in Erdos-Renyi network: " + erAssortativity + "\n");
 		System.out.println("Assortativity in Erdos-Renyi network: " + erAssortativity);
 
-		log.append("Average degree in Watts-Stogatz network: " + wsAverageDegree + "\n");
-		System.out.println("Average degree in Watts-Stogatz network: " + wsAverageDegree);
-		log.append("Average clustering coefficient in Watts-Stogatz network: " + wsAverageClusteringCoefficient + "\n");
-		System.out.println("Average clustering coefficient in Watts-Stogatz network: " + wsAverageClusteringCoefficient);
-		log.append("Assortativity in Watts-Stogatz network: " + wsAssortativity + "\n");
-		System.out.println("Assortativity in Watts-Stogatz network: " + wsAssortativity);
+		log.append("Average degree in Watts-Strogatz network: " + wsAverageDegree + "\n");
+		System.out.println("Average degree in Watts-Strogatz network: " + wsAverageDegree);
+		log.append("Average clustering coefficient in Watts-Strogatz network: " + wsAverageClusteringCoefficient + "\n");
+		System.out.println("Average clustering coefficient in Watts-Strogatz network: " + wsAverageClusteringCoefficient);
+		log.append("Assortativity in Watts-Strogatz network: " + wsAssortativity + "\n");
+		System.out.println("Assortativity in Watts-Strogatz network: " + wsAssortativity);
 
 		log.append("Average degree in Barabasi-Albert network: " + baAverageDegree + "\n");
 		System.out.println("Average degree in Barabasi-Albert network: " + baAverageDegree);
@@ -666,7 +666,7 @@ public class MetricsTask extends AbstractTask {
 				{"Target Network", dbAverageDegree, dbAverageClusteringCoefficient, dbAssortativity},
 				{"Shuffling", smAverageDegree, smAverageClusteringCoefficient, smAssortativity},
 				{"Erdos-Renyii", erAverageDegree, erAverageClusteringCoefficient, erAssortativity},
-				{"Watts-Strogaz", wsAverageDegree, wsAverageClusteringCoefficient, wsAssortativity},
+				{"Watts-Strogatz", wsAverageDegree, wsAverageClusteringCoefficient, wsAssortativity},
 				{"Barabasi-Albert", baAverageDegree, baAverageClusteringCoefficient, baAssortativity},
 				{"Geometric", gmAverageDegree, gmAverageClusteringCoefficient, gmAssortativity},
 				{"Duplication", dmAverageDegree, dmAverageClusteringCoefficient, dmAssortativity},
