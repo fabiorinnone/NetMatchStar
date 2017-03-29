@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package it.unict.dmi.netmatchstar.utils;
+package it.unict.dmi.netmatchstar.utils.file;
 
 import java.io.File;
 
@@ -38,13 +38,13 @@ import javax.swing.filechooser.FileFilter;
  * @author Fabio Rinnone
  * 
  */
-public class SIFFilter extends FileFilter {
+public class TextFilter extends FileFilter {
 
   public boolean accept (File f) {
-    return f.getName().toLowerCase().endsWith (".sif") || f.isDirectory();
+    return f.getName().toLowerCase().endsWith (".txt") || f.isDirectory();
   }
 
   public String getDescription() {
-    return "SIF file";
+    return "Text file";
   }
 }

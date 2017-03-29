@@ -92,6 +92,7 @@ import it.unict.dmi.netmatchstar.algorithm.metrics.MetricsTask;
 import it.unict.dmi.netmatchstar.algorithm.significance.ShufflingTask;
 import it.unict.dmi.netmatchstar.algorithm.significance.WattsStrogatzTask;
 
+import it.unict.dmi.netmatchstar.utils.file.SIFFilter;
 import org.apache.commons.io.FilenameUtils;
 import org.cytoscape.app.CyAppAdapter;
 import org.cytoscape.app.swing.CySwingAppAdapter;

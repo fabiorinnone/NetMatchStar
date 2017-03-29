@@ -29,18 +29,11 @@
  */
 package it.unict.dmi.netmatchstar.algorithm.metrics;
 
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.awt.*;
+import java.io.File;
+import java.util.*;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import it.unict.dmi.netmatchstar.CyActivator;
 import it.unict.dmi.netmatchstar.algorithm.ApproxEdgeComparator;
@@ -51,14 +44,15 @@ import it.unict.dmi.netmatchstar.algorithm.significance.RandomGenerator;
 import it.unict.dmi.netmatchstar.graph.Graph;
 import it.unict.dmi.netmatchstar.graph.GraphLoader;
 import it.unict.dmi.netmatchstar.utils.Common;
+import it.unict.dmi.netmatchstar.utils.file.TextFilter;
 import it.unict.dmi.netmatchstar.view.WestPanel;
 
-import org.cytoscape.model.CyEdge;
-import org.cytoscape.model.CyNetwork;
-import org.cytoscape.model.CyNode;
-import org.cytoscape.model.CyRow;
+import org.apache.commons.io.FilenameUtils;
+import org.cytoscape.model.*;
 import org.cytoscape.work.AbstractTask;
+import org.cytoscape.work.TaskIterator;
 import org.cytoscape.work.TaskMonitor;
+import org.cytoscape.work.swing.PanelTaskManager;
 
 /**
  * 
@@ -85,6 +79,8 @@ public class MetricsTask extends AbstractTask {
 	private JTextArea log;
 	
 	private static boolean completedSuccessfully;
+
+	private HashMap<String,ArrayList<Double>> resultsMap;
 	
 	private double dbAverageDegree;
 	private double dbAverageClusteringCoefficient;
@@ -139,6 +135,8 @@ public class MetricsTask extends AbstractTask {
 		this.dmInitNumNodes = dmInitNumNodes;
 		this.dmInitProbEdges = dmInitProbEdges;
 		this.ffmNumAmb = ffmNumAmb;
+
+		resultsMap = new HashMap<>();
 		
 		m_direct = direct;
 		
@@ -239,6 +237,12 @@ public class MetricsTask extends AbstractTask {
 	      	dbAverageDegree = Metrics.getAverageDegree(db);
 	      	dbAverageClusteringCoefficient = Metrics.getAverageClusteringCoefficient(db);
 	      	dbAssortativity = Metrics.getAssortativity(db);
+
+			ArrayList<Double> dbResults = new ArrayList<>();
+			dbResults.add(dbAverageDegree);
+			dbResults.add(dbAverageClusteringCoefficient);
+			dbResults.add(dbAssortativity);
+			resultsMap.put("Target Network", dbResults);
 	      	
 	      	taskMonitor.setProgress(1.0/8.0);
 	      	
@@ -261,6 +265,12 @@ public class MetricsTask extends AbstractTask {
 	        smAverageDegree = Metrics.getAverageDegree(shufflNet);
 	        smAverageClusteringCoefficient = Metrics.getAverageClusteringCoefficient(shufflNet);
 	        smAssortativity = Metrics.getAssortativity(shufflNet);
+
+			ArrayList<Double> smResults = new ArrayList<>();
+			smResults.add(smAverageDegree);
+			smResults.add(smAverageClusteringCoefficient);
+			smResults.add(smAssortativity);
+			resultsMap.put("Shuffling", smResults);
 	        
 	        taskMonitor.setProgress(2.0/8.0);
 	      	
@@ -273,6 +283,12 @@ public class MetricsTask extends AbstractTask {
 	        erAverageDegree = Metrics.getAverageDegree(erdosRenyiNet);
 	        erAverageClusteringCoefficient = Metrics.getAverageClusteringCoefficient(erdosRenyiNet);
 	        erAssortativity = Metrics.getAssortativity(erdosRenyiNet);
+
+			ArrayList<Double> erResults = new ArrayList<>();
+			erResults.add(erAverageDegree);
+			erResults.add(erAverageClusteringCoefficient);
+			erResults.add(erAssortativity);
+			resultsMap.put("Erdos-Renyi", erResults);
 	        
 	        taskMonitor.setProgress(3.0/8.0);
 	      	
@@ -281,6 +297,12 @@ public class MetricsTask extends AbstractTask {
 	        wsAverageDegree = Metrics.getAverageDegree(wattsStrogatzNet);
 	        wsAverageClusteringCoefficient = Metrics.getAverageClusteringCoefficient(wattsStrogatzNet);
 	        wsAssortativity = Metrics.getAssortativity(wattsStrogatzNet);
+
+			ArrayList<Double> wsResults = new ArrayList<>();
+			wsResults.add(wsAverageDegree);
+			wsResults.add(wsAverageClusteringCoefficient);
+			wsResults.add(wsAssortativity);
+			resultsMap.put("Watts-Strogatz", wsResults);
 	        
 	        taskMonitor.setProgress(4.0/8.0);
 	      	
@@ -289,6 +311,12 @@ public class MetricsTask extends AbstractTask {
 	        baAverageDegree = Metrics.getAverageDegree(barabasiAlbertNet);
 	        baAverageClusteringCoefficient = Metrics.getAverageClusteringCoefficient(barabasiAlbertNet);
 	        baAssortativity = Metrics.getAssortativity(barabasiAlbertNet);
+
+			ArrayList<Double> baResults = new ArrayList<>();
+			baResults.add(baAverageDegree);
+			baResults.add(baAverageClusteringCoefficient);
+			baResults.add(baAssortativity);
+			resultsMap.put("Barabasi-Albert", baResults);
 	        
 	        taskMonitor.setProgress(5.0/8.0);
 	      	
@@ -297,6 +325,12 @@ public class MetricsTask extends AbstractTask {
 	        gmAverageDegree = Metrics.getAverageDegree(geometricNet);
 	        gmAverageClusteringCoefficient = Metrics.getAverageClusteringCoefficient(geometricNet);
 	        gmAssortativity = Metrics.getAssortativity(geometricNet);
+
+			ArrayList<Double> gmResults = new ArrayList<>();
+			gmResults.add(gmAverageDegree);
+			gmResults.add(gmAverageClusteringCoefficient);
+			gmResults.add(gmAssortativity);
+			resultsMap.put("Geometric", gmResults);
 	        
 	        taskMonitor.setProgress(6.0/8.0);
 	      	
@@ -305,6 +339,12 @@ public class MetricsTask extends AbstractTask {
 	        dmAverageDegree = Metrics.getAverageDegree(duplicationNet);
 	        dmAverageClusteringCoefficient = Metrics.getAverageClusteringCoefficient(duplicationNet);
 	        dmAssortativity = Metrics.getAssortativity(duplicationNet);
+
+			ArrayList<Double> dmResults = new ArrayList<>();
+			dmResults.add(dmAverageDegree);
+			dmResults.add(dmAverageClusteringCoefficient);
+			dmResults.add(dmAssortativity);
+			resultsMap.put("Duplication", dmResults);
 	        
 	        taskMonitor.setProgress(7.0/8.0);
 	      	
@@ -313,6 +353,12 @@ public class MetricsTask extends AbstractTask {
 	        ffmAverageDegree = Metrics.getAverageDegree(forestFireNet);
 	        ffmAverageClusteringCoefficient = Metrics.getAverageClusteringCoefficient(forestFireNet);
 	        ffmAssortativity = Metrics.getAssortativity(forestFireNet);
+
+			ArrayList<Double> ffmResults = new ArrayList<>();
+			ffmResults.add(ffmAverageDegree);
+			ffmResults.add(ffmAverageClusteringCoefficient);
+			ffmResults.add(ffmAssortativity);
+			resultsMap.put("Forest-fire", ffmResults);
 	        
 	        taskMonitor.setProgress(8.0/8.0);
 	      	
@@ -631,8 +677,57 @@ public class MetricsTask extends AbstractTask {
 		JTable table = new JTable(rows, cols);
 		table.setPreferredScrollableViewportSize(new Dimension(600, 130));
 
-		JOptionPane.showMessageDialog(activator.getCySwingApplication().getJFrame(),
-				new JScrollPane(table), Common.APP_NAME, JOptionPane.INFORMATION_MESSAGE);
+		JFrame component = activator.getCySwingApplication().getJFrame();
+		Object message = new JScrollPane(table);
+		String title = Common.APP_NAME;
+		int optionType = JOptionPane.YES_NO_OPTION;
+		int messageType = JOptionPane.INFORMATION_MESSAGE;
+		Icon icon = null;
+		String[] options = {"Ok", "Save"};
+		String initialValue = options[0];
+		int result = JOptionPane.showOptionDialog(
+				component, message, title, optionType, messageType, icon, options, initialValue);
+		if (result == JOptionPane.NO_OPTION)
+			saveMetricsResultsToFile();
+	}
+
+	private void saveMetricsResultsToFile() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				JFileChooser fc = new JFileChooser();
+				TextFilter filter = new TextFilter();
+				fc.addChoosableFileFilter(filter);
+				fc.setFileFilter(filter);
+
+				int result = fc.showSaveDialog(new Component() {});
+				if (result == JFileChooser.APPROVE_OPTION) {
+					String fileName = fc.getSelectedFile().getName();
+
+					File file = fc.getSelectedFile();
+					if (!FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("txt")) {
+						//file = new File(file.toString() + ".sif");
+						file = new File(file.getParentFile(), FilenameUtils.getBaseName(file.getName())+".txt");
+					}
+					int opt = 0;
+					if (file.exists()) {
+						opt = JOptionPane.showConfirmDialog(null,"The file alredy exists. Overwrite?",
+								Common.APP_NAME, JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+					}
+					if (opt == 0) {
+						PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
+						TaskIterator taskIterator = new TaskIterator();
+
+						//TODO: pass arguments to task
+						String text = "Test";
+						SaveMetricsResultsTask saveTask = new SaveMetricsResultsTask(text, file);
+						taskIterator.append(saveTask);
+						dialogTaskManager.execute(taskIterator);
+					}
+				}
+			}
+		});
 	}
     
     @Override
