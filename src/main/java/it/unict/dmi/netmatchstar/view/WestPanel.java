@@ -193,6 +193,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	private JComboBox target;
 	private JCheckBox labeled;
 	private JCheckBox directed;
+	private JRadioButton ri;
+	private JRadioButton rids;
 	@SuppressWarnings("rawtypes")
 	private JComboBox qea, tea, qna, tna;
 
@@ -427,7 +429,9 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		panel7.setMaximumSize(new Dimension(WIDTH,70));
 		panel7.setPreferredSize(new Dimension(WIDTH,70));
 		panel7.setMinimumSize(new Dimension(MINIMUM_WIDTH,70));
-		
+
+		JPanel optionsPanel = new JPanel(new GridLayout(1,2,2,2));
+
 		JPanel panel2 = new JPanel();
 		panel2.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel2.setLayout(new BoxLayout(panel2,BoxLayout.Y_AXIS));
@@ -445,7 +449,31 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		directed.addActionListener(this);
 		directed.setToolTipText("If not checked, all edges are supposed undirected.");
 		panel2.add(directed);
-		panel7.add(panel2);
+		optionsPanel.add(panel2);
+
+		JPanel algorithmPanel = new JPanel();
+		algorithmPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		algorithmPanel.setLayout(new BoxLayout(algorithmPanel,BoxLayout.Y_AXIS));
+		algorithmPanel.setBorder(new TitledBorder(
+				new EtchedBorder(), "Algorithm", TitledBorder.RIGHT,
+				TitledBorder.DEFAULT_JUSTIFICATION, null, Color.BLACK));
+		ri = new JRadioButton("RI");
+		ri.setSelected(true);
+		ri.addActionListener(this);
+		algorithmPanel.add(ri);
+		algorithmPanel.add(Box.createHorizontalGlue());
+		rids = new JRadioButton("RI-DS");
+		rids.setSelected(false);
+		rids.addActionListener(this);
+		algorithmPanel.add(rids);
+
+		ButtonGroup group = new ButtonGroup();
+		group.add(ri);
+		group.add(rids);
+
+		optionsPanel.add(algorithmPanel);
+
+		panel7.add(optionsPanel);
 		
 		panel.add(panel7);
 		
@@ -1949,6 +1977,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 		        else {
 		        	Common.LABELED = labeled.isSelected();
 		        	Common.DIRECTED = directed.isSelected();
+					Common.DOMAINS = rids.isSelected();
 		        	log.setText("Start Matching...\n");
 
 					//CyServiceRegistrar csr = activator.getCyServiceRegistrar();

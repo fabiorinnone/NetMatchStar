@@ -73,6 +73,7 @@ public class Common {
 	public static final int NULL_NODE = 0xFFFF;
 	public static boolean DIRECTED = true;
 	public static boolean LABELED = true;
+	public static boolean DOMAINS = true;
 	public static int imageSize = 80;
 
 	public static final String APPROX_GT = "?>";

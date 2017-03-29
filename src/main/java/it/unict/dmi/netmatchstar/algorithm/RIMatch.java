@@ -463,8 +463,8 @@ public class RIMatch
 	{
 		for(int i=0; i<pgraph.nofNodes(); i++)
 		{
-			;//domains[i] = new BitSet(tgraph.nofNodes());
-			domains[i] = new BitSet(0);
+			domains[i] = new BitSet(tgraph.nofNodes());
+			//domains[i] = new BitSet(0);
 			for(int j=0; j<tgraph.nofNodes(); j++)
 			{
 				if(tgraph.nodes().get(j).inDegree()>=pgraph.nodes().get(i).inDegree() && tgraph.nodes().get(j).outDegree()>=pgraph.nodes().get(i).outDegree())
@@ -472,14 +472,14 @@ public class RIMatch
 					//if(pgraph.nodes().get(i).getAttribute().compareTo("?")==0 || pgraph.nodes().get(i).getAttribute().compareTo(tgraph.nodes().get(j).getAttribute())==0)
 					//if(pgraph.nodes().get(i).compareTo(tgraph.nodes().get(j)) == 0)
 					if (pgraph.compatibleNode(pgraph.nodes().get(i).getAttribute(), tgraph.nodes().get(j).getAttribute()))
-						;//domains[i].set(j, true);
+						domains[i].set(j, true);
 					else
-						;//domains[i].set(j, false);
+						domains[i].set(j, false);
 				}
 				else
-					;//domains[i].set(j, false);
+					domains[i].set(j, false);
 			}
-			;//domainsSize[i] = domains[i].cardinality();
+			domainsSize[i] = domains[i].cardinality();
 		}
 	}
 	

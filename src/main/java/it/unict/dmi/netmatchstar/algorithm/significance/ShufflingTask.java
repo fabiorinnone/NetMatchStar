@@ -245,7 +245,10 @@ public class ShufflingTask extends AbstractTask {
     	    
     	        nodiTarget = null;*/
     	        nodiTarget = db.nodes().keySet();
-    			m.match_simple(nodiTarget.iterator());
+				if (Common.DOMAINS)
+					m.match(nodiTarget.iterator());
+				else
+					m.match_simple(nodiTarget.iterator());
     			
     	        ArrayList l2 = m.getMatchesList();
     	        int numMatches = l2.size();

@@ -197,7 +197,10 @@ public class MatchTask extends AbstractTask {
 			taskMonitor.setStatusMessage("Matching... (Step 3 of 5)");
 		
 			Set<Integer> nodiTarget = db.nodes().keySet();
-			m.match_simple(nodiTarget.iterator());
+			if (Common.DOMAINS)
+				m.match(nodiTarget.iterator());
+			else
+				m.match_simple(nodiTarget.iterator());
 			
 			array = m.getMatchesList();
 			totalMatches = m.getNofMatches();

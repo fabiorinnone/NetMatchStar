@@ -225,7 +225,10 @@ public class ForestFireTask extends AbstractTask {
 				m = new RIMatch(q, db, isApproximate, approxPaths);
 			
 			Set<Integer> nodiTarget = db.nodes().keySet();
-			m.match_simple(nodiTarget.iterator());
+			if (Common.DOMAINS)
+				m.match(nodiTarget.iterator());
+			else
+				m.match_simple(nodiTarget.iterator());
 			
 			array = m.getMatchesList();
 
