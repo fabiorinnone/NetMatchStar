@@ -557,7 +557,8 @@ public class RandomGenerator
 			{
 				int idAdiac=listAdiac[random.nextInt(listAdiac.length)];
 				randomNet.removeEdge(i,idAdiac);
-				numRandomEdges--;
+				//numRandomEdges--;
+				numRandomEdges = randomNet.getEdgeCount(); //issue #11 workaround
 			}
 		}
 		return randomNet;
