@@ -33,6 +33,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.*;
 
 import it.unict.dmi.netmatchstar.utils.Common;
 import org.cytoscape.work.AbstractTask;
@@ -47,19 +48,23 @@ public class SaveMetricsResultsTask extends AbstractTask {
 	
 	private static boolean completedSuccessfully;
 
-	private String text;
 	private File file;
-	//private String fileName;
-
 	private String fileName;
+
+	private HashMap<String,ArrayList<Double>> resultsMap;
+	private String queryNetName;
+	private String targetNetName;
 
 	private BufferedWriter writer = null;
 
 	private TaskMonitor taskMonitor;
 	private boolean interrupted;
 
-	public SaveMetricsResultsTask(String text, File file) {
-		this.text = text;
+	public SaveMetricsResultsTask(String queryNetName, String targetNetName,
+			HashMap<String,ArrayList<Double>> resultsMap, File file) {
+		this.queryNetName = queryNetName;
+		this.targetNetName = targetNetName;
+		this.resultsMap = resultsMap;
 		this.file = file;
 		//this.fileName = fileName;
 		
@@ -89,8 +94,25 @@ public class SaveMetricsResultsTask extends AbstractTask {
 		File tempFile = File.createTempFile("tmp",null,new File("."));
 	    writer = new BufferedWriter(new FileWriter(tempFile));
 
-		//TODO: write results to file
-		writer.write(text + "\n");
+		writer.write("\"Query Network\",\"" + queryNetName + "\"\n");
+		writer.write("\"Target Network\",\"" + targetNetName + "\"\n");
+		writer.write("\n");
+
+		writer.write("\"Network\",\"Average degree\",\"Average clustering coefficient\",\"Assortativity\"\n");
+
+		Set<Map.Entry<String,ArrayList<Double>>> entrySet = resultsMap.entrySet();
+		for (Map.Entry<String, ArrayList<Double>> entry : entrySet) {
+			String networkName = entry.getKey();
+			ArrayList<Double> values = entry.getValue();
+			writer.write("\"" + networkName + "\",");
+			Iterator<Double> iterator = values.iterator();
+			while(iterator.hasNext()) {
+				writer.write("\"" + iterator.next() + "\"");
+				if (iterator.hasNext())
+					writer.write(",");
+			}
+			writer.write("\n");
+		}
 
 	    writer.close();
 	    tempFile.renameTo(file);

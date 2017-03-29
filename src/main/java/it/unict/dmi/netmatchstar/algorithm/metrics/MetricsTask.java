@@ -135,8 +135,6 @@ public class MetricsTask extends AbstractTask {
 		this.dmInitNumNodes = dmInitNumNodes;
 		this.dmInitProbEdges = dmInitProbEdges;
 		this.ffmNumAmb = ffmNumAmb;
-
-		resultsMap = new HashMap<>();
 		
 		m_direct = direct;
 		
@@ -233,6 +231,8 @@ public class MetricsTask extends AbstractTask {
 		
 	      	if(interrupted)
 	      		return;
+
+			resultsMap = new HashMap<>();
 	      	
 	      	dbAverageDegree = Metrics.getAverageDegree(db);
 	      	dbAverageClusteringCoefficient = Metrics.getAverageClusteringCoefficient(db);
@@ -683,7 +683,7 @@ public class MetricsTask extends AbstractTask {
 		int optionType = JOptionPane.YES_NO_OPTION;
 		int messageType = JOptionPane.INFORMATION_MESSAGE;
 		Icon icon = null;
-		String[] options = {"Ok", "Save"};
+		String[] options = {"Close", "Save"};
 		String initialValue = options[0];
 		int result = JOptionPane.showOptionDialog(
 				component, message, title, optionType, messageType, icon, options, initialValue);
@@ -719,9 +719,10 @@ public class MetricsTask extends AbstractTask {
 						PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
 						TaskIterator taskIterator = new TaskIterator();
 
-						//TODO: pass arguments to task
-						String text = "Test";
-						SaveMetricsResultsTask saveTask = new SaveMetricsResultsTask(text, file);
+						String queryNetName = query.getRow(query).get(CyNetwork.NAME, String.class);
+						String targetNetName = target.getRow(target).get(CyNetwork.NAME, String.class);
+						SaveMetricsResultsTask saveTask = new SaveMetricsResultsTask(queryNetName, targetNetName,
+								resultsMap, file);
 						taskIterator.append(saveTask);
 						dialogTaskManager.execute(taskIterator);
 					}
