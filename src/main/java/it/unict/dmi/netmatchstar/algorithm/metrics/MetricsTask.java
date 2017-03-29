@@ -77,14 +77,11 @@ public class MetricsTask extends AbstractTask {
 	private ArrayList tea, tna;
 	
 	private GraphLoader qLoader;
-	private boolean isApproximate;
-	private boolean isUnlabeled;
 	private Vector approxPaths;
 	
 	private TaskMonitor taskMonitor;
 	private boolean interrupted;
 	private CyActivator activator;
-	private int N;
 	private JTextArea log;
 	
 	private static boolean completedSuccessfully;
@@ -154,7 +151,6 @@ public class MetricsTask extends AbstractTask {
 		qna = qnaa;
 		
 		qLoader = null;
-		isApproximate = false;
 		approxPaths = null;
 		
 		this.activator = activator;
@@ -183,10 +179,7 @@ public class MetricsTask extends AbstractTask {
 		frame = frame2;
 		qea = qeaa;
 		qna = qnaa;
-		
-		isApproximate = iqa;
-		isUnlabeled = iqu;
-		
+
 		//approxPaths = ap;
 		approxPaths = new Vector<String>();
 		
@@ -325,8 +318,6 @@ public class MetricsTask extends AbstractTask {
 	      	
 	      	completedSuccessfully = true;
     	      
-	        N = WestPanel.getRandomNets().getValue();
-	        
 	        log = WestPanel.getLog();
 		    
 	        if(isCompletedSuccessfully()) {
