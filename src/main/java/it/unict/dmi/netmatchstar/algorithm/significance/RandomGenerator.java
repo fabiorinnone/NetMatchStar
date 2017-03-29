@@ -148,14 +148,14 @@ public class RandomGenerator
 		while(i>numEdges)
 		{
 			HashSet<Integer> adiacs = null;
-				int source=r.nextInt(numNodes);
-				adiacs=nodi.get(source).getOutAdiacs();
-				if (adiacs.size() > 0) {
-					Integer[] listAdiac=adiacs.toArray(new Integer[adiacs.size()]);
-					int dest=listAdiac[r.nextInt(listAdiac.length)];
-					randomNet.removeEdge(source,dest);
-					i--;
-				}
+			int source=r.nextInt(numNodes);
+			adiacs=nodi.get(source).getOutAdiacs();
+			if (adiacs.size() > 0) {
+				Integer[] listAdiac=adiacs.toArray(new Integer[adiacs.size()]);
+				int dest=listAdiac[r.nextInt(listAdiac.length)];
+				randomNet.removeEdge(source,dest);
+				i--;
+			}
 		}
 		//Shuffling each edge with probability beta
 		Iterator<Integer> it=nodi.keySet().iterator();
