@@ -49,8 +49,8 @@ import java.io.IOException;
 
 public class NetMatchHelp extends JFrame implements ActionListener, WindowListener,HyperlinkListener, TreeSelectionListener {
   
-  private final int WIDTH = 1000;
-  private final int HEIGHT = 700;
+  private final int WIDTH = 1280;
+  private final int HEIGHT = 800;
   private JEditorPane editor;
 
   public static void main(String args[]) {
