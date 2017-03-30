@@ -202,7 +202,7 @@ public class MatchTask extends AbstractTask {
 			else
 				m.match_simple(nodiTarget.iterator());
 			
-			array = m.getMatchesList();
+			array = m.getMatchesList2();
 			totalMatches = m.getNofMatches();
 			
 			//printMatches(db, array);
