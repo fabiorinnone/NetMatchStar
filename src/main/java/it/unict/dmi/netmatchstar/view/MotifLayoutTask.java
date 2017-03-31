@@ -55,8 +55,6 @@ public class MotifLayoutTask extends AbstractTask {
 	private TaskMonitor taskMonitor;
 	private boolean interrupted;
 
-	private VisualMappingManager manager;
-	
 	public MotifLayoutTask(CySwingAppAdapter adapter, VisualStyle vs, CyNetworkView netView,
 			int motifType) {
 		this.adapter = adapter;
@@ -75,11 +73,11 @@ public class MotifLayoutTask extends AbstractTask {
 		
 		taskMonitor.setProgress(-1.0);
 		taskMonitor.setStatusMessage("Setting Motif Layout...");
-		
-		manager = adapter.getVisualMappingManager();
+
+		//VisualMappingManager manager = adapter.getVisualMappingManager();
 		
 		vs.apply(netView);
-		manager.setVisualStyle(vs, netView);
+		//manager.setVisualStyle(vs, netView);
 		
 		Thread.sleep(200);
 		NetworkUtils.configureQueryVisualStyle(vs, adapter);
@@ -93,7 +91,7 @@ public class MotifLayoutTask extends AbstractTask {
 			return;
 		
 		netView.fitContent();
-		netView.updateView();
+		//netView.updateView();
 		
 		if (interrupted) 
 			return;
