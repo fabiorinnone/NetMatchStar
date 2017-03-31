@@ -1236,23 +1236,27 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 	    	filters.add(new FileChooserFilter("OBO File", "obo"));
 	    	filters.add(new FileChooserFilter("GFF File", "gff"));
 	    	
-	    	// load file
-	    	LoadNetworkFileTaskFactory loadFactory = activator.getCyAppAdapter().get_LoadNetworkFileTaskFactory();
-	    	File file = fileUtil.getFile(activator.getCySwingApplication().getJFrame(),
-	    			"Load Dynamic Network", FileUtil.LOAD, filters);
+	    	try {
+				// load file
+				LoadNetworkFileTaskFactory loadFactory = activator.getCyAppAdapter().get_LoadNetworkFileTaskFactory();
+				File file = fileUtil.getFile(activator.getCySwingApplication().getJFrame(),
+						"Load Dynamic Network", FileUtil.LOAD, filters);
+
+				currentPath = file.getParent();
 	    	
-	    	currentPath = file.getParent();
-	    	
-	    	/*VisualMappingManager manager = adapter.getVisualMappingManager();
-	    	manager.setCurrentVisualStyle(manager.getDefaultVisualStyle());*/
-	    	
-	    	if (FilenameUtils.getExtension(file.getName()).equals("gff"))
-	    		loadGFFFile(file);
-	    	else {
-	    		// dynamic viewer
-	    		TaskIterator iterator = new TaskIterator(loadFactory.createTaskIterator(file).next());
-	    		activator.getTaskManager().execute(iterator);
-	    	}
+				/*VisualMappingManager manager = adapter.getVisualMappingManager();
+				manager.setCurrentVisualStyle(manager.getDefaultVisualStyle());*/
+
+				if (FilenameUtils.getExtension(file.getName()).equals("gff"))
+					loadGFFFile(file);
+				else {
+					// dynamic viewer
+					TaskIterator iterator = new TaskIterator(loadFactory.createTaskIterator(file).next());
+					activator.getTaskManager().execute(iterator);
+				}
+			} catch (NullPointerException ex) {
+				//no op
+			}
 		}
 		else if (command.equals("Save Query Network")) {
 			FileUtil fileUtil = activator.getFileUtil();
