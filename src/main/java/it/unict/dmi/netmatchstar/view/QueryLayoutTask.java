@@ -88,7 +88,7 @@ public class QueryLayoutTask extends AbstractTask {
 		manager.setVisualStyle(vs, netView);
 
 		//netView.fitContent();
-		netView.updateView();
+		//netView.updateView();
 		
 		CyLayoutAlgorithmManager clam = adapter.getCyLayoutAlgorithmManager();
 		CyLayoutAlgorithm alg = clam.getLayout("kamada-kawai");
