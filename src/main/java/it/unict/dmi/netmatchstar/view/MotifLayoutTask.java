@@ -81,7 +81,7 @@ public class MotifLayoutTask extends AbstractTask {
 		vs.apply(netView);
 		manager.setVisualStyle(vs, netView);
 		
-		Thread.sleep(500); 
+		Thread.sleep(200);
 		NetworkUtils.configureQueryVisualStyle(vs, adapter);
 		
 		if (interrupted)
