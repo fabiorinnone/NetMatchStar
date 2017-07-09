@@ -18,6 +18,7 @@ import it.unict.dmi.netmatchstar.graph.Graph;
 import it.unict.dmi.netmatchstar.graph.GraphLoader;
 import it.unict.dmi.netmatchstar.utils.Common;
 
+import it.unict.dmi.netmatchstar.utils.PrintHeapInfo;
 import org.apache.commons.io.FilenameUtils;
 
 /**
@@ -74,6 +75,10 @@ public class MainTest {
         }
 
         String directoryPath = args[2];
+
+        int interval = 60000 * 60;
+        Timer timer = new Timer();
+        timer.schedule(new PrintHeapInfo(), interval, interval);
 
         ArrayList<File> queryFiles = new ArrayList<>();
         ArrayList<File> targetFiles = new ArrayList<>();
