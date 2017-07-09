@@ -45,11 +45,19 @@ public class GraphLoader {
     private JPanel frame;
 
     public GraphLoader(CyActivator activator, JPanel frame) {
+        this.activator = activator;
+        initializeComponents(frame);
+    }
+
+    public GraphLoader(JPanel frame) {
+        initializeComponents(frame);
+    }
+
+    private void initializeComponents(JPanel frame) {
         count = 0;
         nodes = null;
         lastNode = null;
         lastEdge = null;
-        this.activator = activator;
         this.frame = frame;
     }
 
