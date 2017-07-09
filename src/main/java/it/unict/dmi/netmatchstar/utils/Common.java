@@ -36,6 +36,8 @@ import org.cytoscape.model.CyNode;
 
 public class Common {
 	public static final String APP_NAME = "NetMatch*";
+	public static final String APP_NAME_ALIAS = "netmatchstar";
+	public static final String APP_VERSION = "3.2-SNAPSHOT";
 
 	public static int indexN = 0;
 	
