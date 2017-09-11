@@ -678,7 +678,7 @@ public class NetworkUtils {
 	
 	/**
 	 * Create a network with a list of nodes and edges attributes
-	 * @param adapter Cytoscape adapter
+	 * @param activator Cytoscape activator
 	 * @param name name of the network
 	 * @param nodeAttrList attributes list for nodes
 	 * @param edgeAttrList attributes list for edges
