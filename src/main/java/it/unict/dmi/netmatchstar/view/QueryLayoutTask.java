@@ -77,25 +77,26 @@ public class QueryLayoutTask extends AbstractTask {
 		taskMonitor.setStatusMessage("Setting Query Layout...");
 		
 		manager = adapter.getVisualMappingManager();
-		
-		Thread.sleep(100); 
+
+		Thread.sleep(100);
 		NetworkUtils.configureQueryVisualStyle(vs, adapter);
 		
 		if (interrupted)
 			return;
 
-		vs.apply(netView);
 		manager.setVisualStyle(vs, netView);
 
+		vs.apply(netView);
+
 		//netView.fitContent();
-		//netView.updateView();
+		netView.updateView();
 		
-		CyLayoutAlgorithmManager clam = adapter.getCyLayoutAlgorithmManager();
+		/*CyLayoutAlgorithmManager clam = adapter.getCyLayoutAlgorithmManager();
 		CyLayoutAlgorithm alg = clam.getLayout("kamada-kawai");
 		TaskIterator ti = alg.createTaskIterator(netView, alg.getDefaultLayoutContext(),
 				CyLayoutAlgorithm.ALL_NODE_VIEWS,null);
 		
-		super.insertTasksAfterCurrentTask(ti);
+		super.insertTasksAfterCurrentTask(ti);*/
 		
 		if (interrupted) 
 			return;

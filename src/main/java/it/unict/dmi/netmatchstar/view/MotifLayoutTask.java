@@ -74,12 +74,9 @@ public class MotifLayoutTask extends AbstractTask {
 		taskMonitor.setProgress(-1.0);
 		taskMonitor.setStatusMessage("Setting Motif Layout...");
 
-		//VisualMappingManager manager = adapter.getVisualMappingManager();
-		
-		vs.apply(netView);
-		//manager.setVisualStyle(vs, netView);
-		
-		Thread.sleep(200);
+		VisualMappingManager manager = adapter.getVisualMappingManager();
+
+		Thread.sleep(100);
 		NetworkUtils.configureQueryVisualStyle(vs, adapter);
 		
 		if (interrupted)
@@ -89,9 +86,13 @@ public class MotifLayoutTask extends AbstractTask {
 		
 		if (interrupted)
 			return;
-		
+
+		manager.setVisualStyle(vs, netView);
+
+		vs.apply(netView);
+
 		netView.fitContent();
-		//netView.updateView();
+		netView.updateView();
 		
 		if (interrupted) 
 			return;

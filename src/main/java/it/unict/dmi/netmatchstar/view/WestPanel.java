@@ -132,6 +132,7 @@ import org.cytoscape.view.vizmap.VisualMappingManager;
 import org.cytoscape.view.vizmap.VisualStyle;
 import org.cytoscape.view.vizmap.VisualStyleFactory;
 import org.cytoscape.work.TaskIterator;
+import org.cytoscape.work.TaskManager;
 import org.cytoscape.work.swing.PanelTaskManager;
 
 @SuppressWarnings("serial")
@@ -2897,8 +2898,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			else
 				vs = manager.getDefaultVisualStyle();
 			
-			manager.setVisualStyle(vs, netView);
-			vs.apply(netView);
+			//manager.setVisualStyle(vs, netView);
+			//vs.apply(netView);
 			
 			if (netName.startsWith("QueryNetwork")) {
 				if (NetworkUtils.isAMotif (suid)) {
@@ -2909,11 +2910,11 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			    	dialogTaskManager.execute(taskIterator);
 				}
 			}
-			else {
-				TaskIterator taskIterator = new TaskIterator();
+			else { //issue #13
+				/*TaskIterator taskIterator = new TaskIterator();
 		    	NetworkLayoutTask task = new NetworkLayoutTask(adapter, vs, netView);
 		    	taskIterator.append(task);
-		    	dialogTaskManager.execute(taskIterator);
+		    	dialogTaskManager.execute(taskIterator);*/
 			}
 		}
 	}//class MyNetworkViewAddedListener

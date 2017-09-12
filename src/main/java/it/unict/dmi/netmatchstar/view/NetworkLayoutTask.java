@@ -84,8 +84,9 @@ public class NetworkLayoutTask extends AbstractTask {
 		if (interrupted)
 			return;
 
+		//manager.setVisualStyle(vs, netView);
+
 		vs.apply(netView);
-		manager.setVisualStyle(vs, netView);
 
 		//netView.fitContent();
 		netView.updateView();
