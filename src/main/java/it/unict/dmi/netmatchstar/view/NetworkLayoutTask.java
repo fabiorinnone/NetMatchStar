@@ -88,7 +88,7 @@ public class NetworkLayoutTask extends AbstractTask {
 
 		vs.apply(netView);
 
-		//netView.fitContent();
+		netView.fitContent();
 		netView.updateView();
 		
 		CyLayoutAlgorithmManager clam = adapter.getCyLayoutAlgorithmManager();

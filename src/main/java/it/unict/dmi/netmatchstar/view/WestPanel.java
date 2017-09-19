@@ -2902,8 +2902,13 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 				if (!visualStyles.contains(vs))
 					manager.addVisualStyle(vs);			
 			}
-			else
-				vs = manager.getDefaultVisualStyle();
+			else { //issue #21
+				//vs = manager.getDefaultVisualStyle();
+				TaskIterator taskIterator = new TaskIterator();
+				NetworkLayoutTask task = new NetworkLayoutTask(adapter, vs, netView);
+				taskIterator.append(task);
+				dialogTaskManager.execute(taskIterator);
+			}
 			
 			//manager.setVisualStyle(vs, netView);
 			//vs.apply(netView);
