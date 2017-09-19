@@ -219,11 +219,6 @@ public class ForestFireTask extends AbstractTask {
 			taskMonitor.setProgress(-1.0);
 			taskMonitor.setStatusMessage("Matching... (Step 5 of 6)");
 			
-			if (!isUnlabeled) 
-				m = new RIMatch(q, db);
-			else
-				m = new RIMatch(q, db, isApproximate, approxPaths);
-			
 			Set<Integer> nodiTarget = db.nodes().keySet();
 			if (Common.DOMAINS)
 				m.match(nodiTarget.iterator());
