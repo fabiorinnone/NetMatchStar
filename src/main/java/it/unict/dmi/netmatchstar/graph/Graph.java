@@ -125,6 +125,45 @@ public class Graph {
         edges = new Vector<Edge>();
         this.oriented = oriented;
     }
+
+    public void initializeStructures() { //issue #19
+        n = nodes.size();
+        attr = new Object[n];
+        int i, j, v = 0, size = 4 * n;
+        for (i = 0; i < n; i++) {
+            Object attribute = nodes.get(i);
+            attr[i] = attribute;
+        }
+        inCount = new int[n];
+        outCount = new int[n];
+        in = new int[n][];
+        out = new int[n][];
+        inAttr = new Object[n][];
+        outAttr = new Object[n][];
+        for (i = 0; i < n; i++) {
+            Node node = nodes.get(i);
+            HashSet<Integer> inAdiacs = node.getInAdiacs();
+            HashSet<Integer> outAdiacs = node.getOutAdiacs();
+            int inSize = inAdiacs.size();
+            int outSize = outAdiacs.size();
+            inCount[i] = inSize;
+            outCount[i] = outSize;
+            in[i] = new int[inSize];
+            out[i] = new int[outSize];
+            inAttr[i] = new Object[inSize];
+            outAttr[i] = new Object[outSize];
+            j = 0;
+            for (int nodeId : inAdiacs) {
+                in[i][j] = nodeId;
+                inAttr[i][j++] = nodes.get(nodeId).getAttribute();
+            }
+            j = 0;
+            for (int nodeId : outAdiacs) {
+                out[i][j] = nodeId;
+                outAttr[i][j++] = nodes.get(nodeId).getAttribute();
+            }
+        }
+    }
     
     public boolean isEmpty()
     {

@@ -1416,7 +1416,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        else {
 			        	Common.LABELED = labeled.isSelected();
 			        	Common.DIRECTED = directed.isSelected();
-			        	int N = randomNetsSlider.getValue();
+						Common.DOMAINS = rids.isSelected();
+						int N = randomNetsSlider.getValue();
 						int Q = Integer.parseInt(shufflingQ.getText());
 						boolean direct = Common.DIRECTED;
 						boolean labshuff = Common.LABELED && this.labelShufflingCheckBox.isSelected();
@@ -1485,7 +1486,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        else {
 			        	Common.LABELED = labeled.isSelected();
 			        	Common.DIRECTED = directed.isSelected();
-			        	int n = randomNetsSlider.getValue();
+						Common.DOMAINS = rids.isSelected();
+						int n = randomNetsSlider.getValue();
 						boolean direct = Common.DIRECTED;
 						
 			        	log.setText("Start motif verification...\n");
@@ -1565,7 +1567,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        else {
 			        	Common.LABELED = labeled.isSelected();
 			        	Common.DIRECTED = directed.isSelected();
-			        	int n = randomNetsSlider.getValue();
+						Common.DOMAINS = rids.isSelected();
+						int n = randomNetsSlider.getValue();
 			        	double p = Double.parseDouble(wsProb.getText());
 						boolean direct = Common.DIRECTED;
 						
@@ -1648,7 +1651,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        else {
 			        	Common.LABELED = labeled.isSelected();
 			        	Common.DIRECTED = directed.isSelected();
-			        	int n = randomNetsSlider.getValue();
+						Common.DOMAINS = rids.isSelected();
+						int n = randomNetsSlider.getValue();
 			        	int i = Integer.parseInt(baInitNodes.getText());
 						boolean direct = Common.DIRECTED;
 						
@@ -1729,7 +1733,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        else {
 			        	Common.LABELED = labeled.isSelected();
 			        	Common.DIRECTED = directed.isSelected();
-			        	int n = randomNetsSlider.getValue();
+						Common.DOMAINS = rids.isSelected();
+						int n = randomNetsSlider.getValue();
 			        	int d = Integer.parseInt(gmDim.getText());
 						boolean direct = Common.DIRECTED;
 						
@@ -1811,7 +1816,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        else {
 			        	Common.LABELED = labeled.isSelected();
 			        	Common.DIRECTED = directed.isSelected();
-			        	int n = randomNetsSlider.getValue();
+						Common.DOMAINS = rids.isSelected();
+						int n = randomNetsSlider.getValue();
 			        	int a = Integer.parseInt(ffmNumAmbass.getText());
 			        	boolean direct = Common.DIRECTED;
 						
@@ -1893,7 +1899,8 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			        else {
 			        	Common.LABELED = labeled.isSelected();
 			        	Common.DIRECTED = directed.isSelected();
-			        	int n = randomNetsSlider.getValue();
+						Common.DOMAINS = rids.isSelected();
+						int n = randomNetsSlider.getValue();
 			        	int i = Integer.parseInt(dmInitNodes.getText());
 			        	double p = Double.parseDouble(dmProb.getText());
 						boolean direct = Common.DIRECTED;

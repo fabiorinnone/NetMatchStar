@@ -182,6 +182,18 @@ public class ErdosRenyiTask extends AbstractTask {
 			taskMonitor.setProgress(-1.0);
 			taskMonitor.setStatusMessage("Create Network Graph Data (Step 2 of 6)");
 			Graph db = new Graph(dbLoader, Common.DIRECTED);
+			if(Common.LABELED) {
+				db.setNodeComparator(new ExactNodeComparator());
+				db.setEdgeComparator(new ExactEdgeComparator());
+			}
+			else {
+				db.setNodeComparator(new ApproxNodeComparator());
+				db.setEdgeComparator(new ApproxEdgeComparator());
+			}
+
+			System.out.println("Target graph nodes num: " + db.getNodeCount());
+			System.out.println("Target graph edges num: " + db.getEdgeCount());
+
 			if(interrupted)
 				return;
 			System.out.println("Create Query Loader (Step 3 of 6)");
@@ -215,13 +227,13 @@ public class ErdosRenyiTask extends AbstractTask {
 			System.out.println("Matching... (Step 5 of 6)");
 			taskMonitor.setProgress(-1.0);
 			taskMonitor.setStatusMessage("Matching... (Step 5 of 6)");
-			
-			if (!isUnlabeled) 
-				m = new RIMatch(q, db);
-			else
-				m = new RIMatch(q, db, isApproximate, approxPaths);
-		
+
 			Set<Integer> nodiTarget = db.nodes().keySet();
+			if (Common.DOMAINS)
+				m.match(nodiTarget.iterator());
+			else
+				m.match_simple(nodiTarget.iterator());
+		
 			m.match_simple(nodiTarget.iterator());
 			
 			array = m.getMatchesList();
@@ -257,8 +269,11 @@ public class ErdosRenyiTask extends AbstractTask {
     	        	randomGenerator = new RandomGenerator(db.nodes(), numNodes, numEdges, m_direct, seedValue);
     	        
     	        db = randomGenerator.createErdosRenyi();
-    	        
-    	        System.out.println("Matching random graph " + i + "...");
+
+				System.out.println("Random graph nodes num: " + db.getNodeCount());
+				System.out.println("Random graph edges num: " + db.getEdgeCount());
+
+				System.out.println("Matching random graph " + i + "...");
     	        
     	        if (!isUnlabeled) 
     				m = new RIMatch(q, db);

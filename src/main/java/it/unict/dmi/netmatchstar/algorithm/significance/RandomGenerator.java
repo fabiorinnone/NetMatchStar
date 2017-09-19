@@ -30,6 +30,7 @@
 package it.unict.dmi.netmatchstar.algorithm.significance;
 
 import it.unict.dmi.netmatchstar.graph.Graph;
+import it.unict.dmi.netmatchstar.utils.Common;
 
 import java.util.*;
 
@@ -92,10 +93,11 @@ public class RandomGenerator
 			int target = random.nextInt(numNodes);
 			if(!randomNet.isEdge(source,target) && source != target)
 			{
-				randomNet.addEdge(source, target);
+				randomNet.addEdge(source, target, Common.ANY_LABEL);
 				i++;
 			}
 		}
+		randomNet.initializeStructures(); //issue #19
 		return randomNet;
 	}
 	
@@ -128,7 +130,7 @@ public class RandomGenerator
 				if(i != start)
 				{
 					if(i <= start)
-						randomNet.addEdge(i, start);
+						randomNet.addEdge(i, start, Common.ANY_LABEL);
 					if(i != start)
 						count++;
 				}
@@ -176,13 +178,14 @@ public class RandomGenerator
 						if(!adiacs.contains(k) && k != source)
 						{
 							randomNet.removeEdge(source,listAdiac[i]);
-							randomNet.addEdge(source,k);
+							randomNet.addEdge(source, k, Common.ANY_LABEL);
 							found = true;
 						}
 					}
 				}
 			}
 		}
+		randomNet.initializeStructures(); //issue #19
 		return randomNet;
 	}
 	
@@ -221,7 +224,7 @@ public class RandomGenerator
 			{
 				if(j != i && (directed || j > i))
 				{
-					randomNet.addEdge(i,j);
+					randomNet.addEdge(i, j, Common.ANY_LABEL);
 					currentNumEdges++;
 				}
 			}
@@ -253,7 +256,7 @@ public class RandomGenerator
 					if (randNum <= prob)
 					{
 						// Create and edge between node i and node j
-						randomNet.addEdge(i,j);
+						randomNet.addEdge(i, j, Common.ANY_LABEL);
 						degreeIgnore += randomNet.nodes().get(j).outDegree();
 						added++;
 						//Stop iterating for this probability, once we have found a single edge
@@ -281,7 +284,7 @@ public class RandomGenerator
 				if(randNum<=prob) 
 				{
 					// Create and edge between node i and node j
-					randomNet.addEdge(i,j);
+					randomNet.addEdge(i, j, Common.ANY_LABEL);
 					degreeIgnore += randomNet.nodes().get(j).outDegree();
 					currentNumEdges++;
 					//Stop iterating for this probability, once we have found a single edge
@@ -289,6 +292,7 @@ public class RandomGenerator
 				}
 			}
 		}
+		randomNet.initializeStructures(); //issue #19
 		return randomNet;
 	}
 	
@@ -346,9 +350,10 @@ public class RandomGenerator
 					dist += Math.pow(coordSource[k] - coordDest[k], 2);
 				dist = (float)Math.sqrt(dist);
 				if(dist <= maxDist)
-					randomNet.addEdge(i,j);
+					randomNet.addEdge(i, j, Common.ANY_LABEL);
 			}
 		}
+		randomNet.initializeStructures(); //issue #19
 		return randomNet;
 	}
 	
@@ -397,9 +402,9 @@ public class RandomGenerator
 		{
 			for(j = i + 1;j < numAmb;j++)
 			{
-				randomNet.addEdge(i,j);
+				randomNet.addEdge(i, j, Common.ANY_LABEL);
 				if(directed)
-					randomNet.addEdge(j,i);
+					randomNet.addEdge(j, i, Common.ANY_LABEL);
 				numRandomEdges++;
 			}
 		}
@@ -422,7 +427,7 @@ public class RandomGenerator
 				{
 					if(!randomNet.isEdge(i,selAmb))
 					{
-						randomNet.addEdge(i,selAmb);
+						randomNet.addEdge(i, selAmb, Common.ANY_LABEL);
 						numRandomEdges++;
 					}
 					queue.add(selAmb);
@@ -461,7 +466,7 @@ public class RandomGenerator
 						{
 							if(!randomNet.isEdge(i,idAdiac))
 							{
-								randomNet.addEdge(i,idAdiac);
+								randomNet.addEdge(i, idAdiac, Common.ANY_LABEL);
 								numRandomEdges++;
 							}
 							queue.add(idAdiac);
@@ -489,7 +494,7 @@ public class RandomGenerator
 				{
 					if(!randomNet.isEdge(i,selAmb))
 					{
-						randomNet.addEdge(i,selAmb);
+						randomNet.addEdge(i, selAmb, Common.ANY_LABEL);
 						numRandomEdges++;
 					}
 					queue.add(selAmb);
@@ -532,7 +537,7 @@ public class RandomGenerator
 						{
 							if(!randomNet.isEdge(i,idAdiac))
 							{
-								randomNet.addEdge(i,idAdiac);
+								randomNet.addEdge(i, idAdiac, Common.ANY_LABEL);
 								numRandomEdges++;
 							}
 							queue.add(idAdiac);
@@ -561,6 +566,7 @@ public class RandomGenerator
 				numRandomEdges = randomNet.getEdgeCount(); //issue #11 workaround
 			}
 		}
+		randomNet.initializeStructures(); //issue #19
 		return randomNet;
 	}
 	
@@ -621,7 +627,7 @@ public class RandomGenerator
 			int target = random.nextInt(initNumNodes);
 			if(!randomNet.isEdge(source,target) && source!=target)
 			{
-				randomNet.addEdge(source,target);
+				randomNet.addEdge(source, target, Common.ANY_LABEL);
 				i++;
 			}
 		}
@@ -647,7 +653,7 @@ public class RandomGenerator
 					int idAdiac = it.next();
 					if(random.nextDouble() <= probDupl)
 					{
-						randomNet.addEdge(i,idAdiac);
+						randomNet.addEdge(i, idAdiac, Common.ANY_LABEL);
 						connected = true;
 					}
 				}
@@ -666,7 +672,7 @@ public class RandomGenerator
 				int target = random.nextInt(randomNet.nofNodes());
 				if(!randomNet.isEdge(source,target) && source != target)
 				{
-					randomNet.addEdge(source,target);
+					randomNet.addEdge(source, target, Common.ANY_LABEL);
 					numCurrentEdges++;
 				}
 			}
@@ -695,7 +701,7 @@ public class RandomGenerator
 				int target = random.nextInt(randomNet.nofNodes());
 				if(!randomNet.isEdge(source,target) && source != target)
 				{
-					randomNet.addEdge(source,target);
+					randomNet.addEdge(source, target, Common.ANY_LABEL);
 					numCurrentEdges++;
 				}
 			}
@@ -714,6 +720,7 @@ public class RandomGenerator
 				}
 			}
 		}
+		randomNet.initializeStructures(); //issue #19
 		return randomNet;
 	}
 }
