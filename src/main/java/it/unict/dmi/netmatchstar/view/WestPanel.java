@@ -93,6 +93,7 @@ import it.unict.dmi.netmatchstar.algorithm.significance.ShufflingTask;
 import it.unict.dmi.netmatchstar.algorithm.significance.WattsStrogatzTask;
 
 import it.unict.dmi.netmatchstar.utils.file.SIFFilter;
+import it.unict.dmi.netmatchstar.utils.layout.NetMatchStyleTask;
 import org.apache.commons.io.FilenameUtils;
 import org.cytoscape.app.CyAppAdapter;
 import org.cytoscape.app.swing.CySwingAppAdapter;
@@ -338,7 +339,14 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
         
         Common.motifsMap = new HashMap<Long, Integer>();
         Common.mtonFanMap = new HashMap<Long, Pair<ArrayList<CyNode>>>();
-        
+
+		//issue #18
+		PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
+		TaskIterator taskIterator = new TaskIterator();
+		NetMatchStyleTask task = new NetMatchStyleTask(activator.getCySwingAppAdapter());
+		taskIterator.append(task);
+		dialogTaskManager.execute(taskIterator);
+
         if (!networkSet.isEmpty())
         	acquireData("");
 	}
@@ -2874,23 +2882,9 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			PanelTaskManager dialogTaskManager = activator.getPanelTaskManager();
 
 			if (netName.startsWith("QueryNetwork")) {
-				VisualStyleFactory vsf = adapter.getVisualStyleFactory();
-				Set<VisualStyle> visualStyles = manager.getAllVisualStyles();
-				
-				boolean vsFound = false;
-				Iterator<VisualStyle> iterator = visualStyles.iterator();
-				VisualStyle currentVs = null;
-				while(iterator.hasNext() && !vsFound) {
-					currentVs = iterator.next();
-					if (currentVs.getTitle().equals(Common.NETMATCH_STYLE))
-						vsFound = true;
-				}
-				
-				if (vsFound)
-					vs = currentVs;
-				else
-					vs = vsf.createVisualStyle(Common.NETMATCH_STYLE);
-				//NetworkUtils.configureQueryVisualStyle(vs, adapter);
+				VisualStyle vs = Utils.getVisualStyle(adapter, Common.NETMATCH_STYLE);
+				if (vs == null)
+					vs = manager.getDefaultVisualStyle();
 				
 				if (!NetworkUtils.isAMotif (suid)) {
 					TaskIterator taskIterator = new TaskIterator();	  
@@ -2898,9 +2892,6 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			    	taskIterator.append(task);
 			    	dialogTaskManager.execute(taskIterator);
 				}
-				
-				if (!visualStyles.contains(vs))
-					manager.addVisualStyle(vs);			
 			}
 			else { //issue #21
 				//vs = manager.getDefaultVisualStyle();
@@ -2915,6 +2906,9 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			
 			if (netName.startsWith("QueryNetwork")) {
 				if (NetworkUtils.isAMotif (suid)) {
+					VisualStyle vs = Utils.getVisualStyle(adapter, Common.NETMATCH_STYLE);
+					if (vs == null)
+						vs = manager.getDefaultVisualStyle();
 					motifType = Common.motifsMap.get(suid);
 					TaskIterator taskIterator = new TaskIterator();
 			    	MotifLayoutTask task = new MotifLayoutTask(adapter, vs, netView, motifType);

@@ -1,5 +1,13 @@
 package it.unict.dmi.netmatchstar.utils;
 
+import org.cytoscape.app.swing.CySwingAppAdapter;
+import org.cytoscape.view.vizmap.VisualMappingManager;
+import org.cytoscape.view.vizmap.VisualStyle;
+import org.cytoscape.view.vizmap.VisualStyleFactory;
+
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Created by fabior on 19/09/17.
  */
@@ -29,5 +37,49 @@ public class Utils {
             return s.substring(2);
         else
             return s.substring(1);
+    }
+
+    //issue #18
+    public static void createNetMatchStarStyle(CySwingAppAdapter adapter) {
+        VisualMappingManager manager = adapter.getVisualMappingManager();
+        VisualStyleFactory vsf = adapter.getVisualStyleFactory();
+        Set<VisualStyle> visualStyles = manager.getAllVisualStyles();
+
+        VisualStyle vs = null;
+
+        boolean vsFound = false;
+        Iterator<VisualStyle> iterator = visualStyles.iterator();
+        VisualStyle currentVs = null;
+        while(iterator.hasNext() && !vsFound) {
+            currentVs = iterator.next();
+            if (currentVs.getTitle().equals(Common.NETMATCH_STYLE))
+                vsFound = true;
+        }
+
+        if (!vsFound)
+            vs = vsf.createVisualStyle(Common.NETMATCH_STYLE);
+
+        if (!visualStyles.contains(vs))
+            manager.addVisualStyle(vs);
+    }
+
+    //issue #18
+    public static VisualStyle getVisualStyle(CySwingAppAdapter adapter, String visualStyleName) {
+        VisualMappingManager manager = adapter.getVisualMappingManager();
+        VisualStyleFactory vsf = adapter.getVisualStyleFactory();
+        Set<VisualStyle> visualStyles = manager.getAllVisualStyles();
+
+        VisualStyle vs = null;
+
+        boolean vsFound = false;
+        Iterator<VisualStyle> iterator = visualStyles.iterator();
+        VisualStyle currentVs = null;
+        while(iterator.hasNext() && !vsFound) {
+            currentVs = iterator.next();
+            if (currentVs.getTitle().equals(visualStyleName))
+                return currentVs;
+        }
+
+        return null;
     }
 }
