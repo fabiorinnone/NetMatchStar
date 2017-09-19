@@ -88,30 +88,4 @@ public class Common {
 	public static final String LT = "<";
 	public static final String LE = "<=";
 	public static final String UNDEFINED = "UNDEFINED";
-
-	public static boolean isApproximatePath(String s) {
-		return 	s.startsWith(APPROX_GT) ||  s.startsWith(APPROX_GE) || 
-				s.startsWith(APPROX_EQ) ||  s.startsWith(APPROX_LT) || 
-				s.startsWith(APPROX_LE);
-	}
-
-	public static String isNumber(String s) {
-		if(s.startsWith(GE))
-			return GE;
-		else if(s.startsWith(GT))
-			return GT;
-		else if(s.startsWith(LE))
-			return LE;
-		else if(s.startsWith(LT))
-			return LT;
-		return UNDEFINED;
-	}
-
-	public static String getNumber(String s) {
-		int index = s.indexOf("=");
-		if(s.charAt(1) == '=')
-			return s.substring(2);
-		else
-			return s.substring(1);
-	}
 }

@@ -2382,7 +2382,7 @@ public class WestPanel extends JPanel implements CytoPanelComponent, ActionListe
 			}
 			
 			if (valueAttr != null) { //l'attributo non è una lista
-				if (/*valueAttr.equals("?") || */Common.isApproximatePath(valueAttr)) //l'arco è approssimato
+				if (/*valueAttr.equals("?") || */Utils.isApproximatePath(valueAttr)) //l'arco è approssimato
 					return true;
 			}
 		}

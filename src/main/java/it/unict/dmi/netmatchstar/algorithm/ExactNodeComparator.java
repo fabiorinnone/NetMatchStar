@@ -32,6 +32,7 @@ package it.unict.dmi.netmatchstar.algorithm;
 import java.util.ArrayList;
 
 import it.unict.dmi.netmatchstar.utils.Common;
+import it.unict.dmi.netmatchstar.utils.Utils;
 
 public class ExactNodeComparator implements AttrComparator {
   public ExactNodeComparator() {
@@ -60,9 +61,9 @@ public class ExactNodeComparator implements AttrComparator {
         return true;
       if(q.endsWith(Common.SELF_EDGE))
         q = q.substring(0,q.length()-Common.SELF_EDGE.length());
-      if(!(prefix = Common.isNumber(q)).equals(Common.UNDEFINED)) {
+      if(!(prefix = Utils.isNumber(q)).equals(Common.UNDEFINED)) {
         try {
-          number = Double.parseDouble(Common.getNumber(q));
+          number = Double.parseDouble(Utils.getNumber(q));
           isNumber = true;
         }
         catch(NumberFormatException e) {

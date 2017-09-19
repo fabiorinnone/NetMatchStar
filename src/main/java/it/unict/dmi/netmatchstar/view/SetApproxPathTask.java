@@ -40,6 +40,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import it.unict.dmi.netmatchstar.utils.Common;
+import it.unict.dmi.netmatchstar.utils.Utils;
 import org.cytoscape.app.swing.CySwingAppAdapter;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
@@ -141,7 +142,7 @@ public class SetApproxPathTask extends AbstractEdgeViewTask {
 	}
 	
 	private boolean isOldAttrPath(String attr) {
-		if (Common.isApproximatePath(oldAttr))
+		if (Utils.isApproximatePath(oldAttr))
 			return true;
 		return false;
 	}

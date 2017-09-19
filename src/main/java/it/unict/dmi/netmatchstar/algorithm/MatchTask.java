@@ -47,6 +47,7 @@ import it.unict.dmi.netmatchstar.CyActivator;
 import it.unict.dmi.netmatchstar.graph.Graph;
 import it.unict.dmi.netmatchstar.graph.GraphLoader;
 import it.unict.dmi.netmatchstar.utils.Common;
+import it.unict.dmi.netmatchstar.utils.Utils;
 import it.unict.dmi.netmatchstar.view.ResultsTableModel;
 import it.unict.dmi.netmatchstar.view.WestPanel;
 
@@ -476,7 +477,7 @@ public class MatchTask extends AbstractTask {
 				}
 				any = true;
 			}
-  			if (!Common.isApproximatePath(type)) { //non è un cammino approssimato
+  			if (!Utils.isApproximatePath(type)) { //non è un cammino approssimato
 				if(any) {
 					loader.insertEdge(((Integer)names.get(name1)), ((Integer)names.get(name2)), type, true);
 					if (!Common.DIRECTED) {
