@@ -505,50 +505,18 @@ public class ResultsTableModel extends AbstractTask implements TableModel {
 		SpringEmbeddedLayouter layouter = new SpringEmbeddedLayouter();
 		layouter.setGraphView(subNetworkView);
 		
-		//subNetworkView.fitContent();
-		//subNetworkView.updateView();
-		
-		final Image image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		final Graphics2D g = (Graphics2D) image.getGraphics();
-		
-		//SwingUtilities.invokeLater(new Runnable() {
-			
-			//@Override
-			//public void run() {
-				try {
-					final Dimension size = new Dimension(width, height);
+		JPanel panel = new JPanel();
+		CyApplicationManager am = adapter.getCyApplicationManager();
+		NetworkViewRenderer nvr = am.getCurrentNetworkViewRenderer();
+		RenderingEngineFactory<CyNetwork> renderingEngineFactory = nvr.getRenderingEngineFactory("");
+		RenderingEngine<CyNetwork> re = renderingEngineFactory.createRenderingEngine(panel, subNetworkView);
 
-					JPanel panel = new JPanel();
-					panel.setPreferredSize(size);
-					panel.setSize(size);
-					panel.setMinimumSize(size);
-					panel.setMaximumSize(size);
-					panel.setBackground((Color) vs.getDefaultValue(BasicVisualLexicon.NETWORK_BACKGROUND_PAINT));
+		vs.apply(subNetworkView);
+		subNetworkView.fitContent();
+		subNetworkView.updateView();
 
-					JWindow window = new JWindow();
-					window.getContentPane().add(panel, BorderLayout.CENTER);
-					
-					CyApplicationManager am = adapter.getCyApplicationManager();
-					NetworkViewRenderer nvr = am.getCurrentNetworkViewRenderer();
-					RenderingEngineFactory<CyNetwork> renderingEngineFactory = nvr.getRenderingEngineFactory("");
-					RenderingEngine<CyNetwork> re = renderingEngineFactory.createRenderingEngine(panel, subNetworkView);
+		Image image = re.createImage(width, height);
 
-					vs.apply(subNetworkView);
-					subNetworkView.fitContent();
-					subNetworkView.updateView();
-					window.pack();
-					window.repaint();
-
-					re.createImage(width, height);
-					re.printCanvas(g);
-					g.dispose();
-				} 
-				catch (Exception ex) {
-					throw new RuntimeException(ex);
-				}
-			//}
-		//});
-				
 		layouter.resetDoLayout();
 		
 		return image;
