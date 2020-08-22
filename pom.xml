@@ -16,7 +16,7 @@
     <groupId>it.unict.dmi.netmatchstar</groupId>
     <artifactId>netmatchstar</artifactId>
     <packaging>bundle</packaging>
-    <version>3.2</version>
+    <version>3.3</version>
 
     <name>NetMatchStar</name>
     <description>An enhanced Cytoscape network querying app</description>
